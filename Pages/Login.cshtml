@@ -1,0 +1,26 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+<div class="login-background nomargins nopadding splash">
+        <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                            <div class="login-box span12 pagination-centered">
+                                    <h1>Log In</h1>
+                                    User ID: <input type="text"/>
+                                    <br>
+                                    Password: @Html.Password("password", "", new { id = "password", Textmode = "Password" })
+                                    <br>
+                                    <button type="button" id="login">Log in</button>
+
+
+
+                            </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
+

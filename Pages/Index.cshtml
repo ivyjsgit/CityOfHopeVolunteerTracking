@@ -4,7 +4,32 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="login-background nomargins nopadding splash">
+        <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                            <div class="login-box span12 pagination-centered">
+                                    <h1>Volunteer Clock In</h1>
+                                    User ID: <input type="text"/>
+                                    <br>
+                                    Initiative: <select name="Initiative" id="">
+                                        <option value="academy">Academy</option>
+                                        <option value="garden">Garden</option>
+                                        <option value="housing">Housing</option>
+                                        <option value="village">Village</option>
+                                    </select>
+
+                                    <br>
+                                    <button type="button" id="clockin">Clock In</button>
+                                    <button type="button" id="clockout">Clock Out</button>
+
+
+
+                            </div>
+                    </div>
+                </div>
+            </div>
 </div>
+
+

@@ -69,3 +69,43 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.logo{
+    height:  100px;
+    width: 100px;
+}
+
+.login-background{
+  background-image: url('../imgs/volunteer-background.jpg');
+}
+
+.nomargins{
+    margin: 0;
+}
+.nopadding{
+    padding: 0;
+}
+.splash{
+    align-items: center;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    border-style: solid;
+    border-color: darkslategrey;
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+    height: 100vh;
+    min-width: 100%;
+}
+
+.login-box {
+    /* max-width: 250px; */
+    background-color: white;
+    margin: 0px;
+    justify-content: center;
+    text-align: center;
+    padding: 0px;
+    width: 25%;
+    margin-top: 25%;
+}
