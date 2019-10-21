@@ -103,9 +103,11 @@ body {
     /* max-width: 250px; */
     background-color: white;
     justify-content: center;
-    text-align: center;
+    text-align: left;
     padding: 10px;
     width: 25%;
     margin: 0 auto;
     margin-top: 25%;
+    min-width: 40%;
+    min-height: 30%;
 }
