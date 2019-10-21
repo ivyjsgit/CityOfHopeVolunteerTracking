@@ -102,10 +102,10 @@ body {
 .login-box {
     /* max-width: 250px; */
     background-color: white;
-    margin: 0px;
     justify-content: center;
     text-align: center;
-    padding: 0px;
+    padding: 10px;
     width: 25%;
+    margin: 0 auto;
     margin-top: 25%;
 }
