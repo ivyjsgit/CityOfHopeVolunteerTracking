@@ -111,3 +111,9 @@ body {
     min-width: 40%;
     min-height: 30%;
 }
+
+.centered{
+    justify-content: center;
+    text-align: center;
+    margin-top: 5%;
+}
