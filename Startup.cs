@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using CityOfHopeVolunteerTracking.Data;
 
 namespace CityOfHopeVolunteerTracking
 {
@@ -26,9 +24,6 @@ namespace CityOfHopeVolunteerTracking
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-
-            services.AddDbContext<CityOfHopeVolunteerTrackingContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("CityOfHopeVolunteerTrackingContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
