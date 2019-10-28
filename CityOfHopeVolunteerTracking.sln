@@ -1,7 +1,8 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityOfHopeVolunteerTracking", "CityOfHopeVolunteerTracking.csproj", "{6BA24B68-229D-4D89-8D3D-7BD05547C8ED}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityOfHopeVolunteerTracking", "CityOfHopeVolunteerTracking.csproj", "{6BA24B68-229D-4D89-8D3D-7BD05547C8ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,5 +14,11 @@ Global
 		{6BA24B68-229D-4D89-8D3D-7BD05547C8ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BA24B68-229D-4D89-8D3D-7BD05547C8ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BA24B68-229D-4D89-8D3D-7BD05547C8ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {59D78E5E-1C37-4745-A501-57D860F26593}
 	EndGlobalSection
 EndGlobal
