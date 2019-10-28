@@ -15,7 +15,14 @@ namespace CityOfHopeVolunteerTracking
     {
         public Startup(IConfiguration configuration)
         {
+            using (var client = new Data.COHODatabaseContext())
+            {
+                client.Database.EnsureCreated();
+            }
+
             Configuration = configuration;
+
+
         }
 
         public IConfiguration Configuration { get; }
@@ -23,6 +30,8 @@ namespace CityOfHopeVolunteerTracking
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddEntityFrameworkSqlite().AddDbContext<Data.COHODatabaseContext>();
+
             services.AddRazorPages();
         }
 
