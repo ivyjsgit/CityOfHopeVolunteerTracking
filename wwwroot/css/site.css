@@ -28,6 +28,8 @@ a {
 -------------------------------------------------- */
 html {
   font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+
 }
 @media (min-width: 768px) {
   html {
@@ -116,4 +118,7 @@ body {
     justify-content: center;
     text-align: center;
     margin-top: 5%;
+}
+.body-font{
+    font-family: 'Source Sans Pro', sans-serif;
 }
