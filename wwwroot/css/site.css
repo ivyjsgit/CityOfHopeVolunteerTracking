@@ -131,9 +131,17 @@ body {
     margin-top: 5%;
 }
 .body-font{
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Raleway','Source Sans Pro', sans-serif;
 }
 
 .copyright{
     background-color:white;
+}
+.navbar-background{
+    background-color: #D16666;
+}
+
+.nav-link{
+   color: #2C4251;
+   font-size: 15pt;
 }
