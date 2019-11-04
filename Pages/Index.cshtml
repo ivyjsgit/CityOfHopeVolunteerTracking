@@ -11,7 +11,7 @@
                     <div class="col-sm-12">
                             <div class="login-box span12 pagination-centered">
                                     <h1>Volunteer Clock In</h1>
-                                    User ID: <input type="text"/>
+                                    User ID: <input id ="userid" type="text"/>
                                     <br>
                                     Initiative: <select name="Initiative" id="">
                                         <option value="housing">Housing</option>
@@ -25,8 +25,8 @@
                                     </select>
 
                                     <br>
-                                    <button type="button" id="clockin">Clock In</button>
-                                    <button type="button" id="clockout">Clock Out</button>
+                                    <asp:Button ID="button1" runat ="server" OnClick ="Button1_click" Text="Clock In/Clock out"/>
+                                    <!--<button type="button" id="clockout">Clock Out</button>-->
 
 
 
