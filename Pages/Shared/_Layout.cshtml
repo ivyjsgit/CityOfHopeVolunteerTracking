@@ -11,8 +11,14 @@
 </head>
 <body class="body-font nomargins fill">
     <header>
-            <nav class="navbar navbar-expand-lg navbar-background">
-                    <img class="navbar-brand logo" src="~/imgs/cohologo.png" alt="">
+            <nav class="navbar navbar-expand-md navbar-background">
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                       <div class="hamburger-icon"></div>
+                       <div class="hamburger-icon"></div>
+                       <div class="hamburger-icon"></div>
+                  </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                   <img class="navbar-brand logo" src="~/imgs/cohologo.png" alt="">
                       <ul class="nav navbar-nav navbar-right">
                         <li class="active">
                           <a class="nav-link" href="/">Clock in/Clock out<span class="sr-only">(current)</span></a>
@@ -21,7 +27,14 @@
                           <a class="nav-link" href="/login">Login</a>
                         </li>
                       </ul>
-                  </nav>
+                </div>
+             </nav>
+
+
+
+
+
+         
     </header>
 
 

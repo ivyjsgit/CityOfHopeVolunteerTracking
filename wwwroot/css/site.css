@@ -139,9 +139,16 @@ body {
 }
 .navbar-background{
     background-color: #D16666;
+    min-height: 75px;
 }
 
 .nav-link{
    color: #2C4251;
    font-size: 15pt;
+}
+.hamburger-icon{
+  width: 20px;
+  height: 3px;
+  background-color: black;
+  margin: 3px 0;
 }
