@@ -1,5 +1,9 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+body {
+    margin-left: 20px;
+}
+
 
 a.navbar-brand {
   white-space: normal;
@@ -99,6 +103,11 @@ body {
     border-top: 0px;
     height: 100vh;
     min-width: 100%;
+    margin: 0px;
+    padding:0px;
+}
+.fill{
+   min-width:100%;
 }
 
 .login-box {
@@ -112,7 +121,9 @@ body {
     margin-top: 25%;
     min-width: 40%;
     min-height: 30%;
+    border-radius: 10px;
 }
+
 
 .centered{
     justify-content: center;
@@ -121,4 +132,8 @@ body {
 }
 .body-font{
     font-family: 'Source Sans Pro', sans-serif;
+}
+
+.copyright{
+    background-color:white;
 }
