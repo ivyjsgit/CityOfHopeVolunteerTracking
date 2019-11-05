@@ -13,5 +13,6 @@ namespace CityOfHopeVolunteerTracking.Models
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }
         public int elapsedTime { get; set; }
+        public Boolean clockedIn { get; set; }
     }
 }

@@ -1,0 +1,41 @@
+﻿@page
+@model CityOfHopeVolunteerTracking.Pages.VolunteerReportsModel
+@{
+    ViewData["Title"] = "VolunteerReports";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="createReportPage">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <label style="padding-top: 75px">
+                    <p style="font-size: 40px">
+                        Volunteer Reports
+                    </p>
+                </label>
+            </div>
+            <div class="col-sm-4">
+                <label style="padding-bottom: 20px; padding-top: 20px">
+                    Start Date: <input type="date" />
+                </label>
+                <label style="padding-bottom: 20px">
+                    End Date: <input type="date" />
+                </label>
+                <label style="padding-left: 70px">
+                    <button type="button" id="volReport">Generate Report</button>
+                </label>
+            </div>
+            <div class="col-sm-4">
+                <label style="padding-left: 120px; padding-top:20px">
+                    <button type="button" id="changePassword">Change Password</button>
+                </label>
+                <label style="padding-left: 120px; padding-top:20px">
+                    <button type="button" id="changeHours">Time Change Request</button>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
