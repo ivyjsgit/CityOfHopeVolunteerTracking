@@ -4,8 +4,40 @@
     ViewData["Title"] = "Login";
     Layout = "_AdminLayout";
 }
-<div>
-    <h1>Reports</h1>
+<div class="createReportPage">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <label style="padding-top: 75px">
+                    <p style="font-size: 40px">
+                        Create Reports
+                    </p>
+                </label>
+            </div>
+            <div class="col-sm-4">
+                <label style="padding-bottom: 20px; padding-top: 20px">
+                    Start Date: <input type="date"/>
+                </label>
+                <label style="padding-bottom: 20px">
+                    End Date: <input type="date"/>
+                </label>
+                <label style="padding-bottom: 20px">
+                    User ID: <input type="text"/>
+                </label>
+                <label style="padding-left: 70px">
+                    <button type="button" id="setReport">Generate Report</button>
+                </label>
+            </div>
+            <div class="col-sm-4">
+                <label style="padding-top: 20px; padding-bottom: 20px">
+                    Value of Hours: <input type="number" />
+                </label>
+                <label style="padding-left: 120px">
+                    <button type="button" id="setHours">Update Value</button>
+                </label>
+            </div>
+        </div>
+    </div>
 </div>
 
 
