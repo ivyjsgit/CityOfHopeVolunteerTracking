@@ -69,7 +69,7 @@ body {
   margin-bottom: 60px;
 }
 .footer {
-  position: absolute;
+  position: relative;
   bottom: 0;
   width: 100%;
   white-space: nowrap;
@@ -96,11 +96,6 @@ body {
     width: 100%;
     background-size: cover;
     background-position: center;
-    border-style: solid;
-    border-color: darkslategrey;
-    border-left: 0px;
-    border-right: 0px;
-    border-top: 0px;
     height: 100vh;
     min-width: 100%;
     margin: 0px;
