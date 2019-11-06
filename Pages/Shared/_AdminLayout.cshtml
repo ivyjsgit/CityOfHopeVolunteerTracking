@@ -1,62 +1,54 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CityOfHopeVolunteerTracking</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link href="https://fonts.googleapis.com/css?family=Raleway|Source+Sans+Pro&display=swap" rel="stylesheet">
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"] - CityOfHopeVolunteerTracking</title>
+  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="~/css/site.css" />
+  <link href="https://fonts.googleapis.com/css?family=Raleway|Source+Sans+Pro&display=swap" rel="stylesheet" />
 </head>
+
 <body class="body-font nomargins fill">
-    <header>
+  <header>
+    <nav class="navbar navbar-expand-md navbar-background">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <div class="hamburger-icon"></div>
+        <div class="hamburger-icon"></div>
+        <div class="hamburger-icon"></div>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <img class="navbar-brand logo" src="~/imgs/cohologo.png" alt="" />
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a class="nav-link" href="/AdminIndex">Reports</a>
+          </li>
+          <li>
+            <a class="nav-link" href="/Volunteers/index">Records</a>
+          </li>
+          <li class="active">
+            <a class="nav-link" href="/">Log out<span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
 
-        <nav class="navbar navbar-expand-md navbar-background">
-                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-                       <div class="hamburger-icon"></div>
-                       <div class="hamburger-icon"></div>
-                       <div class="hamburger-icon"></div>
-                  </button>
-                <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                   <img class="navbar-brand logo" src="~/imgs/cohologo.png" alt="">
-                      <ul class="nav navbar-nav navbar-right">
-                        <li class="active">
-                          <a class="nav-link" href="/">Log out<span class="sr-only">(current)</span></a>
-                        </li>
-    
-                        <li>
-                          <a class="nav-link" href="/AdminIndex">Reports</a>
-                        </li>
-                        <li>
-                          <a class="nav-link" href="/Volunteers/index">Records</a>
-                        </li>
-                      </ul>
-                </div>
-             </nav>
+  @RenderBody()
 
+  <footer class="border-top footer text-muted copyright">
+    <div class="container">
+      &copy; 2019 - CityOfHopeVolunteerTracking -
+      <a asp-area="" asp-page="/Privacy">Privacy</a>
+    </div>
+  </footer>
 
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="~/js/site.js" asp-append-version="true"></script>
 
-
-
-
-
-    </header>
-
-
-    @RenderBody()
-
-
-    <footer class="border-top footer text-muted copyright">
-        <div class="container">
-            &copy; 2019 - CityOfHopeVolunteerTracking - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
-    @RenderSection("Scripts", required: false)
+  @RenderSection("Scripts", required: false)
 </body>
+
 </html>
