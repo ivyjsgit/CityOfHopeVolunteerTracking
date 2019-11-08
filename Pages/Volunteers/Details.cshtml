@@ -16,7 +16,13 @@
             <div class="col-md-6">
                 <dl class="row">
                     <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.Volunteer.First)
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Volunteer.UserName)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Volunteer.UserName)
+                    </dd>
+                    @Html.DisplayNameFor(model => model.Volunteer.First)
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.Volunteer.First)
@@ -58,10 +64,10 @@
                         @Html.DisplayFor(model => model.Volunteer.Password)
                     </dd>
                     <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.Volunteer.Active)
+                        @Html.DisplayNameFor(model => model.Volunteer.InActive)
                     </dt>
                     <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.Volunteer.Active)
+                        @Html.DisplayFor(model => model.Volunteer.InActive)
                     </dd>
                     <dt class="col-sm-4">
                         @Html.DisplayNameFor(model => model.Volunteer.CommunityService)

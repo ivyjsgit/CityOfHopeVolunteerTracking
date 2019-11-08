@@ -1,0 +1,16 @@
+﻿@page
+@model CityOfHopeVolunteerTracking.Pages.ButtonTestModel
+@{
+    ViewData["Title"] = "ButtonTest";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+}
+
+
+
+    <h3>
+        @Html.DisplayFor(model => model.Message)
+    </h3>
+<form method="post"><button class="btn btn-default">Click to post</button></form>
+<p><a href="/ButtonTest" class="btn btn-default">Click to Get</a></p>
+
+

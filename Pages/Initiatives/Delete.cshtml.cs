@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CityOfHopeVolunteerTracking.Data;
 using CityOfHopeVolunteerTracking.Models;
 
-namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
+namespace CityOfHopeVolunteerTracking.Pages.Initiatives
 {
     public class DeleteModel : PageModel
     {
@@ -20,7 +20,7 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
         }
 
         [BindProperty]
-        public VolunteerActivity VolunteerActivity { get; set; }
+        public Initiative Initiative { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,9 +29,9 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
                 return NotFound();
             }
 
-            VolunteerActivity = await _context.VolunteerActivity.FirstOrDefaultAsync(m => m.ID == id);
+            Initiative = await _context.Initiative.FirstOrDefaultAsync(m => m.ID == id);
 
-            if (VolunteerActivity == null)
+            if (Initiative == null)
             {
                 return NotFound();
             }
@@ -45,11 +45,11 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
                 return NotFound();
             }
 
-            VolunteerActivity = await _context.VolunteerActivity.FindAsync(id);
+            Initiative = await _context.Initiative.FindAsync(id);
 
-            if (VolunteerActivity != null)
+            if (Initiative != null)
             {
-                _context.VolunteerActivity.Remove(VolunteerActivity);
+                _context.Initiative.Remove(Initiative);
                 await _context.SaveChangesAsync();
             }
 

@@ -12,7 +12,7 @@ namespace CityOfHopeVolunteerTracking.Models
         [Key]
         public int ID { get; set; }
         [Required]
-        public string Initiative { get; set; }
+        public Initiative Initiative { get; set; }
         [Required]
         public string UserName { get; set; }
         [Required]

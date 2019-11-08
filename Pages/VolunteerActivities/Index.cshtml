@@ -1,9 +1,9 @@
 ﻿@page
-@model CityOfHopeVolunteerTracking.Pages.VolunteerActivities.IndexModel
+@model CityOfHopeVolunteerTracking.Pages.VolunterrActivities.IndexModel
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
 <h1>Index</h1>
@@ -14,9 +14,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.VolunteerActivity[0].Initiative)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.VolunteerActivity[0].UserName)
             </th>
@@ -38,9 +35,6 @@
     <tbody>
 @foreach (var item in Model.VolunteerActivity) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Initiative)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>

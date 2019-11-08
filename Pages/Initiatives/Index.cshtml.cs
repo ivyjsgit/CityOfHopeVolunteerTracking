@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CityOfHopeVolunteerTracking.Data;
 using CityOfHopeVolunteerTracking.Models;
 
-namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
+namespace CityOfHopeVolunteerTracking.Pages.Initiatives
 {
     public class IndexModel : PageModel
     {
@@ -19,11 +19,11 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
             _context = context;
         }
 
-        public IList<VolunteerActivity> VolunteerActivity { get;set; }
+        public IList<Initiative> Initiative { get;set; }
 
         public async Task OnGetAsync()
         {
-            VolunteerActivity = await _context.VolunteerActivity.ToListAsync();
+            Initiative = await _context.Initiative.ToListAsync();
         }
     }
 }

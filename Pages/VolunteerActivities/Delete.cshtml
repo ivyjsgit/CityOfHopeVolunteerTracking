@@ -1,9 +1,9 @@
 ﻿@page
-@model CityOfHopeVolunteerTracking.Pages.VolunteerActivities.DeleteModel
+@model CityOfHopeVolunteerTracking.Pages.VolunterrActivities.DeleteModel
 
 @{
     ViewData["Title"] = "Delete";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
 <h1>Delete</h1>
@@ -13,12 +13,6 @@
     <h4>VolunteerActivity</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.VolunteerActivity.Initiative)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.VolunteerActivity.Initiative)
-        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.VolunteerActivity.UserName)
         </dt>

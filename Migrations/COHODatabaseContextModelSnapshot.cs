@@ -16,13 +16,27 @@ namespace CityOfHopeVolunteerTracking.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0");
 
-            modelBuilder.Entity("CityOfHopeVolunteerTracking.Models.Volunteer", b =>
+            modelBuilder.Entity("CityOfHopeVolunteerTracking.Models.Initiative", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("Active")
+                    b.Property<string>("First")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("InActive")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Initiative");
+                });
+
+            modelBuilder.Entity("CityOfHopeVolunteerTracking.Models.Volunteer", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("Admin")
@@ -38,19 +52,31 @@ namespace CityOfHopeVolunteerTracking.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("First")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Home")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("InActive")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Last")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("WorkersComp")
                         .HasColumnType("INTEGER");
@@ -75,9 +101,8 @@ namespace CityOfHopeVolunteerTracking.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Initiative")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("InitiativeID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("TEXT");
@@ -86,9 +111,29 @@ namespace CityOfHopeVolunteerTracking.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("VolunteerID")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("ID");
 
+                    b.HasIndex("InitiativeID");
+
+                    b.HasIndex("VolunteerID");
+
                     b.ToTable("VolunteerActivity");
+                });
+
+            modelBuilder.Entity("CityOfHopeVolunteerTracking.Models.VolunteerActivity", b =>
+                {
+                    b.HasOne("CityOfHopeVolunteerTracking.Models.Initiative", "Initiative")
+                        .WithMany()
+                        .HasForeignKey("InitiativeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CityOfHopeVolunteerTracking.Models.Volunteer", null)
+                        .WithMany("VolunteerActivities")
+                        .HasForeignKey("VolunteerID");
                 });
 #pragma warning restore 612, 618
         }

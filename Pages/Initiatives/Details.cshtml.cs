@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CityOfHopeVolunteerTracking.Data;
 using CityOfHopeVolunteerTracking.Models;
 
-namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
+namespace CityOfHopeVolunteerTracking.Pages.Initiatives
 {
     public class DetailsModel : PageModel
     {
@@ -19,7 +19,7 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
             _context = context;
         }
 
-        public VolunteerActivity VolunteerActivity { get; set; }
+        public Initiative Initiative { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,9 +28,9 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
                 return NotFound();
             }
 
-            VolunteerActivity = await _context.VolunteerActivity.FirstOrDefaultAsync(m => m.ID == id);
+            Initiative = await _context.Initiative.FirstOrDefaultAsync(m => m.ID == id);
 
-            if (VolunteerActivity == null)
+            if (Initiative == null)
             {
                 return NotFound();
             }

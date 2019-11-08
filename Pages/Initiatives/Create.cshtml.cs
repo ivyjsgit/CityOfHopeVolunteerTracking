@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CityOfHopeVolunteerTracking.Data;
 using CityOfHopeVolunteerTracking.Models;
 
-namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
+namespace CityOfHopeVolunteerTracking.Pages.Initiatives
 {
     public class CreateModel : PageModel
     {
@@ -25,7 +25,7 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
         }
 
         [BindProperty]
-        public VolunteerActivity VolunteerActivity { get; set; }
+        public Initiative Initiative { get; set; }
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -36,7 +36,7 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
                 return Page();
             }
 
-            _context.VolunteerActivity.Add(VolunteerActivity);
+            _context.Initiative.Add(Initiative);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

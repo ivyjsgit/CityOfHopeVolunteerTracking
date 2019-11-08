@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using CityOfHopeVolunteerTracking.Data;
 using CityOfHopeVolunteerTracking.Models;
 
-namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
+namespace CityOfHopeVolunteerTracking.Pages.Initiatives
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
         }
 
         [BindProperty]
-        public VolunteerActivity VolunteerActivity { get; set; }
+        public Initiative Initiative { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,9 +30,9 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
                 return NotFound();
             }
 
-            VolunteerActivity = await _context.VolunteerActivity.FirstOrDefaultAsync(m => m.ID == id);
+            Initiative = await _context.Initiative.FirstOrDefaultAsync(m => m.ID == id);
 
-            if (VolunteerActivity == null)
+            if (Initiative == null)
             {
                 return NotFound();
             }
@@ -48,7 +48,7 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
                 return Page();
             }
 
-            _context.Attach(VolunteerActivity).State = EntityState.Modified;
+            _context.Attach(Initiative).State = EntityState.Modified;
 
             try
             {
@@ -56,7 +56,7 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VolunteerActivityExists(VolunteerActivity.ID))
+                if (!InitiativeExists(Initiative.ID))
                 {
                     return NotFound();
                 }
@@ -69,9 +69,9 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
             return RedirectToPage("./Index");
         }
 
-        private bool VolunteerActivityExists(int id)
+        private bool InitiativeExists(int id)
         {
-            return _context.VolunteerActivity.Any(e => e.ID == id);
+            return _context.Initiative.Any(e => e.ID == id);
         }
     }
 }

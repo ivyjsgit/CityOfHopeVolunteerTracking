@@ -15,7 +15,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].ID)
+                @Html.DisplayNameFor(model => model.Volunteer[0].UserName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Volunteer[0].First)
@@ -36,10 +36,10 @@
                 @Html.DisplayNameFor(model => model.Volunteer[0].Type)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].Active)
+                @Html.DisplayNameFor(model => model.Volunteer[0].InActive)
             </th>
             <th>
-               Community Service
+                Community Service
             </th>
             <th>
                 Worker's Comp
@@ -54,7 +54,7 @@
 @foreach (var item in Model.Volunteer) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ID)
+                @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.First)
@@ -75,7 +75,7 @@
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Active)
+                @Html.DisplayFor(modelItem => item.InActive)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CommunityService)
