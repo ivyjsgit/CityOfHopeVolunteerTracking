@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191107221928_test.cs" />
+    <Compile Remove="Migrations\20191107221928_test.Designer.cs" />
+    <Compile Remove="Migrations\20191108011656_VolunteerActivity.cs" />
+    <Compile Remove="Migrations\20191108011656_VolunteerActivity.Designer.cs" />
+    <Compile Remove="Migrations\20191108014522_Activity.cs" />
+    <Compile Remove="Migrations\20191108014522_Activity.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
@@ -14,7 +23,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.2" />
   </ItemGroup>
 
 </Project>

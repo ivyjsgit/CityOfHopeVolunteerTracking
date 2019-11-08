@@ -1,0 +1,59 @@
+﻿@page
+@model CityOfHopeVolunteerTracking.Pages.VolunteerActivities.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>VolunteerActivity</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VolunteerActivity.Initiative)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VolunteerActivity.Initiative)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VolunteerActivity.UserName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VolunteerActivity.UserName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VolunteerActivity.StartTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VolunteerActivity.StartTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VolunteerActivity.EndTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VolunteerActivity.EndTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VolunteerActivity.ElapsedTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VolunteerActivity.ElapsedTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VolunteerActivity.ClockedIn)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VolunteerActivity.ClockedIn)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="VolunteerActivity.ID" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

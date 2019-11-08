@@ -14,5 +14,6 @@ namespace CityOfHopeVolunteerTracking.Data
             optionsBuilder.UseSqlite("Data Source=COHODatabase.db");
         }
         public DbSet<CityOfHopeVolunteerTracking.Models.Volunteer> Volunteer { get; set; }
+        public DbSet<CityOfHopeVolunteerTracking.Models.VolunteerActivity> VolunteerActivity { get; set; }
     }
 }

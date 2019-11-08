@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,12 +9,16 @@ namespace CityOfHopeVolunteerTracking.Models
 {
     public class VolunteerActivity
     {
-        public int actvityID { get; set; }
-        public string initiative { get; set; }
-        public string userName { get; set; }
-        public DateTime startTime { get; set; }
-        public DateTime endTime { get; set; }
-        public int elapsedTime { get; set; }
-        public Boolean clockedIn { get; set; }
+        [Key]
+        public int ID { get; set; }
+        [Required]
+        public string Initiative { get; set; }
+        [Required]
+        public string UserName { get; set; }
+        [Required]
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public float ElapsedTime { get; set; }
+        public Boolean ClockedIn { get; set; }
     }
 }

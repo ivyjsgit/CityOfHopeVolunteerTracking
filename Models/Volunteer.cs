@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
+    using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CityOfHopeVolunteerTracking.Models
 {
@@ -16,10 +17,12 @@ namespace CityOfHopeVolunteerTracking.Models
         public string Home { get; set; }
         public string Cell { get; set; }
         public string Type { get; set; }
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         public Boolean Active { get; set; }
         public Boolean CommunityService { get; set; }
         public Boolean WorkersComp { get; set; }
         public Boolean Admin { get; set; }
+        public ICollection<VolunteerActivity> volunteerActivities { get; set; }
     }
 }
