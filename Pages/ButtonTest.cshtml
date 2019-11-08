@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{handler?}"
 @model CityOfHopeVolunteerTracking.Pages.ButtonTestModel
 @{
     ViewData["Title"] = "ButtonTest";
@@ -6,11 +6,15 @@
 }
 
 
+<h3>
+    @Html.DisplayFor(model => model.Message)
+</h3>
+<form method="post"><button class="btn btn-default" style="background:lightgrey; margin:10px;">Click to post</button></form>
 
-    <h3>
-        @Html.DisplayFor(model => model.Message)
-    </h3>
-<form method="post"><button class="btn btn-default">Click to post</button></form>
-<p><a href="/ButtonTest" class="btn btn-default">Click to Get</a></p>
+<p><a href="/ButtonTest" class="btn btn-default" style="background:lightgrey; margin:10px;">Click to Get</a></p>
+
+<form asp-page-handler="view" method="post" >
+    <button class="btn btn-default" style="background:lightgrey; margin:10px;">Call the onPostView method</button>
+</form>
 
 

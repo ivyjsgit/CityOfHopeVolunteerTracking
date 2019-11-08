@@ -12,11 +12,18 @@ namespace CityOfHopeVolunteerTracking.Pages
         public string Message { get; set; }
         public void OnGet()
         {
-            Message = "Get used";
+            Message = "OnGet used";
         }
+
         public void OnPost()
         {
-            Message = "Post used";
+            Message = "OnPost used";
         }
+
+        public void OnPostView(int id)
+        {
+            Message = "You called the OnPostView Method";
+        }
+
     }
 }
