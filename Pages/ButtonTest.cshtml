@@ -9,12 +9,28 @@
 <h3>
     @Html.DisplayFor(model => model.Message)
 </h3>
-<form method="post"><button class="btn btn-default" style="background:lightgrey; margin:10px;">Click to post</button></form>
+<form method="post">
+    <button class="btn btn-default" style="background:lightgrey; margin:10px;">
+        Click to post
+    </button>
+</form>
 
-<p><a href="/ButtonTest" class="btn btn-default" style="background:lightgrey; margin:10px;">Click to Get</a></p>
+<p>
+    <a href="/ButtonTest" class="btn btn-default" style="background:lightgrey; margin:10px;">
+    Click to Get
+    </a>
+</p>
 
 <form asp-page-handler="view" method="post" >
-    <button class="btn btn-default" style="background:lightgrey; margin:10px;">Call the onPostView method</button>
+    <button class="btn btn-default" style="background:lightgrey; margin:10px;">
+        Call the onPostView method
+    </button>
+</form>
+
+<form asp-page-handler="record" asp-route-id="1" method="post">
+    <button class="btn btn-default" style="background:lightgrey; margin:10px;">
+        Get Name of First Volunteer
+    </button>
 </form>
 
 
