@@ -11,6 +11,7 @@
     <Compile Remove="Migrations\20191108011656_VolunteerActivity.Designer.cs" />
     <Compile Remove="Migrations\20191108014522_Activity.cs" />
     <Compile Remove="Migrations\20191108014522_Activity.Designer.cs" />
+    <Compile Remove="Pages\LoginAPI\Index.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,4 +26,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="Pages\LoginAPI\Index.cshtml" />
+  </ItemGroup>
 </Project>

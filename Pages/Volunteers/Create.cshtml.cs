@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using CityOfHopeVolunteerTracking.Data;
 using CityOfHopeVolunteerTracking.Models;
+using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace CityOfHopeVolunteerTracking.Pages.Volunteers
 {
@@ -37,9 +34,31 @@ namespace CityOfHopeVolunteerTracking.Pages.Volunteers
             }
 
             _context.Volunteer.Add(Volunteer);
+
             await _context.SaveChangesAsync();
 
+            //Create Identity
+            var user = new ApplicationUser() { UserName = Volunteer.UserName };
+            var userStore = new UserStore<IdentityUser>();
+            var userManager = new UserManager<ApplicationUser>();
+
+
+            //private UserManager<ApplicationUser> _userManager;
+            //var result = userManager.CreateAsync(user, Volunteer.Password);
+
+
+
+
+
+
             return RedirectToPage("./Index");
+        }
+    }
+
+    internal class UserStore<T>
+    {
+        public UserStore()
+        {
         }
     }
 }

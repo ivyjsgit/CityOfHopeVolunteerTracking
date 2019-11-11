@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,16 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CityOfHopeVolunteerTracking.Models
 {
-    public class Initiative
-    {
-        [Key]
-        public int ID { get; set; }
-        public string First { get; set; }
-        public Boolean InActive { get; set; }
-
-
-
-
-
-    }
+	public class ApplicationUser : IdentityUser
+	{
+	}
 }
