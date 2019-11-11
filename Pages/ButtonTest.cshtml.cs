@@ -10,7 +10,7 @@ namespace CityOfHopeVolunteerTracking.Pages
 {
     public class ButtonTestModel : PageModel
     {
-        public string Message { get; set; }
+    public string Message { get; set; }
 
     private readonly CityOfHopeVolunteerTracking.Data.COHODatabaseContext _context;
 
@@ -20,6 +20,7 @@ namespace CityOfHopeVolunteerTracking.Pages
         }
 
         public Volunteer Volunteer { get; set; }
+
         public void OnGet()
         {
             Message = "OnGet used";
@@ -39,7 +40,7 @@ namespace CityOfHopeVolunteerTracking.Pages
         {
             if (id == null)
             {
-                Message = "Record not Found";
+                Message = "Invalid Record ID";
             }
 
             Volunteer = _context.Volunteer.FirstOrDefault(m => m.ID == id);
