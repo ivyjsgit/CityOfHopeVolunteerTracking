@@ -3,14 +3,16 @@ using System;
 using CityOfHopeVolunteerTracking.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CityOfHopeVolunteerTracking.Migrations
 {
     [DbContext(typeof(COHODatabaseContext))]
-    partial class COHODatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20191112042219_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,23 +85,6 @@ namespace CityOfHopeVolunteerTracking.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Initiative");
-                });
-
-            modelBuilder.Entity("CityOfHopeVolunteerTracking.Models.ValueOfHour", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("EffectiveDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<float>("Value")
-                        .HasColumnType("REAL");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("ValueOfHour");
                 });
 
             modelBuilder.Entity("CityOfHopeVolunteerTracking.Models.Volunteer", b =>

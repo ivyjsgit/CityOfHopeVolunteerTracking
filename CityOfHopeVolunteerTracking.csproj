@@ -5,12 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20191107221928_test.cs" />
-    <Compile Remove="Migrations\20191107221928_test.Designer.cs" />
-    <Compile Remove="Migrations\20191108011656_VolunteerActivity.cs" />
-    <Compile Remove="Migrations\20191108011656_VolunteerActivity.Designer.cs" />
-    <Compile Remove="Migrations\20191108014522_Activity.cs" />
-    <Compile Remove="Migrations\20191108014522_Activity.Designer.cs" />
+    <Compile Remove="Migrations\20191112055426_ValueOfHours.cs" />
+    <Compile Remove="Migrations\20191112055426_ValueOfHours.Designer.cs" />
+    <Compile Remove="Migrations\20191112061122_test.cs" />
+    <Compile Remove="Migrations\20191112061122_test.Designer.cs" />
+    <Compile Remove="Migrations\20191112062457_ValueOfHours.cs" />
+    <Compile Remove="Migrations\20191112062457_ValueOfHours.Designer.cs" />
+    <Compile Remove="Migrations\20191112063057_ValueOfHours.cs" />
+    <Compile Remove="Migrations\20191112063057_ValueOfHours.Designer.cs" />
+    <Compile Remove="Migrations\20191112063423_ValueOfHours.cs" />
+    <Compile Remove="Migrations\20191112063423_ValueOfHours.Designer.cs" />
+    <Compile Remove="Migrations\20191112063548_ValueOfHoursTakeTwo.cs" />
+    <Compile Remove="Migrations\20191112063548_ValueOfHoursTakeTwo.Designer.cs" />
+    <Compile Remove="Migrations\20191112064353_ValueOfHours.cs" />
+    <Compile Remove="Migrations\20191112064353_ValueOfHours.Designer.cs" />
     <Compile Remove="Pages\LoginAPI\Index.cshtml.cs" />
   </ItemGroup>
 

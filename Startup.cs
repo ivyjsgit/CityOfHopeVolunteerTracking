@@ -17,7 +17,7 @@ namespace CityOfHopeVolunteerTracking
         {
             using (var client = new Data.COHODatabaseContext())
             {
-                client.Database.EnsureCreated();
+            //    client.Database.EnsureCreated();
             }
 
             Configuration = configuration;

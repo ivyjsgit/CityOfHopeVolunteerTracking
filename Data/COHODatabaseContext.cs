@@ -17,6 +17,8 @@ namespace CityOfHopeVolunteerTracking.Data
         public DbSet<CityOfHopeVolunteerTracking.Models.VolunteerActivity> VolunteerActivity { get; set; }
         public DbSet<CityOfHopeVolunteerTracking.Models.Initiative> Initiative { get; set; }
         public DbSet<CityOfHopeVolunteerTracking.Models.ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<CityOfHopeVolunteerTracking.Models.ValueOfHour> ValueOfHour { get; set; }
+       
 
 
     }
