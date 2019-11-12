@@ -40,7 +40,7 @@ namespace CityOfHopeVolunteerTracking.Pages.Volunteers
             //Create Identity
             var user = new ApplicationUser() { UserName = Volunteer.UserName };
             var userStore = new UserStore<IdentityUser>();
-            var userManager = new UserManager<ApplicationUser>();
+           // var userManager = new UserManager<ApplicationUser>();
 
 
             //private UserManager<ApplicationUser> _userManager;
