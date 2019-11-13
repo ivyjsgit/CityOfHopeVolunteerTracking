@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using CoHO.Data;
+using CoHO.Models;
 
 namespace CoHO.Areas.Identity.Pages.Account
 {
@@ -23,13 +25,15 @@ namespace CoHO.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly CoHO.Data.ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, CoHO.Data.ApplicationDbContext context)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -38,6 +42,9 @@ namespace CoHO.Areas.Identity.Pages.Account
 
         [BindProperty]
         public InputModel Input { get; set; }
+        [BindProperty]
+        public Volunteer Volunteer { get; set; }
+
 
         public string ReturnUrl { get; set; }
 
@@ -45,10 +52,10 @@ namespace CoHO.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
+            //[Required]
+            //[EmailAddress]
+            //[Display(Name = "Email")]
+            //public string Email { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -74,7 +81,7 @@ namespace CoHO.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email,
+                var user = new IdentityUser { UserName = Volunteer.Email, Email = Volunteer.Email,
                     EmailConfirmed = true
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -90,12 +97,12 @@ namespace CoHO.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(Volunteer.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
+                        return RedirectToPage("RegisterConfirmation", new { email = Volunteer.Email });
                     }
                     else
                     {
@@ -109,6 +116,18 @@ namespace CoHO.Areas.Identity.Pages.Account
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
+
+
+                Console.WriteLine("Adding volunteer:" + Volunteer);
+
+                _context.Volunteer.Add(Volunteer);
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./Index");
+
+
+
+
             }
 
             // If we got this far, something failed, redisplay form
