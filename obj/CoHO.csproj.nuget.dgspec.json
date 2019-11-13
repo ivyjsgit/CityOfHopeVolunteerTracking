@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CoHO\\CoHO.csproj": {}
+    "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CityOfHopeVolunteerTracking\\CityOfHopeVolunteerTracking\\CoHO.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CoHO\\CoHO.csproj": {
+    "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CityOfHopeVolunteerTracking\\CityOfHopeVolunteerTracking\\CoHO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CoHO\\CoHO.csproj",
+        "projectUniqueName": "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CityOfHopeVolunteerTracking\\CityOfHopeVolunteerTracking\\CoHO.csproj",
         "projectName": "CoHO",
-        "projectPath": "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CoHO\\CoHO.csproj",
+        "projectPath": "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CityOfHopeVolunteerTracking\\CityOfHopeVolunteerTracking\\CoHO.csproj",
         "packagesPath": "C:\\Users\\Mandelbrot\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CoHO\\obj\\",
+        "outputPath": "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CityOfHopeVolunteerTracking\\CityOfHopeVolunteerTracking\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Mandelbrot\\AppData\\Roaming\\NuGet\\NuGet.Config",
