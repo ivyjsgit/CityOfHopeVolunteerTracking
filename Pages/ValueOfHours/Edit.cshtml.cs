@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CityOfHopeVolunteerTracking.Data;
-using CityOfHopeVolunteerTracking.Models;
+using CoHO.Data;
+using CoHO.Models;
 
-namespace CityOfHopeVolunteerTracking.Pages.ValueOfHours
+namespace CoHO.Pages.ValueOfHours
 {
     public class EditModel : PageModel
     {
-        private readonly CityOfHopeVolunteerTracking.Data.COHODatabaseContext _context;
+        private readonly CoHO.Data.ApplicationDbContext _context;
 
-        public EditModel(CityOfHopeVolunteerTracking.Data.COHODatabaseContext context)
+        public EditModel(CoHO.Data.ApplicationDbContext context)
         {
             _context = context;
         }

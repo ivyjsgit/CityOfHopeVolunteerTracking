@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using CityOfHopeVolunteerTracking.Data;
-using CityOfHopeVolunteerTracking.Models;
+using CoHO.Data;
+using CoHO.Models;
 
-namespace CityOfHopeVolunteerTracking.Pages.Initiatives
+namespace CoHO.Pages.Initiatives
 {
     public class DeleteModel : PageModel
     {
-        private readonly CityOfHopeVolunteerTracking.Data.COHODatabaseContext _context;
+        private readonly CoHO.Data.ApplicationDbContext _context;
 
-        public DeleteModel(CityOfHopeVolunteerTracking.Data.COHODatabaseContext context)
+        public DeleteModel(CoHO.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -29,7 +29,7 @@ namespace CityOfHopeVolunteerTracking.Pages.Initiatives
                 return NotFound();
             }
 
-            Initiative = await _context.Initiative.FirstOrDefaultAsync(m => m.ID == id);
+            Initiative = await _context.Initiative.FirstOrDefaultAsync(m => m.InitiativeID == id);
 
             if (Initiative == null)
             {

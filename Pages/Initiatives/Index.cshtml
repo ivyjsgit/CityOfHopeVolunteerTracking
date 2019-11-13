@@ -1,5 +1,5 @@
 ﻿@page
-@model CityOfHopeVolunteerTracking.Pages.Initiatives.IndexModel
+@model CoHO.Pages.Initiatives.IndexModel
 
 @{
     ViewData["Title"] = "Index";
@@ -33,9 +33,9 @@
                 @Html.DisplayFor(modelItem => item.InActive)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.InitiativeID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.InitiativeID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.InitiativeID">Delete</a>
             </td>
         </tr>
 }

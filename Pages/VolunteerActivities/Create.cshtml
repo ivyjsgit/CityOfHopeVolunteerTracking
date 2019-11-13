@@ -1,5 +1,5 @@
 ﻿@page
-@model CityOfHopeVolunteerTracking.Pages.VolunterrActivities.CreateModel
+@model CoHO.Pages.VolunteerActivities.CreateModel
 
 @{
     ViewData["Title"] = "Create";
@@ -15,9 +15,13 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="VolunteerActivity.UserName" class="control-label"></label>
-                <input asp-for="VolunteerActivity.UserName" class="form-control" />
-                <span asp-validation-for="VolunteerActivity.UserName" class="text-danger"></span>
+                <label asp-for="VolunteerActivity.VolunteerId" class="control-label"></label>
+                <select asp-for="VolunteerActivity.VolunteerId" class ="form-control" asp-items="ViewBag.VolunteerId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="VolunteerActivity.IniativeId" class="control-label"></label>
+                <input asp-for="VolunteerActivity.IniativeId" class="form-control" />
+                <span asp-validation-for="VolunteerActivity.IniativeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="VolunteerActivity.StartTime" class="control-label"></label>

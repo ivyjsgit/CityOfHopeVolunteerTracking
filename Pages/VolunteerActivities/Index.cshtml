@@ -1,5 +1,5 @@
 ﻿@page
-@model CityOfHopeVolunteerTracking.Pages.VolunterrActivities.IndexModel
+@model CoHO.Pages.VolunteerActivities.IndexModel
 
 @{
     ViewData["Title"] = "Index";
@@ -15,7 +15,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.VolunteerActivity[0].UserName)
+                @Html.DisplayNameFor(model => model.VolunteerActivity[0].IniativeId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.VolunteerActivity[0].StartTime)
@@ -29,6 +29,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.VolunteerActivity[0].ClockedIn)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VolunteerActivity[0].Volunteer)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -36,7 +39,7 @@
 @foreach (var item in Model.VolunteerActivity) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UserName)
+                @Html.DisplayFor(modelItem => item.IniativeId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartTime)
@@ -49,6 +52,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ClockedIn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Volunteer.First)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |

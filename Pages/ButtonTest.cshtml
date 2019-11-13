@@ -1,8 +1,8 @@
-﻿@page 
-@model CityOfHopeVolunteerTracking.Pages.ButtonTestModel
+﻿@page
+@model CoHO.Pages.ButtonTestModel
 @{
     ViewData["Title"] = "ButtonTest";
-    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 
@@ -17,11 +17,11 @@
 
 <p>
     <a href="/ButtonTest" class="btn btn-default" style="background:lightgrey; margin:10px;">
-    Click to Get
+        Click to Get
     </a>
 </p>
 
-<form asp-page-handler="view" method="post" >
+<form asp-page-handler="view" method="post">
     <button class="btn btn-default" style="background:lightgrey; margin:10px;">
         Call the onPostView method
     </button>
@@ -32,5 +32,7 @@
         Get Name of First Volunteer
     </button>
 </form>
+
+
 
 

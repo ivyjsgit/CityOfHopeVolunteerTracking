@@ -1,17 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using CityOfHopeVolunteerTracking.Models;
-using Microsoft.AspNetCore.Identity;
-using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using CoHO.Data;
+using CoHO.Models;
 
-namespace CityOfHopeVolunteerTracking.Pages.Volunteers
+namespace CoHO.Pages.Volunteers
 {
     public class CreateModel : PageModel
     {
-        private readonly CityOfHopeVolunteerTracking.Data.COHODatabaseContext _context;
+        private readonly CoHO.Data.ApplicationDbContext _context;
 
-        public CreateModel(CityOfHopeVolunteerTracking.Data.COHODatabaseContext context)
+        public CreateModel(CoHO.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -34,31 +37,9 @@ namespace CityOfHopeVolunteerTracking.Pages.Volunteers
             }
 
             _context.Volunteer.Add(Volunteer);
-
             await _context.SaveChangesAsync();
 
-            //Create Identity
-            var user = new ApplicationUser() { UserName = Volunteer.UserName };
-            var userStore = new UserStore<IdentityUser>();
-         //   var userManager = new UserManager<ApplicationUser>();
-
-
-            //private UserManager<ApplicationUser> _userManager;
-            //var result = userManager.CreateAsync(user, Volunteer.Password);
-
-
-
-
-
-
             return RedirectToPage("./Index");
-        }
-    }
-
-    internal class UserStore<T>
-    {
-        public UserStore()
-        {
         }
     }
 }

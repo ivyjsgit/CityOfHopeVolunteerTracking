@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace CityOfHopeVolunteerTracking.Models
+namespace CoHO.Models
 {
     public class Volunteer
     {
-        public int ID { get; set; }
+        public int VolunteerID { get; set; }
         [StringLength(50)]
         [Required]
         public string UserName { get; set; }
@@ -30,5 +29,6 @@ namespace CityOfHopeVolunteerTracking.Models
         public Boolean WorkersComp { get; set; }
         public Boolean Admin { get; set; }
         public ICollection<VolunteerActivity> VolunteerActivities { get; set; }
+
     }
 }

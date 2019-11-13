@@ -1,17 +1,17 @@
 ﻿@page
-@model CityOfHopeVolunteerTracking.Pages.Volunteers.IndexModel
+@model CoHO.Pages.Volunteers.IndexModel
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "_AdminLayout";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-page="Create">Create New Volunteer</a>
+    <a asp-page="Create">Create New</a>
 </p>
-<table class="table table-responsive">
+<table class="table">
     <thead>
         <tr>
             <th>
@@ -36,13 +36,16 @@
                 @Html.DisplayNameFor(model => model.Volunteer[0].Type)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].Password)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Volunteer[0].InActive)
             </th>
             <th>
-                Community Service
+                @Html.DisplayNameFor(model => model.Volunteer[0].CommunityService)
             </th>
             <th>
-                Worker's Comp
+                @Html.DisplayNameFor(model => model.Volunteer[0].WorkersComp)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Volunteer[0].Admin)
@@ -75,6 +78,9 @@
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.InActive)
             </td>
             <td>
@@ -87,9 +93,9 @@
                 @Html.DisplayFor(modelItem => item.Admin)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.VolunteerID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.VolunteerID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.VolunteerID">Delete</a>
             </td>
         </tr>
 }

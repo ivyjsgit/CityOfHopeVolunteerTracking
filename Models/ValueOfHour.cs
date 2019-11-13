@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CityOfHopeVolunteerTracking.Models
+namespace CoHO.Models
 {
     public class ValueOfHour
     {
@@ -14,4 +13,6 @@ namespace CityOfHopeVolunteerTracking.Models
         public DateTime EffectiveDate { get; set; }
         public float Value { get; set; }
     }
+
 }
+

@@ -1,45 +1,47 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 
 <div class="login-background nopadding splash nomargins">
-        <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                            <div class="login-box span12 pagination-centered">
-                                    <h2 class="text-center">Volunteer Clock In</h2>
-                                <div class="form-group">
-                                    <input id ="userid" class="form-control" type="text" placeholder="User ID" required="required"/>
-                                </div>
-                                <div class="form-group">
-                                    <select name="Initiative" id="" class="form-control">
-                                        <option value="" selected disabled hidden>Select Initiative</option>
-                                        <option value="housing">Housing</option>
-                                        <option value="office">Office</option>
-                                        <option value="community_development">Community Development</option>
-                                        <option value="garden">Community Garden</option>
-                                        <option value="christmas">Christmas</option>
-                                        <option value="academy">Academy</option>
-                                        <option value="education">Education</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
-                                </div>
-                                    
-                                    <!-- <asp:Button ID="button1" runat ="server" OnClick ="Button1_click" Text="Clock In/Clock out"/> -->
-                                    <div class="navbar-nav form-group">
-                                        <button type="button" class="btn-primary" id="clockin">Clock In</button>
-                                        <button type="button" class="btn-primary"id="clockout">Clock Out</button>    
-                                    </div>
-
-
-
-                            </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="login-box span12 pagination-centered">
+                    <h2 class="text-center">Volunteer Clock In</h2>
+                    <div class="form-group">
+                        <input id="userid" class="form-control" type="text" placeholder="User ID" required="required" />
                     </div>
+                    <div class="form-group">
+                        <select name="Initiative" id="" class="form-control">
+                            <option value="" selected disabled hidden>Select Initiative</option>
+                            <option value="housing">Housing</option>
+                            <option value="office">Office</option>
+                            <option value="community_development">Community Development</option>
+                            <option value="garden">Community Garden</option>
+                            <option value="christmas">Christmas</option>
+                            <option value="academy">Academy</option>
+                            <option value="education">Education</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+
+                    <!-- <asp:Button ID="button1" runat ="server" OnClick ="Button1_click" Text="Clock In/Clock out"/> -->
+                    <div class="navbar-nav form-group">
+                        <button type="button" class="btn-primary" id="clockin">Clock In</button>
+                        <button type="button" class="btn-primary" id="clockout">Clock Out</button>
+                    </div>
+
+
+
                 </div>
             </div>
+        </div>
+    </div>
 </div>
+
 
 

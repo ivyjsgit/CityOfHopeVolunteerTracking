@@ -5,22 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using CityOfHopeVolunteerTracking.Data;
-using CityOfHopeVolunteerTracking.Models;
+using CoHO.Data;
+using CoHO.Models;
 
-namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
+namespace CoHO.Pages.VolunteerActivities
 {
     public class CreateModel : PageModel
     {
-        private readonly CityOfHopeVolunteerTracking.Data.COHODatabaseContext _context;
+        private readonly CoHO.Data.ApplicationDbContext _context;
 
-        public CreateModel(CityOfHopeVolunteerTracking.Data.COHODatabaseContext context)
+        public CreateModel(CoHO.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         public IActionResult OnGet()
         {
+        ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "First");
             return Page();
         }
 

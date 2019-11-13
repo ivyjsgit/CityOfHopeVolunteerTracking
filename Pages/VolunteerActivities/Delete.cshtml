@@ -1,5 +1,5 @@
 ﻿@page
-@model CityOfHopeVolunteerTracking.Pages.VolunterrActivities.DeleteModel
+@model CoHO.Pages.VolunteerActivities.DeleteModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -14,10 +14,10 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.VolunteerActivity.UserName)
+            @Html.DisplayNameFor(model => model.VolunteerActivity.IniativeId)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.VolunteerActivity.UserName)
+            @Html.DisplayFor(model => model.VolunteerActivity.IniativeId)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.VolunteerActivity.StartTime)
@@ -42,6 +42,12 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.VolunteerActivity.ClockedIn)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VolunteerActivity.Volunteer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VolunteerActivity.Volunteer.First)
         </dd>
     </dl>
     

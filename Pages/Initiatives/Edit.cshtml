@@ -1,5 +1,5 @@
 ﻿@page
-@model CityOfHopeVolunteerTracking.Pages.Initiatives.EditModel
+@model CoHO.Pages.Initiatives.EditModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -14,7 +14,7 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Initiative.ID" />
+            <input type="hidden" asp-for="Initiative.InitiativeID" />
             <div class="form-group">
                 <label asp-for="Initiative.First" class="control-label"></label>
                 <input asp-for="Initiative.First" class="form-control" />

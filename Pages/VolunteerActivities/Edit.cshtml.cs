@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CityOfHopeVolunteerTracking.Data;
-using CityOfHopeVolunteerTracking.Models;
+using CoHO.Data;
+using CoHO.Models;
 
-namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
+namespace CoHO.Pages.VolunteerActivities
 {
     public class EditModel : PageModel
     {
-        private readonly CityOfHopeVolunteerTracking.Data.COHODatabaseContext _context;
+        private readonly CoHO.Data.ApplicationDbContext _context;
 
-        public EditModel(CityOfHopeVolunteerTracking.Data.COHODatabaseContext context)
+        public EditModel(CoHO.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -30,12 +30,14 @@ namespace CityOfHopeVolunteerTracking.Pages.VolunterrActivities
                 return NotFound();
             }
 
-            VolunteerActivity = await _context.VolunteerActivity.FirstOrDefaultAsync(m => m.ID == id);
+            VolunteerActivity = await _context.VolunteerActivity
+                .Include(v => v.Volunteer).FirstOrDefaultAsync(m => m.ID == id);
 
             if (VolunteerActivity == null)
             {
                 return NotFound();
             }
+           ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "First");
             return Page();
         }
 

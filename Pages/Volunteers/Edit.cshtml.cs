@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CityOfHopeVolunteerTracking.Data;
-using CityOfHopeVolunteerTracking.Models;
+using CoHO.Data;
+using CoHO.Models;
 
-namespace CityOfHopeVolunteerTracking.Pages.Volunteers
+namespace CoHO.Pages.Volunteers
 {
     public class EditModel : PageModel
     {
-        private readonly CityOfHopeVolunteerTracking.Data.COHODatabaseContext _context;
+        private readonly CoHO.Data.ApplicationDbContext _context;
 
-        public EditModel(CityOfHopeVolunteerTracking.Data.COHODatabaseContext context)
+        public EditModel(CoHO.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -30,7 +30,7 @@ namespace CityOfHopeVolunteerTracking.Pages.Volunteers
                 return NotFound();
             }
 
-            Volunteer = await _context.Volunteer.FirstOrDefaultAsync(m => m.ID == id);
+            Volunteer = await _context.Volunteer.FirstOrDefaultAsync(m => m.VolunteerID == id);
 
             if (Volunteer == null)
             {
@@ -56,7 +56,7 @@ namespace CityOfHopeVolunteerTracking.Pages.Volunteers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VolunteerExists(Volunteer.ID))
+                if (!VolunteerExists(Volunteer.VolunteerID))
                 {
                     return NotFound();
                 }
@@ -71,7 +71,7 @@ namespace CityOfHopeVolunteerTracking.Pages.Volunteers
 
         private bool VolunteerExists(int id)
         {
-            return _context.Volunteer.Any(e => e.ID == id);
+            return _context.Volunteer.Any(e => e.VolunteerID == id);
         }
     }
 }

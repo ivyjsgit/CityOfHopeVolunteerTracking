@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CityOfHopeVolunteerTracking.Models;
+using CoHO.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace CityOfHopeVolunteerTracking.Pages
+namespace CoHO.Pages
 {
     public class ButtonTestModel : PageModel
     {
-    public string Message { get; set; }
+        public string Message { get; set; }
 
-    private readonly CityOfHopeVolunteerTracking.Data.COHODatabaseContext _context;
+        private readonly CoHO.Data.ApplicationDbContext _context;
 
-        public ButtonTestModel(CityOfHopeVolunteerTracking.Data.COHODatabaseContext context)
+        public ButtonTestModel(CoHO.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -43,7 +43,7 @@ namespace CityOfHopeVolunteerTracking.Pages
                 Message = "Invalid Record ID";
             }
 
-            Volunteer = _context.Volunteer.FirstOrDefault(m => m.ID == id);
+            Volunteer = _context.Volunteer.FirstOrDefault(m => m.VolunteerID == id);
 
             if (Volunteer == null)
             {
