@@ -137,12 +137,12 @@ body {
 }
 
 .navbar-background {
-    background-color: #97F9F9;
+    background-color: #0000d8;
     min-height: 75px;
 }
 
 .nav-link {
-    color: #2C4251;
+    color: black;
     font-size: 15pt;
 }
 
