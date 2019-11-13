@@ -74,7 +74,9 @@ namespace CoHO.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email,
+                    EmailConfirmed = true
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -100,6 +102,8 @@ namespace CoHO.Areas.Identity.Pages.Account
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
+                    return LocalRedirect(returnUrl);
+
                 }
                 foreach (var error in result.Errors)
                 {

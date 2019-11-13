@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\Mandelbrot\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\Mandelbrot\\.nuget\\packages"
+      "/Users/ivy/.dotnet/store/|arch|/|tfm|",
+      "/Users/ivy/.nuget/packages"
     ]
   }
 }

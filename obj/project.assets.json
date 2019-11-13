@@ -8812,26 +8812,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Mandelbrot\\.nuget\\packages\\": {}
+    "/Users/ivy/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CityOfHopeVolunteerTracking\\CityOfHopeVolunteerTracking\\CoHO.csproj",
+      "projectUniqueName": "/Users/ivy/Desktop/web/CityOfHopeVolunteerTracking/CoHO.csproj",
       "projectName": "CoHO",
-      "projectPath": "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CityOfHopeVolunteerTracking\\CityOfHopeVolunteerTracking\\CoHO.csproj",
-      "packagesPath": "C:\\Users\\Mandelbrot\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Mandelbrot\\Documents\\CSCI340\\CityOfHopeVolunteerTracking\\CityOfHopeVolunteerTracking\\obj\\",
+      "projectPath": "/Users/ivy/Desktop/web/CityOfHopeVolunteerTracking/CoHO.csproj",
+      "packagesPath": "/Users/ivy/.nuget/packages/",
+      "outputPath": "/Users/ivy/Desktop/web/CityOfHopeVolunteerTracking/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Mandelbrot\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/ivy/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -8899,7 +8897,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.0.100/RuntimeIdentifierGraph.json"
       }
     }
   }
