@@ -77,16 +77,32 @@ namespace CoHO.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            //Console.WriteLine(Volunteer.First);
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
-            {
+
+
+            Volunteer.UserName = Volunteer.Email;
+
+            Volunteer.Password = "Please";
+            //Volunteer.Email= Input.
+
+
+            _context.Volunteer.Add(Volunteer);
+            await _context.SaveChangesAsync();
+            //if (ModelState.IsValid)
+            //{
+                
                 var user = new IdentityUser { UserName = Volunteer.Email, Email = Volunteer.Email,
                     EmailConfirmed = true
                 };
+                Console.WriteLine(user);
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    Console.WriteLine("It worked! " + user);
+
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -111,17 +127,16 @@ namespace CoHO.Areas.Identity.Pages.Account
                     }
                     return LocalRedirect(returnUrl);
 
-                }
+                //}
+
+                string messages = string.Join(";", ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
+                Console.WriteLine(messages);
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
 
-
-                Console.WriteLine("Adding volunteer:" + Volunteer);
-
-                _context.Volunteer.Add(Volunteer);
-                await _context.SaveChangesAsync();
 
                 return RedirectToPage("./Index");
 
