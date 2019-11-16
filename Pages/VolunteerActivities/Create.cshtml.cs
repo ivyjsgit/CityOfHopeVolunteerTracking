@@ -32,11 +32,10 @@ namespace CoHO.Pages.VolunteerActivities
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
 
+            VolunteerActivity.StartTime = DateTime.Now;
+            VolunteerActivity.EndTime = DateTime.Now.AddHours(2.0);
+            VolunteerActivity.ClockedIn = true;
             _context.VolunteerActivity.Add(VolunteerActivity);
             await _context.SaveChangesAsync();
 
