@@ -78,7 +78,7 @@ namespace CoHO.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             //Console.WriteLine(Volunteer.First);
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = Url.Content("/Volunteers/index");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
 
@@ -138,7 +138,7 @@ namespace CoHO.Areas.Identity.Pages.Account
                 }
 
 
-                return RedirectToPage("./Index");
+                return RedirectToPage("/Volunteers/index");
 
 
 

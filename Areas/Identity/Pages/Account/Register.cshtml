@@ -2,14 +2,14 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>Create new account</h1>
 
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
             <hr />
    
             <div class="form-group">
