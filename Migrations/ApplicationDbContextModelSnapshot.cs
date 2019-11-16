@@ -22,7 +22,8 @@ namespace CoHO.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("First")
+                    b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("InActive")
@@ -82,10 +83,6 @@ namespace CoHO.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -118,10 +115,7 @@ namespace CoHO.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("IniativeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("InitiativeID")
+                    b.Property<int>("InitiativeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("StartTime")
@@ -132,7 +126,7 @@ namespace CoHO.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("InitiativeID");
+                    b.HasIndex("InitiativeId");
 
                     b.HasIndex("VolunteerId");
 
@@ -339,7 +333,9 @@ namespace CoHO.Migrations
                 {
                     b.HasOne("CoHO.Models.Initiative", "Initiative")
                         .WithMany()
-                        .HasForeignKey("InitiativeID");
+                        .HasForeignKey("InitiativeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CoHO.Models.Volunteer", "Volunteer")
                         .WithMany("VolunteerActivities")

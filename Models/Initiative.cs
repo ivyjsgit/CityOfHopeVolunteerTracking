@@ -10,7 +10,8 @@ namespace CoHO.Models
     {
         [Key]
         public int InitiativeID { get; set; }
-        public string First { get; set; }
+        [Required]
+        public string Description { get; set; }
         public Boolean InActive { get; set; }
 
     }

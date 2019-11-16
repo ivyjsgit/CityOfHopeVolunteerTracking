@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoHO.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191112234008_CreateSchema")]
+    [Migration("20191116060625_CreateSchema")]
     partial class CreateSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,123 @@ namespace CoHO.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0");
+
+            modelBuilder.Entity("CoHO.Models.Initiative", b =>
+                {
+                    b.Property<int>("InitiativeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("InActive")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("InitiativeID");
+
+                    b.ToTable("Initiative");
+                });
+
+            modelBuilder.Entity("CoHO.Models.ValueOfHour", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("EffectiveDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<float>("Value")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ValueOfHour");
+                });
+
+            modelBuilder.Entity("CoHO.Models.Volunteer", b =>
+                {
+                    b.Property<int>("VolunteerID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Admin")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Cell")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("CommunityService")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("First")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Home")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("InActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Last")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("WorkersComp")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("VolunteerID");
+
+                    b.ToTable("Volunteer");
+                });
+
+            modelBuilder.Entity("CoHO.Models.VolunteerActivity", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ClockedIn")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<float>("ElapsedTime")
+                        .HasColumnType("REAL");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("InitiativeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("VolunteerId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("InitiativeId");
+
+                    b.HasIndex("VolunteerId");
+
+                    b.ToTable("VolunteerActivity");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -212,6 +329,21 @@ namespace CoHO.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CoHO.Models.VolunteerActivity", b =>
+                {
+                    b.HasOne("CoHO.Models.Initiative", "Initiative")
+                        .WithMany()
+                        .HasForeignKey("InitiativeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoHO.Models.Volunteer", "Volunteer")
+                        .WithMany("VolunteerActivities")
+                        .HasForeignKey("VolunteerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

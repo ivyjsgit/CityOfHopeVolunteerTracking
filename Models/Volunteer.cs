@@ -21,9 +21,6 @@ namespace CoHO.Models
         public string Cell { get; set; }
         [Required]
         public string Type { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
         public Boolean InActive { get; set; }
         public Boolean CommunityService { get; set; }
         public Boolean WorkersComp { get; set; }

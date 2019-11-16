@@ -15,7 +15,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.VolunteerActivity[0].IniativeId)
+                @Html.DisplayNameFor(model => model.VolunteerActivity[0].InitiativeId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.VolunteerActivity[0].StartTime)
@@ -39,7 +39,7 @@
 @foreach (var item in Model.VolunteerActivity) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IniativeId)
+                @Html.DisplayFor(modelItem => item.InitiativeId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartTime)

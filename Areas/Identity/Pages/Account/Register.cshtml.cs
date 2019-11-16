@@ -84,7 +84,7 @@ namespace CoHO.Areas.Identity.Pages.Account
 
             Volunteer.UserName = Volunteer.Email;
 
-            Volunteer.Password = "Please";
+            //Volunteer.Password = "Please";
             //Volunteer.Email= Input.
 
 

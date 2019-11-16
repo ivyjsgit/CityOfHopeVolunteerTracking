@@ -11,7 +11,7 @@ namespace CoHO.Models
         [Key]
         public int ID { get; set; }
         public int VolunteerId { get; set; }
-        public int IniativeId { get; set; }
+        public int InitiativeId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public float ElapsedTime { get; set; }

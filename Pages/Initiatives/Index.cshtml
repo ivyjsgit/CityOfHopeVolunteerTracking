@@ -15,7 +15,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Initiative[0].First)
+                @Html.DisplayNameFor(model => model.Initiative[0].Description)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Initiative[0].InActive)
@@ -27,7 +27,7 @@
 @foreach (var item in Model.Initiative) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.First)
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.InActive)

@@ -6,15 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20191112234501_MoreTables.cs" />
-    <Compile Remove="Migrations\20191112234501_MoreTables.Designer.cs" />
-    <Compile Remove="Migrations\20191112234529_StillMoreTables.cs" />
-    <Compile Remove="Migrations\20191112234529_StillMoreTables.Designer.cs" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <None Update="app.db" CopyToOutputDirectory="PreserveNewest" />
+    <Compile Remove="Migrations\20191116060337_CreateSchema.cs" />
+    <Compile Remove="Migrations\20191116060337_CreateSchema.Designer.cs" />
+    <Compile Remove="Migrations\20191116060642_update.cs" />
+    <Compile Remove="Migrations\20191116060642_update.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
