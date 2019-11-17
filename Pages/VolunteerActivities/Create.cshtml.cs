@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CoHO.Data;
 using CoHO.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoHO.Pages.VolunteerActivities
 {
@@ -36,6 +37,39 @@ namespace CoHO.Pages.VolunteerActivities
             VolunteerActivity.StartTime = DateTime.Now;
             VolunteerActivity.EndTime = DateTime.Now.AddHours(2.0);
             VolunteerActivity.ClockedIn = true;
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
+
+
+            Console.WriteLine(ourVolunteer.UserName);
+
+
+
+            ourVolunteer.LastActivityID = VolunteerActivity.ID;
+
+
+            _context.Attach(ourVolunteer).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                ;
+            }
+  
+
+
+
+
+
+
+
+
+
+
+
+
             _context.VolunteerActivity.Add(VolunteerActivity);
             await _context.SaveChangesAsync();
 
