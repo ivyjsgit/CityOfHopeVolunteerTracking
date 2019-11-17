@@ -25,6 +25,7 @@ namespace CoHO.Models
         public Boolean CommunityService { get; set; }
         public Boolean WorkersComp { get; set; }
         public Boolean Admin { get; set; }
+        public int LastActivityID { get; set; }
         public ICollection<VolunteerActivity> VolunteerActivities { get; set; }
 
     }
