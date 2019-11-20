@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CoHO.Data;
 using CoHO.Models;
 
-namespace CoHO.Pages.VolunteerActivities
+namespace CoHO.Pages.VolunteerTypes
 {
     public class CreateModel : PageModel
     {
@@ -21,13 +21,11 @@ namespace CoHO.Pages.VolunteerActivities
 
         public IActionResult OnGet()
         {
-        ViewData["InitiativeId"] = new SelectList(_context.Initiative, "InitiativeID", "Description");
-        ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "First");
             return Page();
         }
 
         [BindProperty]
-        public VolunteerActivity VolunteerActivity { get; set; }
+        public VolunteerType VolunteerType { get; set; }
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -38,7 +36,7 @@ namespace CoHO.Pages.VolunteerActivities
                 return Page();
             }
 
-            _context.VolunteerActivity.Add(VolunteerActivity);
+            _context.VolunteerType.Add(VolunteerType);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

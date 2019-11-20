@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using CoHO.Data;
 using CoHO.Models;
 
-namespace CoHO.Pages.VolunteerActivities
+namespace CoHO.Pages.Disabilities
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace CoHO.Pages.VolunteerActivities
         }
 
         [BindProperty]
-        public VolunteerActivity VolunteerActivity { get; set; }
+        public Disability Disability { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,16 +30,12 @@ namespace CoHO.Pages.VolunteerActivities
                 return NotFound();
             }
 
-            VolunteerActivity = await _context.VolunteerActivity
-                .Include(v => v.Initiative)
-                .Include(v => v.Volunteer).FirstOrDefaultAsync(m => m.ID == id);
+            Disability = await _context.Disability.FirstOrDefaultAsync(m => m.DisabilityID == id);
 
-            if (VolunteerActivity == null)
+            if (Disability == null)
             {
                 return NotFound();
             }
-           ViewData["InitiativeId"] = new SelectList(_context.Initiative, "InitiativeID", "Description");
-           ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "First");
             return Page();
         }
 
@@ -52,7 +48,7 @@ namespace CoHO.Pages.VolunteerActivities
                 return Page();
             }
 
-            _context.Attach(VolunteerActivity).State = EntityState.Modified;
+            _context.Attach(Disability).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +56,7 @@ namespace CoHO.Pages.VolunteerActivities
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VolunteerActivityExists(VolunteerActivity.ID))
+                if (!DisabilityExists(Disability.DisabilityID))
                 {
                     return NotFound();
                 }
@@ -73,9 +69,9 @@ namespace CoHO.Pages.VolunteerActivities
             return RedirectToPage("./Index");
         }
 
-        private bool VolunteerActivityExists(int id)
+        private bool DisabilityExists(int id)
         {
-            return _context.VolunteerActivity.Any(e => e.ID == id);
+            return _context.Disability.Any(e => e.DisabilityID == id);
         }
     }
 }

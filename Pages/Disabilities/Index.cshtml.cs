@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CoHO.Data;
 using CoHO.Models;
 
-namespace CoHO.Pages.Volunteers
+namespace CoHO.Pages.Disabilities
 {
     public class IndexModel : PageModel
     {
@@ -19,13 +19,11 @@ namespace CoHO.Pages.Volunteers
             _context = context;
         }
 
-        public IList<Volunteer> Volunteer { get;set; }
+        public IList<Disability> Disability { get;set; }
 
         public async Task OnGetAsync()
         {
-            Volunteer = await _context.Volunteer
-                .Include(v => v.Race)
-                .Include(v => v.VolunterrType).ToListAsync();
+            Disability = await _context.Disability.ToListAsync();
         }
     }
 }

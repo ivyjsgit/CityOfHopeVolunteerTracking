@@ -31,6 +31,12 @@
             @Html.DisplayFor(model => model.Volunteer.Last)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.Birthday)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.Birthday)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Volunteer.Email)
         </dt>
         <dd class="col-sm-10">
@@ -49,10 +55,22 @@
             @Html.DisplayFor(model => model.Volunteer.Cell)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Volunteer.Type)
+            @Html.DisplayNameFor(model => model.Volunteer.DisabilityID1)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Volunteer.Type)
+            @Html.DisplayFor(model => model.Volunteer.DisabilityID1)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.DisabilityID2)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.DisabilityID2)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.DisabilityID3)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.DisabilityID3)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Volunteer.InActive)
@@ -73,10 +91,28 @@
             @Html.DisplayFor(model => model.Volunteer.WorkersComp)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.Veteran)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.Veteran)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Volunteer.Admin)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Volunteer.Admin)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.Race)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.Race.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.VolunterrType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.VolunterrType.Description)
         </dd>
     </dl>
 </div>

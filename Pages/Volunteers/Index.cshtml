@@ -9,9 +9,8 @@
 <h1>Index</h1>
 
 <p>
-    <a href="/Identity/Account/Register">Create New</a>
+    <a asp-page="Create">Create New</a>
 </p>
-<div asp-validation-summary="All" class="text-danger"></div>
 <table class="table">
     <thead>
         <tr>
@@ -25,6 +24,9 @@
                 @Html.DisplayNameFor(model => model.Volunteer[0].Last)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].Birthday)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Volunteer[0].Email)
             </th>
             <th>
@@ -34,7 +36,13 @@
                 @Html.DisplayNameFor(model => model.Volunteer[0].Cell)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].Type)
+                @Html.DisplayNameFor(model => model.Volunteer[0].DisabilityID1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].DisabilityID2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].DisabilityID3)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Volunteer[0].InActive)
@@ -46,7 +54,16 @@
                 @Html.DisplayNameFor(model => model.Volunteer[0].WorkersComp)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].Veteran)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Volunteer[0].Admin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].Race)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VolunterrType)
             </th>
             <th></th>
         </tr>
@@ -64,6 +81,9 @@
                 @Html.DisplayFor(modelItem => item.Last)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Birthday)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
@@ -73,7 +93,13 @@
                 @Html.DisplayFor(modelItem => item.Cell)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type)
+                @Html.DisplayFor(modelItem => item.DisabilityID1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisabilityID2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisabilityID3)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.InActive)
@@ -85,7 +111,16 @@
                 @Html.DisplayFor(modelItem => item.WorkersComp)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Veteran)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Admin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Race.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VolunterrType.Description)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.VolunteerID">Edit</a> |

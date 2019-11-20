@@ -24,6 +24,7 @@ namespace CoHO.Pages.VolunteerActivities
         public async Task OnGetAsync()
         {
             VolunteerActivity = await _context.VolunteerActivity
+                .Include(v => v.Initiative)
                 .Include(v => v.Volunteer).ToListAsync();
         }
     }

@@ -30,12 +30,16 @@ namespace CoHO.Pages.Volunteers
                 return NotFound();
             }
 
-            Volunteer = await _context.Volunteer.FirstOrDefaultAsync(m => m.VolunteerID == id);
+            Volunteer = await _context.Volunteer
+                .Include(v => v.Race)
+                .Include(v => v.VolunterrType).FirstOrDefaultAsync(m => m.VolunteerID == id);
 
             if (Volunteer == null)
             {
                 return NotFound();
             }
+           ViewData["RaceID"] = new SelectList(_context.Race, "RaceID", "Description");
+           ViewData["VolunteerTypeID"] = new SelectList(_context.VolunteerType, "VolunteerTypeID", "Description");
             return Page();
         }
 

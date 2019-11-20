@@ -1,0 +1,43 @@
+﻿@page
+@model CoHO.Pages.Races.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Race[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Race[0].InActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Race) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InActive)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.RaceID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.RaceID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.RaceID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

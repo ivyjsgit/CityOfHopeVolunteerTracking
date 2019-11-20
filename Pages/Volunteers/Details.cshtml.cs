@@ -28,7 +28,9 @@ namespace CoHO.Pages.Volunteers
                 return NotFound();
             }
 
-            Volunteer = await _context.Volunteer.FirstOrDefaultAsync(m => m.VolunteerID == id);
+            Volunteer = await _context.Volunteer
+                .Include(v => v.Race)
+                .Include(v => v.VolunterrType).FirstOrDefaultAsync(m => m.VolunteerID == id);
 
             if (Volunteer == null)
             {

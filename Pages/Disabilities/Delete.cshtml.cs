@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CoHO.Data;
 using CoHO.Models;
 
-namespace CoHO.Pages.Volunteers
+namespace CoHO.Pages.Disabilities
 {
     public class DeleteModel : PageModel
     {
@@ -20,7 +20,7 @@ namespace CoHO.Pages.Volunteers
         }
 
         [BindProperty]
-        public Volunteer Volunteer { get; set; }
+        public Disability Disability { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,11 +29,9 @@ namespace CoHO.Pages.Volunteers
                 return NotFound();
             }
 
-            Volunteer = await _context.Volunteer
-                .Include(v => v.Race)
-                .Include(v => v.VolunterrType).FirstOrDefaultAsync(m => m.VolunteerID == id);
+            Disability = await _context.Disability.FirstOrDefaultAsync(m => m.DisabilityID == id);
 
-            if (Volunteer == null)
+            if (Disability == null)
             {
                 return NotFound();
             }
@@ -47,11 +45,11 @@ namespace CoHO.Pages.Volunteers
                 return NotFound();
             }
 
-            Volunteer = await _context.Volunteer.FindAsync(id);
+            Disability = await _context.Disability.FindAsync(id);
 
-            if (Volunteer != null)
+            if (Disability != null)
             {
-                _context.Volunteer.Remove(Volunteer);
+                _context.Disability.Remove(Disability);
                 await _context.SaveChangesAsync();
             }
 

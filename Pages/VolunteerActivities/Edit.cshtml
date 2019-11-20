@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="VolunteerActivity.InitiativeId" class="control-label"></label>
-                <input asp-for="VolunteerActivity.InitiativeId" class="form-control" />
+                <select asp-for="VolunteerActivity.InitiativeId" class="form-control" asp-items="ViewBag.InitiativeId"></select>
                 <span asp-validation-for="VolunteerActivity.InitiativeId" class="text-danger"></span>
             </div>
             <div class="form-group">

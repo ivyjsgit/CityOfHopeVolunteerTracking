@@ -61,6 +61,20 @@ namespace CoHO.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Race",
+                columns: table => new
+                {
+                    RaceID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Description = table.Column<string>(nullable: false),
+                    InActive = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Race", x => x.RaceID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ValueOfHour",
                 columns: table => new
                 {
@@ -75,26 +89,17 @@ namespace CoHO.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Volunteer",
+                name: "VolunteerType",
                 columns: table => new
                 {
-                    VolunteerID = table.Column<int>(nullable: false)
+                    VolunteerTypeID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserName = table.Column<string>(maxLength: 50, nullable: false),
-                    First = table.Column<string>(nullable: false),
-                    Last = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: true),
-                    Home = table.Column<string>(nullable: true),
-                    Cell = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: false),
-                    InActive = table.Column<bool>(nullable: false),
-                    CommunityService = table.Column<bool>(nullable: false),
-                    WorkersComp = table.Column<bool>(nullable: false),
-                    Admin = table.Column<bool>(nullable: false)
+                    Description = table.Column<string>(nullable: false),
+                    InActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Volunteer", x => x.VolunteerID);
+                    table.PrimaryKey("PK_VolunteerType", x => x.VolunteerTypeID);
                 });
 
             migrationBuilder.CreateTable(
@@ -204,6 +209,68 @@ namespace CoHO.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Volunteer",
+                columns: table => new
+                {
+                    VolunteerID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserName = table.Column<string>(maxLength: 50, nullable: false),
+                    First = table.Column<string>(nullable: false),
+                    Last = table.Column<string>(nullable: false),
+                    Birthday = table.Column<DateTime>(nullable: false),
+                    Email = table.Column<string>(nullable: true),
+                    Home = table.Column<string>(nullable: true),
+                    Cell = table.Column<string>(nullable: true),
+                    RaceID = table.Column<int>(nullable: true),
+                    VolunteerTypeID = table.Column<int>(nullable: false),
+                    DisabilityID1 = table.Column<int>(nullable: true),
+                    DisabilityID2 = table.Column<int>(nullable: true),
+                    DisabilityID3 = table.Column<int>(nullable: true),
+                    InActive = table.Column<bool>(nullable: false),
+                    CommunityService = table.Column<bool>(nullable: false),
+                    WorkersComp = table.Column<bool>(nullable: false),
+                    Veteran = table.Column<bool>(nullable: false),
+                    Admin = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Volunteer", x => x.VolunteerID);
+                    table.ForeignKey(
+                        name: "FK_Volunteer_Race_RaceID",
+                        column: x => x.RaceID,
+                        principalTable: "Race",
+                        principalColumn: "RaceID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Volunteer_VolunteerType_VolunteerTypeID",
+                        column: x => x.VolunteerTypeID,
+                        principalTable: "VolunteerType",
+                        principalColumn: "VolunteerTypeID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Disability",
+                columns: table => new
+                {
+                    DisabilityID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Description = table.Column<string>(nullable: false),
+                    InActive = table.Column<bool>(nullable: false),
+                    VolunteerID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Disability", x => x.DisabilityID);
+                    table.ForeignKey(
+                        name: "FK_Disability_Volunteer_VolunteerID",
+                        column: x => x.VolunteerID,
+                        principalTable: "Volunteer",
+                        principalColumn: "VolunteerID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "VolunteerActivity",
                 columns: table => new
                 {
@@ -271,9 +338,27 @@ namespace CoHO.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Disability_VolunteerID",
+                table: "Disability",
+                column: "VolunteerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Volunteer_RaceID",
+                table: "Volunteer",
+                column: "RaceID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Volunteer_VolunteerTypeID",
+                table: "Volunteer",
+                column: "VolunteerTypeID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_VolunteerActivity_InitiativeId",
                 table: "VolunteerActivity",
-                column: "InitiativeId");
+                column: "InitiativeId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_VolunteerActivity_VolunteerId",
@@ -299,6 +384,9 @@ namespace CoHO.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Disability");
+
+            migrationBuilder.DropTable(
                 name: "ValueOfHour");
 
             migrationBuilder.DropTable(
@@ -315,6 +403,12 @@ namespace CoHO.Migrations
 
             migrationBuilder.DropTable(
                 name: "Volunteer");
+
+            migrationBuilder.DropTable(
+                name: "Race");
+
+            migrationBuilder.DropTable(
+                name: "VolunteerType");
         }
     }
 }

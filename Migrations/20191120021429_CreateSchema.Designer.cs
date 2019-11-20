@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoHO.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191116060625_CreateSchema")]
+    [Migration("20191120021429_CreateSchema")]
     partial class CreateSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,29 @@ namespace CoHO.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0");
+
+            modelBuilder.Entity("CoHO.Models.Disability", b =>
+                {
+                    b.Property<int>("DisabilityID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("InActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("VolunteerID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("DisabilityID");
+
+                    b.HasIndex("VolunteerID");
+
+                    b.ToTable("Disability");
+                });
 
             modelBuilder.Entity("CoHO.Models.Initiative", b =>
                 {
@@ -34,6 +57,24 @@ namespace CoHO.Migrations
                     b.HasKey("InitiativeID");
 
                     b.ToTable("Initiative");
+                });
+
+            modelBuilder.Entity("CoHO.Models.Race", b =>
+                {
+                    b.Property<int>("RaceID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("InActive")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("RaceID");
+
+                    b.ToTable("Race");
                 });
 
             modelBuilder.Entity("CoHO.Models.ValueOfHour", b =>
@@ -62,10 +103,22 @@ namespace CoHO.Migrations
                     b.Property<bool>("Admin")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Cell")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("CommunityService")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("DisabilityID1")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("DisabilityID2")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("DisabilityID3")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
@@ -85,19 +138,30 @@ namespace CoHO.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("RaceID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(50);
 
+                    b.Property<bool>("Veteran")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("VolunteerTypeID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("WorkersComp")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("VolunteerID");
+
+                    b.HasIndex("RaceID")
+                        .IsUnique();
+
+                    b.HasIndex("VolunteerTypeID")
+                        .IsUnique();
 
                     b.ToTable("Volunteer");
                 });
@@ -128,11 +192,30 @@ namespace CoHO.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("InitiativeId");
+                    b.HasIndex("InitiativeId")
+                        .IsUnique();
 
                     b.HasIndex("VolunteerId");
 
                     b.ToTable("VolunteerActivity");
+                });
+
+            modelBuilder.Entity("CoHO.Models.VolunteerType", b =>
+                {
+                    b.Property<int>("VolunteerTypeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("InActive")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("VolunteerTypeID");
+
+                    b.ToTable("VolunteerType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -331,11 +414,31 @@ namespace CoHO.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("CoHO.Models.Disability", b =>
+                {
+                    b.HasOne("CoHO.Models.Volunteer", "Volunteer")
+                        .WithMany("Disabilities")
+                        .HasForeignKey("VolunteerID");
+                });
+
+            modelBuilder.Entity("CoHO.Models.Volunteer", b =>
+                {
+                    b.HasOne("CoHO.Models.Race", "Race")
+                        .WithOne("Volunteer")
+                        .HasForeignKey("CoHO.Models.Volunteer", "RaceID");
+
+                    b.HasOne("CoHO.Models.VolunteerType", "VolunterrType")
+                        .WithOne("Volunteer")
+                        .HasForeignKey("CoHO.Models.Volunteer", "VolunteerTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CoHO.Models.VolunteerActivity", b =>
                 {
                     b.HasOne("CoHO.Models.Initiative", "Initiative")
-                        .WithMany()
-                        .HasForeignKey("InitiativeId")
+                        .WithOne("volunteerActivity")
+                        .HasForeignKey("CoHO.Models.VolunteerActivity", "InitiativeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

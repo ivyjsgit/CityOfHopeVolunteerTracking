@@ -30,6 +30,11 @@
                 <span asp-validation-for="Volunteer.Last" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Volunteer.Birthday" class="control-label"></label>
+                <input asp-for="Volunteer.Birthday" class="form-control" />
+                <span asp-validation-for="Volunteer.Birthday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Volunteer.Email" class="control-label"></label>
                 <input asp-for="Volunteer.Email" class="form-control" />
                 <span asp-validation-for="Volunteer.Email" class="text-danger"></span>
@@ -45,9 +50,27 @@
                 <span asp-validation-for="Volunteer.Cell" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Volunteer.Type" class="control-label"></label>
-                <input asp-for="Volunteer.Type" class="form-control" />
-                <span asp-validation-for="Volunteer.Type" class="text-danger"></span>
+                <label asp-for="Volunteer.RaceID" class="control-label"></label>
+                <select asp-for="Volunteer.RaceID" class ="form-control" asp-items="ViewBag.RaceID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.VolunteerTypeID" class="control-label"></label>
+                <select asp-for="Volunteer.VolunteerTypeID" class ="form-control" asp-items="ViewBag.VolunteerTypeID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.DisabilityID1" class="control-label"></label>
+                <input asp-for="Volunteer.DisabilityID1" class="form-control" />
+                <span asp-validation-for="Volunteer.DisabilityID1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.DisabilityID2" class="control-label"></label>
+                <input asp-for="Volunteer.DisabilityID2" class="form-control" />
+                <span asp-validation-for="Volunteer.DisabilityID2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.DisabilityID3" class="control-label"></label>
+                <input asp-for="Volunteer.DisabilityID3" class="form-control" />
+                <span asp-validation-for="Volunteer.DisabilityID3" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
@@ -62,6 +85,11 @@
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Volunteer.WorkersComp" /> @Html.DisplayNameFor(model => model.Volunteer.WorkersComp)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Volunteer.Veteran" /> @Html.DisplayNameFor(model => model.Volunteer.Veteran)
                 </label>
             </div>
             <div class="form-group form-check">

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CoHO.Data;
 using CoHO.Models;
 
-namespace CoHO.Pages.VolunteerActivities
+namespace CoHO.Pages.Races
 {
     public class DetailsModel : PageModel
     {
@@ -19,7 +19,7 @@ namespace CoHO.Pages.VolunteerActivities
             _context = context;
         }
 
-        public VolunteerActivity VolunteerActivity { get; set; }
+        public Race Race { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,11 +28,9 @@ namespace CoHO.Pages.VolunteerActivities
                 return NotFound();
             }
 
-            VolunteerActivity = await _context.VolunteerActivity
-                .Include(v => v.Initiative)
-                .Include(v => v.Volunteer).FirstOrDefaultAsync(m => m.ID == id);
+            Race = await _context.Race.FirstOrDefaultAsync(m => m.RaceID == id);
 
-            if (VolunteerActivity == null)
+            if (Race == null)
             {
                 return NotFound();
             }

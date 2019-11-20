@@ -16,16 +16,32 @@ namespace CoHO.Models
         public string First { get; set; }
         [Required]
         public string Last { get; set; }
+        public string FullName {
+            get
+            {
+                return First + " " + Last;
+            }
+        }
+        [DataType(DataType.Date)]
+        public DateTime Birthday{ get; set; }
         public string Email { get; set; }
         public string Home { get; set; }
         public string Cell { get; set; }
+        public int? RaceID { get; set; }
         [Required]
-        public string Type { get; set; }
+        public int VolunteerTypeID { get; set; }
+        public int? DisabilityID1 { get; set; }
+        public int? DisabilityID2 { get; set; }
+        public int? DisabilityID3 { get; set; }
         public Boolean InActive { get; set; }
         public Boolean CommunityService { get; set; }
         public Boolean WorkersComp { get; set; }
+        public Boolean Veteran { get; set; }
         public Boolean Admin { get; set; }
-        public int LastActivityID { get; set; }
+        
+        public Race Race { get; set; }
+        public ICollection<Disability> Disabilities { get; set; }
+        public VolunteerType VolunterrType { get; set; }
         public ICollection<VolunteerActivity> VolunteerActivities { get; set; }
 
     }
