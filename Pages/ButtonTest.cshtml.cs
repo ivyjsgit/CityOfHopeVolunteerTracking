@@ -54,5 +54,11 @@ namespace CoHO.Pages
                 Message = Volunteer.First + " " + Volunteer.Last;
             }
         }
+
+        public void OnPostFreeForm()
+        {
+            Message = Request.Form["stuff"];
+        }
+
     }
 }
