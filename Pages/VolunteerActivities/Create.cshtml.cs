@@ -30,9 +30,14 @@ namespace CoHO.Pages.VolunteerActivities
         public VolunteerActivity VolunteerActivity { get; set; }
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+
+
+
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+
+            //Vi add the clock out stuff near here.
 
             VolunteerActivity.StartTime = DateTime.Now;
             VolunteerActivity.EndTime = DateTime.Now.AddHours(2.0);
