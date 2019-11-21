@@ -36,13 +36,16 @@
                 @Html.DisplayNameFor(model => model.Volunteer[0].Cell)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].DisabilityID1)
+                @Html.DisplayNameFor(model => model.Volunteer[0].DisabilityID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].DisabilityID2)
+                @Html.DisplayNameFor(model => model.Volunteer[0].SkillID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].DisabilityID3)
+                @Html.DisplayNameFor(model => model.Volunteer[0].LoggedIn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VolunteerActivityID)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Volunteer[0].InActive)
@@ -64,6 +67,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Volunteer[0].VolunterrType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].EducationLevel)
             </th>
             <th></th>
         </tr>
@@ -93,13 +99,16 @@
                 @Html.DisplayFor(modelItem => item.Cell)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DisabilityID1)
+                @Html.DisplayFor(modelItem => item.DisabilityID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DisabilityID2)
+                @Html.DisplayFor(modelItem => item.SkillID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DisabilityID3)
+                @Html.DisplayFor(modelItem => item.LoggedIn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VolunteerActivityID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.InActive)
@@ -121,6 +130,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VolunterrType.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EducationLevel.Description)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.VolunteerID">Edit</a> |

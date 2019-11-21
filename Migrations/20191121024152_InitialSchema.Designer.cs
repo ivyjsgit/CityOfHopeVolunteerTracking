@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoHO.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191120021429_CreateSchema")]
-    partial class CreateSchema
+    [Migration("20191121024152_InitialSchema")]
+    partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,6 +39,24 @@ namespace CoHO.Migrations
                     b.HasIndex("VolunteerID");
 
                     b.ToTable("Disability");
+                });
+
+            modelBuilder.Entity("CoHO.Models.EducationLevel", b =>
+                {
+                    b.Property<int>("EducationLevelID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("InActive")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("EducationLevelID");
+
+                    b.ToTable("EducationLevel");
                 });
 
             modelBuilder.Entity("CoHO.Models.Initiative", b =>
@@ -77,6 +95,29 @@ namespace CoHO.Migrations
                     b.ToTable("Race");
                 });
 
+            modelBuilder.Entity("CoHO.Models.Skill", b =>
+                {
+                    b.Property<int>("SkillID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("InActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("VolunteerID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SkillID");
+
+                    b.HasIndex("VolunteerID");
+
+                    b.ToTable("Skill");
+                });
+
             modelBuilder.Entity("CoHO.Models.ValueOfHour", b =>
                 {
                     b.Property<int>("ID")
@@ -103,7 +144,7 @@ namespace CoHO.Migrations
                     b.Property<bool>("Admin")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Birthday")
+                    b.Property<DateTime?>("Birthday")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Cell")
@@ -112,13 +153,10 @@ namespace CoHO.Migrations
                     b.Property<bool>("CommunityService")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DisabilityID1")
+                    b.Property<int?>("DisabilityID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DisabilityID2")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("DisabilityID3")
+                    b.Property<int?>("EducationLevelID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
@@ -138,7 +176,13 @@ namespace CoHO.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("LoggedIn")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int?>("RaceID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SkillID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
@@ -149,6 +193,9 @@ namespace CoHO.Migrations
                     b.Property<bool>("Veteran")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("VolunteerActivityID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("VolunteerTypeID")
                         .HasColumnType("INTEGER");
 
@@ -156,6 +203,9 @@ namespace CoHO.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("VolunteerID");
+
+                    b.HasIndex("EducationLevelID")
+                        .IsUnique();
 
                     b.HasIndex("RaceID")
                         .IsUnique();
@@ -421,8 +471,19 @@ namespace CoHO.Migrations
                         .HasForeignKey("VolunteerID");
                 });
 
+            modelBuilder.Entity("CoHO.Models.Skill", b =>
+                {
+                    b.HasOne("CoHO.Models.Volunteer", "Volunteer")
+                        .WithMany("Skills")
+                        .HasForeignKey("VolunteerID");
+                });
+
             modelBuilder.Entity("CoHO.Models.Volunteer", b =>
                 {
+                    b.HasOne("CoHO.Models.EducationLevel", "EducationLevel")
+                        .WithOne("Volunteer")
+                        .HasForeignKey("CoHO.Models.Volunteer", "EducationLevelID");
+
                     b.HasOne("CoHO.Models.Race", "Race")
                         .WithOne("Volunteer")
                         .HasForeignKey("CoHO.Models.Volunteer", "RaceID");

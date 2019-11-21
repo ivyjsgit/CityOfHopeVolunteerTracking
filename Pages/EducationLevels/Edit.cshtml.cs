@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using CoHO.Data;
 using CoHO.Models;
 
-namespace CoHO.Pages.Volunteers
+namespace CoHO.Pages.EducationLevels
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace CoHO.Pages.Volunteers
         }
 
         [BindProperty]
-        public Volunteer Volunteer { get; set; }
+        public EducationLevel EducationLevel { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,18 +30,12 @@ namespace CoHO.Pages.Volunteers
                 return NotFound();
             }
 
-            Volunteer = await _context.Volunteer
-                .Include(v => v.EducationLevel)
-                .Include(v => v.Race)
-                .Include(v => v.VolunterrType).FirstOrDefaultAsync(m => m.VolunteerID == id);
+            EducationLevel = await _context.EducationLevel.FirstOrDefaultAsync(m => m.EducationLevelID == id);
 
-            if (Volunteer == null)
+            if (EducationLevel == null)
             {
                 return NotFound();
             }
-           ViewData["EducationLevelID"] = new SelectList(_context.Set<EducationLevel>(), "EducationLevelID", "Description");
-           ViewData["RaceID"] = new SelectList(_context.Race, "RaceID", "Description");
-           ViewData["VolunteerTypeID"] = new SelectList(_context.VolunteerType, "VolunteerTypeID", "Description");
             return Page();
         }
 
@@ -54,7 +48,7 @@ namespace CoHO.Pages.Volunteers
                 return Page();
             }
 
-            _context.Attach(Volunteer).State = EntityState.Modified;
+            _context.Attach(EducationLevel).State = EntityState.Modified;
 
             try
             {
@@ -62,7 +56,7 @@ namespace CoHO.Pages.Volunteers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VolunteerExists(Volunteer.VolunteerID))
+                if (!EducationLevelExists(EducationLevel.EducationLevelID))
                 {
                     return NotFound();
                 }
@@ -75,9 +69,9 @@ namespace CoHO.Pages.Volunteers
             return RedirectToPage("./Index");
         }
 
-        private bool VolunteerExists(int id)
+        private bool EducationLevelExists(int id)
         {
-            return _context.Volunteer.Any(e => e.VolunteerID == id);
+            return _context.EducationLevel.Any(e => e.EducationLevelID == id);
         }
     }
 }

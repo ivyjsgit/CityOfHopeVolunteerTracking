@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CoHO.Migrations
 {
-    public partial class CreateSchema : Migration
+    public partial class InitialSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,20 @@ namespace CoHO.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EducationLevel",
+                columns: table => new
+                {
+                    EducationLevelID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Description = table.Column<string>(nullable: false),
+                    InActive = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EducationLevel", x => x.EducationLevelID);
                 });
 
             migrationBuilder.CreateTable(
@@ -217,15 +231,17 @@ namespace CoHO.Migrations
                     UserName = table.Column<string>(maxLength: 50, nullable: false),
                     First = table.Column<string>(nullable: false),
                     Last = table.Column<string>(nullable: false),
-                    Birthday = table.Column<DateTime>(nullable: false),
+                    Birthday = table.Column<DateTime>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Home = table.Column<string>(nullable: true),
                     Cell = table.Column<string>(nullable: true),
                     RaceID = table.Column<int>(nullable: true),
                     VolunteerTypeID = table.Column<int>(nullable: false),
-                    DisabilityID1 = table.Column<int>(nullable: true),
-                    DisabilityID2 = table.Column<int>(nullable: true),
-                    DisabilityID3 = table.Column<int>(nullable: true),
+                    EducationLevelID = table.Column<int>(nullable: true),
+                    DisabilityID = table.Column<int>(nullable: true),
+                    SkillID = table.Column<int>(nullable: true),
+                    LoggedIn = table.Column<bool>(nullable: false),
+                    VolunteerActivityID = table.Column<int>(nullable: true),
                     InActive = table.Column<bool>(nullable: false),
                     CommunityService = table.Column<bool>(nullable: false),
                     WorkersComp = table.Column<bool>(nullable: false),
@@ -235,6 +251,12 @@ namespace CoHO.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Volunteer", x => x.VolunteerID);
+                    table.ForeignKey(
+                        name: "FK_Volunteer_EducationLevel_EducationLevelID",
+                        column: x => x.EducationLevelID,
+                        principalTable: "EducationLevel",
+                        principalColumn: "EducationLevelID",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Volunteer_Race_RaceID",
                         column: x => x.RaceID,
@@ -264,6 +286,27 @@ namespace CoHO.Migrations
                     table.PrimaryKey("PK_Disability", x => x.DisabilityID);
                     table.ForeignKey(
                         name: "FK_Disability_Volunteer_VolunteerID",
+                        column: x => x.VolunteerID,
+                        principalTable: "Volunteer",
+                        principalColumn: "VolunteerID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Skill",
+                columns: table => new
+                {
+                    SkillID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Description = table.Column<string>(nullable: false),
+                    InActive = table.Column<bool>(nullable: false),
+                    VolunteerID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skill", x => x.SkillID);
+                    table.ForeignKey(
+                        name: "FK_Skill_Volunteer_VolunteerID",
                         column: x => x.VolunteerID,
                         principalTable: "Volunteer",
                         principalColumn: "VolunteerID",
@@ -343,6 +386,17 @@ namespace CoHO.Migrations
                 column: "VolunteerID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Skill_VolunteerID",
+                table: "Skill",
+                column: "VolunteerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Volunteer_EducationLevelID",
+                table: "Volunteer",
+                column: "EducationLevelID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Volunteer_RaceID",
                 table: "Volunteer",
                 column: "RaceID",
@@ -387,6 +441,9 @@ namespace CoHO.Migrations
                 name: "Disability");
 
             migrationBuilder.DropTable(
+                name: "Skill");
+
+            migrationBuilder.DropTable(
                 name: "ValueOfHour");
 
             migrationBuilder.DropTable(
@@ -403,6 +460,9 @@ namespace CoHO.Migrations
 
             migrationBuilder.DropTable(
                 name: "Volunteer");
+
+            migrationBuilder.DropTable(
+                name: "EducationLevel");
 
             migrationBuilder.DropTable(
                 name: "Race");

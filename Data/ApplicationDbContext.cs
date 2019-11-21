@@ -20,7 +20,7 @@ namespace CoHO.Data
         public DbSet<CoHO.Models.Disability> Disability { get; set; }
         public DbSet<CoHO.Models.Race> Race { get; set; }
         public DbSet<CoHO.Models.VolunteerType> VolunteerType { get; set; }
-
-
+        public DbSet<CoHO.Models.Skill> Skill { get; set; }
+        public DbSet<CoHO.Models.EducationLevel> EducationLevel { get; set; }
     }
 }

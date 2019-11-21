@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CoHO.Data;
 using CoHO.Models;
 
-namespace CoHO.Pages.Volunteers
+namespace CoHO.Pages.EducationLevels
 {
     public class CreateModel : PageModel
     {
@@ -21,14 +21,11 @@ namespace CoHO.Pages.Volunteers
 
         public IActionResult OnGet()
         {
-        ViewData["EducationLevelID"] = new SelectList(_context.Set<EducationLevel>(), "EducationLevelID", "Description");
-        ViewData["RaceID"] = new SelectList(_context.Race, "RaceID", "Description");
-        ViewData["VolunteerTypeID"] = new SelectList(_context.VolunteerType, "VolunteerTypeID", "Description");
             return Page();
         }
 
         [BindProperty]
-        public Volunteer Volunteer { get; set; }
+        public EducationLevel EducationLevel { get; set; }
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -39,7 +36,7 @@ namespace CoHO.Pages.Volunteers
                 return Page();
             }
 
-            _context.Volunteer.Add(Volunteer);
+            _context.EducationLevel.Add(EducationLevel);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

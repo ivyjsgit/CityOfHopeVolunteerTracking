@@ -56,22 +56,28 @@
             @Html.DisplayFor(model => model.Volunteer.Cell)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Volunteer.DisabilityID1)
+            @Html.DisplayNameFor(model => model.Volunteer.DisabilityID)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Volunteer.DisabilityID1)
+            @Html.DisplayFor(model => model.Volunteer.DisabilityID)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Volunteer.DisabilityID2)
+            @Html.DisplayNameFor(model => model.Volunteer.SkillID)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Volunteer.DisabilityID2)
+            @Html.DisplayFor(model => model.Volunteer.SkillID)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Volunteer.DisabilityID3)
+            @Html.DisplayNameFor(model => model.Volunteer.LoggedIn)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Volunteer.DisabilityID3)
+            @Html.DisplayFor(model => model.Volunteer.LoggedIn)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.VolunteerActivityID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.VolunteerActivityID)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Volunteer.InActive)
@@ -114,6 +120,12 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Volunteer.VolunterrType.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.EducationLevel)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.EducationLevel.Description)
         </dd>
     </dl>
     

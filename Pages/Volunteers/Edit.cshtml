@@ -61,19 +61,29 @@
                 <span asp-validation-for="Volunteer.VolunteerTypeID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Volunteer.DisabilityID1" class="control-label"></label>
-                <input asp-for="Volunteer.DisabilityID1" class="form-control" />
-                <span asp-validation-for="Volunteer.DisabilityID1" class="text-danger"></span>
+                <label asp-for="Volunteer.EducationLevelID" class="control-label"></label>
+                <select asp-for="Volunteer.EducationLevelID" class="form-control" asp-items="ViewBag.EducationLevelID"></select>
+                <span asp-validation-for="Volunteer.EducationLevelID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Volunteer.DisabilityID2" class="control-label"></label>
-                <input asp-for="Volunteer.DisabilityID2" class="form-control" />
-                <span asp-validation-for="Volunteer.DisabilityID2" class="text-danger"></span>
+                <label asp-for="Volunteer.DisabilityID" class="control-label"></label>
+                <input asp-for="Volunteer.DisabilityID" class="form-control" />
+                <span asp-validation-for="Volunteer.DisabilityID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Volunteer.DisabilityID3" class="control-label"></label>
-                <input asp-for="Volunteer.DisabilityID3" class="form-control" />
-                <span asp-validation-for="Volunteer.DisabilityID3" class="text-danger"></span>
+                <label asp-for="Volunteer.SkillID" class="control-label"></label>
+                <input asp-for="Volunteer.SkillID" class="form-control" />
+                <span asp-validation-for="Volunteer.SkillID" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Volunteer.LoggedIn" /> @Html.DisplayNameFor(model => model.Volunteer.LoggedIn)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.VolunteerActivityID" class="control-label"></label>
+                <input asp-for="Volunteer.VolunteerActivityID" class="form-control" />
+                <span asp-validation-for="Volunteer.VolunteerActivityID" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">

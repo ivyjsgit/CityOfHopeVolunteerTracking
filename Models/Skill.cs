@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace CoHO.Models
 {
-    public class Disability
+    public class Skill
     {
         [Key]
-        public int DisabilityID { get; set; }
+        public int SkillID { get; set; }
         [Required]
         public string Description { get; set; }
         public Boolean InActive { get; set; }
+
         public Volunteer Volunteer { get; set; }
 
     }
