@@ -20,6 +20,7 @@ namespace CoHO.Pages.Volunteers
         }
 
         public IList<Volunteer> Volunteer { get;set; }
+
         public async Task OnGetAsync()
         {
             Volunteer = await _context.Volunteer

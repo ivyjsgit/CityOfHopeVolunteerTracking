@@ -14,7 +14,7 @@ namespace CoHO.Models
         public string Description { get; set; }
         public Boolean InActive { get; set; }
 
-        public Volunteer Volunteer { get; set; }
+        public ICollection<SkillSelection> SkillSelection { get; set; }
 
     }
 }

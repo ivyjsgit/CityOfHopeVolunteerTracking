@@ -31,10 +31,9 @@ namespace CoHO.Models
         [Required]
         public int VolunteerTypeID { get; set; }
         public int? EducationLevelID { get; set; }
-        public int? DisabilityID { get; set; }
-        public int? SkillID { get; set; }
-        public Boolean LoggedIn { get; set; }
-        public int? VolunteerActivityID { get; set; }
+        public int? DisabilitySelectionID { get; set; }
+        public int? SkillSelectionID { get; set; }
+        public Boolean ClockedIn { get; set; }
         public Boolean InActive { get; set; }
         public Boolean CommunityService { get; set; }
         public Boolean WorkersComp { get; set; }
@@ -44,8 +43,8 @@ namespace CoHO.Models
         public Race Race { get; set; }
         public VolunteerType VolunterrType { get; set; }
         public EducationLevel EducationLevel { get; set; }
-        public ICollection<Disability> Disabilities { get; set; }
-        public ICollection<Skill> Skills { get; set; }
+        public ICollection<DisabilitySelection> DisabilitySelection { get; set; }
+        public ICollection<SkillSelection> SkillSelection { get; set; }
         public ICollection<VolunteerActivity> VolunteerActivities { get; set; }
 
     }

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoHO.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191121024152_InitialSchema")]
-    partial class InitialSchema
+    [Migration("20191121203229_CreateSchema")]
+    partial class CreateSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,14 +31,30 @@ namespace CoHO.Migrations
                     b.Property<bool>("InActive")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("VolunteerID")
+                    b.HasKey("DisabilityID");
+
+                    b.ToTable("Disability");
+                });
+
+            modelBuilder.Entity("CoHO.Models.DisabilitySelection", b =>
+                {
+                    b.Property<int>("DisabilitySelectionID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("DisabilityID");
+                    b.Property<int>("DisabilityID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("VolunteerID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("DisabilitySelectionID");
+
+                    b.HasIndex("DisabilityID");
 
                     b.HasIndex("VolunteerID");
 
-                    b.ToTable("Disability");
+                    b.ToTable("DisabilitySelection");
                 });
 
             modelBuilder.Entity("CoHO.Models.EducationLevel", b =>
@@ -108,14 +124,30 @@ namespace CoHO.Migrations
                     b.Property<bool>("InActive")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("VolunteerID")
+                    b.HasKey("SkillID");
+
+                    b.ToTable("Skill");
+                });
+
+            modelBuilder.Entity("CoHO.Models.SkillSelection", b =>
+                {
+                    b.Property<int>("SkillSelectionID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("SkillID");
+                    b.Property<int>("SKillID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("VolunteerID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SkillSelectionID");
+
+                    b.HasIndex("SKillID");
 
                     b.HasIndex("VolunteerID");
 
-                    b.ToTable("Skill");
+                    b.ToTable("SkillSelection");
                 });
 
             modelBuilder.Entity("CoHO.Models.ValueOfHour", b =>
@@ -150,10 +182,13 @@ namespace CoHO.Migrations
                     b.Property<string>("Cell")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("ClockedIn")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("CommunityService")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DisabilityID")
+                    b.Property<int?>("DisabilitySelectionID")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("EducationLevelID")
@@ -176,13 +211,10 @@ namespace CoHO.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("LoggedIn")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int?>("RaceID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("SkillID")
+                    b.Property<int?>("SkillSelectionID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
@@ -193,9 +225,6 @@ namespace CoHO.Migrations
                     b.Property<bool>("Veteran")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("VolunteerActivityID")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("VolunteerTypeID")
                         .HasColumnType("INTEGER");
 
@@ -204,21 +233,18 @@ namespace CoHO.Migrations
 
                     b.HasKey("VolunteerID");
 
-                    b.HasIndex("EducationLevelID")
-                        .IsUnique();
+                    b.HasIndex("EducationLevelID");
 
-                    b.HasIndex("RaceID")
-                        .IsUnique();
+                    b.HasIndex("RaceID");
 
-                    b.HasIndex("VolunteerTypeID")
-                        .IsUnique();
+                    b.HasIndex("VolunteerTypeID");
 
                     b.ToTable("Volunteer");
                 });
 
             modelBuilder.Entity("CoHO.Models.VolunteerActivity", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("VolunteerActivityID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -240,10 +266,9 @@ namespace CoHO.Migrations
                     b.Property<int>("VolunteerId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ID");
+                    b.HasKey("VolunteerActivityID");
 
-                    b.HasIndex("InitiativeId")
-                        .IsUnique();
+                    b.HasIndex("InitiativeId");
 
                     b.HasIndex("VolunteerId");
 
@@ -464,33 +489,49 @@ namespace CoHO.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CoHO.Models.Disability", b =>
+            modelBuilder.Entity("CoHO.Models.DisabilitySelection", b =>
                 {
+                    b.HasOne("CoHO.Models.Disability", "Disability")
+                        .WithMany("DisabilitySelection")
+                        .HasForeignKey("DisabilityID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CoHO.Models.Volunteer", "Volunteer")
-                        .WithMany("Disabilities")
-                        .HasForeignKey("VolunteerID");
+                        .WithMany("DisabilitySelection")
+                        .HasForeignKey("VolunteerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("CoHO.Models.Skill", b =>
+            modelBuilder.Entity("CoHO.Models.SkillSelection", b =>
                 {
+                    b.HasOne("CoHO.Models.Skill", "Skill")
+                        .WithMany("SkillSelection")
+                        .HasForeignKey("SKillID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CoHO.Models.Volunteer", "Volunteer")
-                        .WithMany("Skills")
-                        .HasForeignKey("VolunteerID");
+                        .WithMany("SkillSelection")
+                        .HasForeignKey("VolunteerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CoHO.Models.Volunteer", b =>
                 {
                     b.HasOne("CoHO.Models.EducationLevel", "EducationLevel")
-                        .WithOne("Volunteer")
-                        .HasForeignKey("CoHO.Models.Volunteer", "EducationLevelID");
+                        .WithMany("Volunteer")
+                        .HasForeignKey("EducationLevelID");
 
                     b.HasOne("CoHO.Models.Race", "Race")
-                        .WithOne("Volunteer")
-                        .HasForeignKey("CoHO.Models.Volunteer", "RaceID");
+                        .WithMany("Volunteer")
+                        .HasForeignKey("RaceID");
 
                     b.HasOne("CoHO.Models.VolunteerType", "VolunterrType")
-                        .WithOne("Volunteer")
-                        .HasForeignKey("CoHO.Models.Volunteer", "VolunteerTypeID")
+                        .WithMany("Volunteer")
+                        .HasForeignKey("VolunteerTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -498,8 +539,8 @@ namespace CoHO.Migrations
             modelBuilder.Entity("CoHO.Models.VolunteerActivity", b =>
                 {
                     b.HasOne("CoHO.Models.Initiative", "Initiative")
-                        .WithOne("volunteerActivity")
-                        .HasForeignKey("CoHO.Models.VolunteerActivity", "InitiativeId")
+                        .WithMany("VolunteerActivity")
+                        .HasForeignKey("InitiativeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

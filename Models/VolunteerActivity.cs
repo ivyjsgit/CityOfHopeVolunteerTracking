@@ -9,7 +9,7 @@ namespace CoHO.Models
     public class VolunteerActivity
     {
         [Key]
-        public int ID { get; set; }
+        public int VolunteerActivityID { get; set; }
         public int VolunteerId { get; set; }
         public int InitiativeId { get; set; }
         public DateTime StartTime { get; set; }

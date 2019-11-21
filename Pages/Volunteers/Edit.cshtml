@@ -66,24 +66,19 @@
                 <span asp-validation-for="Volunteer.EducationLevelID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Volunteer.DisabilityID" class="control-label"></label>
-                <input asp-for="Volunteer.DisabilityID" class="form-control" />
-                <span asp-validation-for="Volunteer.DisabilityID" class="text-danger"></span>
+                <label asp-for="Volunteer.DisabilitySelectionID" class="control-label"></label>
+                <input asp-for="Volunteer.DisabilitySelectionID" class="form-control" />
+                <span asp-validation-for="Volunteer.DisabilitySelectionID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Volunteer.SkillID" class="control-label"></label>
-                <input asp-for="Volunteer.SkillID" class="form-control" />
-                <span asp-validation-for="Volunteer.SkillID" class="text-danger"></span>
+                <label asp-for="Volunteer.SkillSelectionID" class="control-label"></label>
+                <input asp-for="Volunteer.SkillSelectionID" class="form-control" />
+                <span asp-validation-for="Volunteer.SkillSelectionID" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Volunteer.LoggedIn" /> @Html.DisplayNameFor(model => model.Volunteer.LoggedIn)
+                    <input class="form-check-input" asp-for="Volunteer.ClockedIn" /> @Html.DisplayNameFor(model => model.Volunteer.ClockedIn)
                 </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Volunteer.VolunteerActivityID" class="control-label"></label>
-                <input asp-for="Volunteer.VolunteerActivityID" class="form-control" />
-                <span asp-validation-for="Volunteer.VolunteerActivityID" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">

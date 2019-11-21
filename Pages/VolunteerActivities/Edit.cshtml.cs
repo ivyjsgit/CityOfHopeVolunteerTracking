@@ -32,7 +32,7 @@ namespace CoHO.Pages.VolunteerActivities
 
             VolunteerActivity = await _context.VolunteerActivity
                 .Include(v => v.Initiative)
-                .Include(v => v.Volunteer).FirstOrDefaultAsync(m => m.ID == id);
+                .Include(v => v.Volunteer).FirstOrDefaultAsync(m => m.VolunteerActivityID == id);
 
             if (VolunteerActivity == null)
             {
@@ -60,7 +60,7 @@ namespace CoHO.Pages.VolunteerActivities
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VolunteerActivityExists(VolunteerActivity.ID))
+                if (!VolunteerActivityExists(VolunteerActivity.VolunteerActivityID))
                 {
                     return NotFound();
                 }
@@ -75,7 +75,7 @@ namespace CoHO.Pages.VolunteerActivities
 
         private bool VolunteerActivityExists(int id)
         {
-            return _context.VolunteerActivity.Any(e => e.ID == id);
+            return _context.VolunteerActivity.Any(e => e.VolunteerActivityID == id);
         }
     }
 }

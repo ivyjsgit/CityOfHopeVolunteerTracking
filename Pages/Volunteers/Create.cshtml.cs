@@ -21,7 +21,7 @@ namespace CoHO.Pages.Volunteers
 
         public IActionResult OnGet()
         {
-        ViewData["EducationLevelID"] = new SelectList(_context.Set<EducationLevel>(), "EducationLevelID", "Description");
+        ViewData["EducationLevelID"] = new SelectList(_context.EducationLevel, "EducationLevelID", "Description");
         ViewData["RaceID"] = new SelectList(_context.Race, "RaceID", "Description");
         ViewData["VolunteerTypeID"] = new SelectList(_context.VolunteerType, "VolunteerTypeID", "Description");
             return Page();

@@ -14,7 +14,7 @@ namespace CoHO.Models
         public string Description { get; set; }
         public Boolean InActive { get; set; }
 
-        public VolunteerActivity volunteerActivity { get; set; }
+        public ICollection<VolunteerActivity> VolunteerActivity { get; set; }
 
     }
 }
