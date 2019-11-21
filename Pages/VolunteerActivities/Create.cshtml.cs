@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CoHO.Data;
 using CoHO.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoHO.Pages.VolunteerActivities
 {
@@ -21,8 +22,7 @@ namespace CoHO.Pages.VolunteerActivities
 
         public IActionResult OnGet()
         {
-        ViewData["InitiativeId"] = new SelectList(_context.Initiative, "InitiativeID", "Description");
-        ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "First");
+            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "First");
             return Page();
         }
 
@@ -33,10 +33,39 @@ namespace CoHO.Pages.VolunteerActivities
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+
+            VolunteerActivity.StartTime = DateTime.Now;
+            VolunteerActivity.EndTime = DateTime.Now.AddHours(2.0);
+            VolunteerActivity.ClockedIn = true;
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
+
+
+            Console.WriteLine(ourVolunteer.UserName);
+
+
+
+            _context.Attach(ourVolunteer).State = EntityState.Modified;
+
+            try
             {
-                return Page();
+                await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                ;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
 
             _context.VolunteerActivity.Add(VolunteerActivity);
             await _context.SaveChangesAsync();

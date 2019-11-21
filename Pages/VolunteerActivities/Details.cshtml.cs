@@ -29,7 +29,6 @@ namespace CoHO.Pages.VolunteerActivities
             }
 
             VolunteerActivity = await _context.VolunteerActivity
-                .Include(v => v.Initiative)
                 .Include(v => v.Volunteer).FirstOrDefaultAsync(m => m.VolunteerActivityID == id);
 
             if (VolunteerActivity == null)
