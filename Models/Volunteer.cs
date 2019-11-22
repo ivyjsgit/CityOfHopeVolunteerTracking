@@ -31,8 +31,6 @@ namespace CoHO.Models
         [Required]
         public int VolunteerTypeID { get; set; }
         public int? EducationLevelID { get; set; }
-        public int? DisabilitySelectionID { get; set; }
-        public int? SkillSelectionID { get; set; }
         public Boolean ClockedIn { get; set; }
         public Boolean InActive { get; set; }
         public Boolean CommunityService { get; set; }

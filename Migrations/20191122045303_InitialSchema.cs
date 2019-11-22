@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CoHO.Migrations
 {
-    public partial class CreateSchema : Migration
+    public partial class InitialSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -266,8 +266,6 @@ namespace CoHO.Migrations
                     RaceID = table.Column<int>(nullable: true),
                     VolunteerTypeID = table.Column<int>(nullable: false),
                     EducationLevelID = table.Column<int>(nullable: true),
-                    DisabilitySelectionID = table.Column<int>(nullable: true),
-                    SkillSelectionID = table.Column<int>(nullable: true),
                     ClockedIn = table.Column<bool>(nullable: false),
                     InActive = table.Column<bool>(nullable: false),
                     CommunityService = table.Column<bool>(nullable: false),
@@ -360,7 +358,6 @@ namespace CoHO.Migrations
                     InitiativeId = table.Column<int>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
                     EndTime = table.Column<DateTime>(nullable: false),
-                    ElapsedTime = table.Column<float>(nullable: false),
                     ClockedIn = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>

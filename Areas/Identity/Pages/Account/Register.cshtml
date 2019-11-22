@@ -5,13 +5,15 @@
     Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
+@Html.DisplayFor(model => model.Volunteer.Email)
+@Html.DisplayFor(model => model.Volunteer.UserName)
+
 <h1>Create new account</h1>
 
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <hr />
-   
             <div class="form-group">
                 <label asp-for="Volunteer.First" class="control-label"></label>
                 <input asp-for="Volunteer.First" class="form-control" />
@@ -21,6 +23,11 @@
                 <label asp-for="Volunteer.Last" class="control-label"></label>
                 <input asp-for="Volunteer.Last" class="form-control" />
                 <span asp-validation-for="Volunteer.Last" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.Birthday" class="control-label"></label>
+                <input asp-for="Volunteer.Birthday" class="form-control" />
+                <span asp-validation-for="Volunteer.Birthday" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Volunteer.Email" class="control-label"></label>
@@ -38,11 +45,18 @@
                 <span asp-validation-for="Volunteer.Cell" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Volunteer.VolunteerTypeID" class="control-label"></label>
-                <input asp-for="Volunteer.VolunteerTypeID" class="form-control" />
-                <span asp-validation-for="Volunteer.VolunteerTypeID" class="text-danger"></span>
+                <label asp-for="Volunteer.RaceID" class="control-label"></label>
+                <select asp-for="Volunteer.RaceID" class="form-control" asp-items="ViewBag.RaceID"></select>
             </div>
-                 <div class="form-group">
+            <div class="form-group">
+                <label asp-for="Volunteer.VolunteerTypeID" class="control-label"></label>
+                <select asp-for="Volunteer.VolunteerTypeID" class="form-control" asp-items="ViewBag.VolunteerTypeID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.EducationLevelID" class="control-label"></label>
+                <select asp-for="Volunteer.EducationLevelID" class="form-control" asp-items="ViewBag.EducationLevelID"></select>
+            </div>
+            <div class="form-group">
                 <label asp-for="Input.Password"></label>
                 <input asp-for="Input.Password" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
@@ -69,29 +83,18 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Volunteer.Veteran" /> @Html.DisplayNameFor(model => model.Volunteer.Veteran)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
                     <input class="form-check-input" asp-for="Volunteer.Admin" /> @Html.DisplayNameFor(model => model.Volunteer.Admin)
                 </label>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }

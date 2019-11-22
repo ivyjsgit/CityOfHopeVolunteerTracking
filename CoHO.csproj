@@ -10,6 +10,10 @@
     <Compile Remove="Migrations\20191121024152_InitialSchema.Designer.cs" />
     <Compile Remove="Migrations\20191121194332_InitialSchema.cs" />
     <Compile Remove="Migrations\20191121194332_InitialSchema.Designer.cs" />
+    <Compile Remove="Migrations\20191121203229_CreateSchema.cs" />
+    <Compile Remove="Migrations\20191121203229_CreateSchema.Designer.cs" />
+    <Compile Remove="Migrations\20191122045136_Update.cs" />
+    <Compile Remove="Migrations\20191122045136_Update.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

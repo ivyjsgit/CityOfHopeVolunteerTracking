@@ -186,9 +186,6 @@ namespace CoHO.Migrations
                     b.Property<bool>("CommunityService")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DisabilitySelectionID")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int?>("EducationLevelID")
                         .HasColumnType("INTEGER");
 
@@ -210,9 +207,6 @@ namespace CoHO.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("RaceID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("SkillSelectionID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
@@ -248,9 +242,6 @@ namespace CoHO.Migrations
 
                     b.Property<bool>("ClockedIn")
                         .HasColumnType("INTEGER");
-
-                    b.Property<float>("ElapsedTime")
-                        .HasColumnType("REAL");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("TEXT");

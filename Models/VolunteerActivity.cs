@@ -14,7 +14,13 @@ namespace CoHO.Models
         public int InitiativeId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public float ElapsedTime { get; set; }
+        public TimeSpan ElapsedTime
+        {
+            get
+            {
+                return EndTime - StartTime;
+            }
+        }
         public Boolean ClockedIn { get; set; }
 
         public Volunteer Volunteer { get; set; }

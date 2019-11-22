@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using CoHO.Data;
 using CoHO.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CoHO.Areas.Identity.Pages.Account
 {
@@ -69,8 +70,13 @@ namespace CoHO.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
+
+
         public async Task OnGetAsync(string returnUrl = null)
         {
+            ViewData["EducationLevelID"] = new SelectList(_context.EducationLevel, "EducationLevelID", "Description");
+            ViewData["RaceID"] = new SelectList(_context.Race, "RaceID", "Description");
+            ViewData["VolunteerTypeID"] = new SelectList(_context.VolunteerType, "VolunteerTypeID", "Description");
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }

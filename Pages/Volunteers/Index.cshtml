@@ -6,17 +6,14 @@
     Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<style>
-    .hide-me { display: none; }
-</style>
-<h1>Index</h1>
+<style> .hide-me {display: none;}</style>
 
+<h1>Index</h1>
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-area="Identity" asp-page="/Account/Register">Create New</a>
 </p>
 
 <button>Toggle Inactive Records</button>
-
 <table class="table">
     <thead>
         <tr>
@@ -40,12 +37,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Volunteer[0].Cell)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].DisabilitySelectionID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].SkillSelectionID)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Volunteer[0].ClockedIn)
@@ -78,69 +69,64 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Volunteer) {
-        <tr class="@(item.InActive ? "hide-me" : "")">
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.First)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Last)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Birthday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Home)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cell)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisabilitySelectionID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SkillSelectionID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClockedIn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CommunityService)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WorkersComp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Veteran)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Admin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Race.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VolunterrType.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EducationLevel.Description)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.VolunteerID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.VolunteerID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.VolunteerID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Volunteer)
+        {
+            <tr class="@(item.InActive ? "hide-me" : "")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.First)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Last)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Home)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cell)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClockedIn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CommunityService)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkersComp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Veteran)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Admin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Race.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VolunterrType.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EducationLevel.Description)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.VolunteerID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.VolunteerID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.VolunteerID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
