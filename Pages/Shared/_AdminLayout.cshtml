@@ -13,23 +13,24 @@
 <body class="body-font nomargins fill">
   <header>
     <nav class="navbar navbar-expand-md navbar-background">
+        <img class="navbar-brand logo" src="~/imgs/cohologo-white.png" alt="cohologo.png" />
+
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <div class="hamburger-icon"></div>
         <div class="hamburger-icon"></div>
         <div class="hamburger-icon"></div>
       </button>
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <img class="navbar-brand logo" src="~/imgs/cohologo.png" alt="" />
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a class="nav-link" href="/AdminIndex">Reports</a>
+            <a class="nav-link text-white" href="/AdminIndex">Reports</a>
           </li>
           <li>
-            <a class="nav-link" href="/Volunteers/index">Records</a>
+            <a class="nav-link text-white" href="/Volunteers/index">Records</a>
           </li>
           <li class="active">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
-              <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+              <button  type="submit" class="nav-link btn btn-link text-white">Logout</button>
            </form>
           </li>
         </ul>
