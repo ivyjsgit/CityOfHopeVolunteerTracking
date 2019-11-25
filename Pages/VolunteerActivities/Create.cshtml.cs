@@ -36,9 +36,9 @@ namespace CoHO.Pages.VolunteerActivities
 
             List<VolunteerActivity> VolunteerActivities = (from volunteeractivity in _context.VolunteerActivity where volunteeractivity.VolunteerId == volunteer.VolunteerID orderby volunteeractivity.EndTime select volunteeractivity).ToList();
             VolunteerActivities.Reverse();
-            Console.WriteLine("Our good one");
+            //Console.WriteLine("Our good one");
 
-            Console.WriteLine(VolunteerActivities[0]);
+            //Console.WriteLine(VolunteerActivities[0]);
             try
             {
                 return VolunteerActivities[0];
@@ -73,22 +73,30 @@ namespace CoHO.Pages.VolunteerActivities
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
 
             // If the user clicks the button before they hit the 2 hour mark
-            if (LastActivity.ClockedIn)
+            if (LastActivity != null)
             {
-                if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+                if (LastActivity.ClockedIn)
                 {
-                   DoClockout(ourVolunteer, false);
+                    if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+                    {
+                        DoClockout(ourVolunteer, false);
+                    }
+                    else
+                    {
+                        DoClockout(ourVolunteer, true);
+                    }
                 }
                 else
                 {
-                    DoClockout(ourVolunteer, true);
+                    //Check if the last thing is clocked in
+                    Clockin(ourVolunteer);
                 }
             }
             else
             {
-                //Check if the last thing is clocked in
                 Clockin(ourVolunteer);
             }
+
         }
 
         public async void Clockin(Volunteer ourVolunteer)
