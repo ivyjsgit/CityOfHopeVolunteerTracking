@@ -39,8 +39,15 @@ namespace CoHO.Pages.VolunteerActivities
             Console.WriteLine("Our good one");
 
             Console.WriteLine(VolunteerActivities[0]);
+            try
+            {
+                return VolunteerActivities[0];
 
-            return VolunteerActivities[0];
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
@@ -48,6 +55,7 @@ namespace CoHO.Pages.VolunteerActivities
         {
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
             Console.WriteLine(LastActivity.StartTime);
+            LastActivity.EndTime = DateTime.Now;
             LastActivity.ClockedIn = false;
 
 
@@ -67,9 +75,12 @@ namespace CoHO.Pages.VolunteerActivities
 
 
             // If the user clicks the button before they hit the 2 hour mark
-            if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+            if (LastActivity.ClockedIn)
             {
-                DoClockoutBeforeEnd(ourVolunteer);
+                if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+                {
+                    DoClockoutBeforeEnd(ourVolunteer);
+                }
             }
             else
             {
