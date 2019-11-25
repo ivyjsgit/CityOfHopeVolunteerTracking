@@ -22,12 +22,17 @@ namespace CoHO.Pages.VolunteerActivities
 
         public IActionResult OnGet()
         {
-            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "First");
+            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "Email");
+            ViewData["InitiativeId"] = new SelectList(_context.Initiative, "InitiativeID", "Description");
+
             return Page();
         }
 
         [BindProperty]
         public VolunteerActivity VolunteerActivity { get; set; }
+        [BindProperty]
+        public Initiative Initiative { get; set; }
+
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
 
@@ -101,7 +106,7 @@ namespace CoHO.Pages.VolunteerActivities
 
         public async void Clockin(Volunteer ourVolunteer)
         {
-
+            VolunteerActivity.InitiativeId = Initiative.InitiativeID;
             VolunteerActivity.StartTime = DateTime.Now;
             VolunteerActivity.EndTime = VolunteerActivity.StartTime.AddHours(2.0);
             VolunteerActivity.ClockedIn = true;
@@ -117,7 +122,13 @@ namespace CoHO.Pages.VolunteerActivities
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+
+
+            Console.WriteLine("Our initiative is ");
+            Console.WriteLine(Initiative.Description);
+
             Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
+           
             HandleClockRequests(ourVolunteer);
             return RedirectToPage("./Index");
         }
