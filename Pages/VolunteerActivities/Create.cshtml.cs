@@ -40,35 +40,8 @@ namespace CoHO.Pages.VolunteerActivities
             //Vi add the clock out stuff near here.
 
             VolunteerActivity.StartTime = DateTime.Now;
-            VolunteerActivity.EndTime = DateTime.Now.AddHours(2.0);
+            VolunteerActivity.EndTime = VolunteerActivity.StartTime.AddHours(2.0);
             VolunteerActivity.ClockedIn = true;
-            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
-
-
-            Console.WriteLine(ourVolunteer.UserName);
-
-
-
-            _context.Attach(ourVolunteer).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                ;
-            }
-
-
-
-
-
-
-
-
-
-
 
 
 
