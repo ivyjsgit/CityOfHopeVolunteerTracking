@@ -41,27 +41,55 @@ namespace CoHO.Pages.VolunteerActivities
         }
 
 
-        // more details see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async void DoClockout(Volunteer ourVolunteer)
         {
+            VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+            Console.WriteLine(LastActivity.StartTime);
+            LastActivity.ClockedIn = false;
 
-            //Vi add the clock out stuff near here.
+
+            _context.Attach(LastActivity).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+
+
+        }
+
+        public async void Clockout(Volunteer ourVolunteer)
+        {
+            VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+
+            if (DateTime.Compare(VolunteerActivity.EndTime, DateTime.Now) > 0)
+            {
+                DoClockout(ourVolunteer);
+            }
+            else
+            {
+                Clockin(ourVolunteer);
+            }
+        }
+
+        public async void Clockin(Volunteer ourVolunteer)
+        {
 
             VolunteerActivity.StartTime = DateTime.Now;
             VolunteerActivity.EndTime = VolunteerActivity.StartTime.AddHours(2.0);
             VolunteerActivity.ClockedIn = true;
 
-            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
 
-            VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
-
-
-            Console.WriteLine(LastActivity.StartTime);
 
 
             _context.VolunteerActivity.Add(VolunteerActivity);
             await _context.SaveChangesAsync();
+        }
 
+
+        // more details see https://aka.ms/RazorPagesCRUD.
+        public async Task<IActionResult> OnPostAsync()
+        {
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
+            Clockout(ourVolunteer);
             return RedirectToPage("./Index");
         }
     }

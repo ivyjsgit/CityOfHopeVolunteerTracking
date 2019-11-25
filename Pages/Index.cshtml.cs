@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using CoHO.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
@@ -11,16 +10,10 @@ namespace CoHO.Pages
 {
     public class IndexModel : PageModel
     {
-        public string Message { get; set; }
-
-        private readonly CoHO.Data.ApplicationDbContext _context;
-
-        public IndexModel(CoHO.Data.ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public VolunteerActivity VolunteerActivity { get; set; }
+        Boolean clockin = false;
+        DateTime clockin_time = DateTime.Now;
+        DateTime clockout_time = DateTime.Now;
+        int temp_user_id = 1;
 
         public Volunteer Volunteers { get; set; }
 
@@ -52,10 +45,10 @@ namespace CoHO.Pages
 
         //private readonly ILogger<IndexModel> _logger;
 
-        //public IndexModel(ILogger<IndexModel> logger)
-        //{
-        //    _logger = logger;
-        //}
+        public IndexModel(ILogger<IndexModel> logger)
+        {
+            _logger = logger;
+        }
 
         public void OnGet()
         {
