@@ -24,14 +24,30 @@ namespace CoHO.Pages
 
         public Volunteer Volunteers { get; set; }
 
+
         public void OnPostClockin()
         {
-            //
-        }
+            if (Volunteers.VolunteerID == null)
+            {
+                //
+                //User does not exist (alert?)
+            }
+            else if (Request.Form["userid"] == Volunteers.VolunteerID)
+            {
+                if (Volunteers.ClockedIn == false)
+                {
+                    Volunteers.ClockedIn = true;
+                    VolunteerActivity.ClockedIn = true;
+                    VolunteerActivity.StartTime = DateTime.Now;
+                }
+                else if (Volunteers.ClockedIn) {
+                    Volunteers.ClockedIn = false;
+                    VolunteerActivity.ClockedIn = false;
+                    VolunteerActivity.EndTime = DateTime.Now;
+                }
+                   
 
-        public void OnPostClockout()
-        {
-            //
+            }
         }
 
         //private readonly ILogger<IndexModel> _logger;
