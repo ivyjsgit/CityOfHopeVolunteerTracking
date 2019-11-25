@@ -36,12 +36,15 @@ namespace CoHO.Pages.VolunteerActivities
 
             List<VolunteerActivity> VolunteerActivities = (from volunteeractivity in _context.VolunteerActivity where volunteeractivity.VolunteerId == volunteer.VolunteerID orderby volunteeractivity.EndTime select volunteeractivity).ToList();
             VolunteerActivities.Reverse();
+            Console.WriteLine("Our good one");
+
+            Console.WriteLine(VolunteerActivities[0]);
 
             return VolunteerActivities[0];
         }
 
 
-        public async void DoClockout(Volunteer ourVolunteer)
+        public async void DoClockoutBeforeEnd(Volunteer ourVolunteer)
         {
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
             Console.WriteLine(LastActivity.StartTime);
@@ -59,13 +62,18 @@ namespace CoHO.Pages.VolunteerActivities
         public async void Clockout(Volunteer ourVolunteer)
         {
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+            Console.WriteLine("HERE IS THE TIME");
+            Console.WriteLine(LastActivity.EndTime);
 
-            if (DateTime.Compare(VolunteerActivity.EndTime, DateTime.Now) > 0)
+
+            // If the user clicks the button before they hit the 2 hour mark
+            if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
             {
-                DoClockout(ourVolunteer);
+                DoClockoutBeforeEnd(ourVolunteer);
             }
             else
             {
+                //Check if the last thing is clocked in
                 Clockin(ourVolunteer);
             }
         }
