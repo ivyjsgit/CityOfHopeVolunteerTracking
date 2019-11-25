@@ -51,11 +51,14 @@ namespace CoHO.Pages.VolunteerActivities
         }
 
 
-        public async void DoClockoutBeforeEnd(Volunteer ourVolunteer)
+        public async void DoClockout(Volunteer ourVolunteer, Boolean after)
         {
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
             Console.WriteLine(LastActivity.StartTime);
-            LastActivity.EndTime = DateTime.Now;
+            if (!after){
+                LastActivity.EndTime = DateTime.Now;
+
+            }
             LastActivity.ClockedIn = false;
 
 
@@ -79,7 +82,11 @@ namespace CoHO.Pages.VolunteerActivities
             {
                 if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
                 {
-                    DoClockoutBeforeEnd(ourVolunteer);
+                   DoClockout(ourVolunteer, false);
+                }
+                else
+                {
+                    DoClockout(ourVolunteer, true);
                 }
             }
             else
