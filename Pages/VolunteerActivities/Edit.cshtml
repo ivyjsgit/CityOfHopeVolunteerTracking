@@ -40,11 +40,7 @@
                 <input asp-for="VolunteerActivity.ElapsedTime" class="form-control" />
                 <span asp-validation-for="VolunteerActivity.ElapsedTime" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="VolunteerActivity.ClockedIn" /> @Html.DisplayNameFor(model => model.VolunteerActivity.ClockedIn)
-                </label>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

@@ -4,55 +4,133 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using CoHO.Data;
+using CoHO.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoHO.Pages
 {
-    public class IndexModel : PageModel
+    public class CreateModel : PageModel
     {
-        Boolean clockin = false;
-        DateTime clockin_time = DateTime.Now;
-        DateTime clockout_time = DateTime.Now;
-        int temp_user_id = 1;
+        private readonly CoHO.Data.ApplicationDbContext _context;
 
-        //public Volunteer Volunteers { get; set; }
-
-
-        public void OnPostClockin()
+        public CreateModel(CoHO.Data.ApplicationDbContext context)
         {
-            //if (Volunteers.VolunteerID == null)
-            //{
-            //    //
-            //    //User does not exist (alert?)
-            //}
-            //else if (Request.Form["userid"] == Volunteers.VolunteerID)
-            //{
-            //    if (Volunteers.ClockedIn == false)
-            //    {
-            //        Volunteers.ClockedIn = true;
-            //        VolunteerActivity.ClockedIn = true;
-            //        VolunteerActivity.StartTime = DateTime.Now;
-            //    }
-            //    else if (Volunteers.ClockedIn) {
-            //        Volunteers.ClockedIn = false;
-            //        VolunteerActivity.ClockedIn = false;
-            //        VolunteerActivity.EndTime = DateTime.Now;
-            //    }
-                   
-
-            //}
+            _context = context;
         }
 
-        //private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
+        public IActionResult OnGet()
         {
-            //_logger = logger;
+            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "Email");
+            ViewData["InitiativeId"] = new SelectList(_context.Initiative, "InitiativeID", "Description");
+
+            return Page();
         }
 
-        public void OnGet()
+        [BindProperty]
+        public VolunteerActivity VolunteerActivity { get; set; }
+        [BindProperty]
+        public Initiative Initiative { get; set; }
+
+
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+
+        public VolunteerActivity GetLastActivity(Volunteer volunteer)
         {
 
+            List<VolunteerActivity> VolunteerActivities = (from volunteeractivity in _context.VolunteerActivity where volunteeractivity.VolunteerId == volunteer.VolunteerID orderby volunteeractivity.EndTime select volunteeractivity).ToList();
+            VolunteerActivities.Reverse();
+            //Console.WriteLine("Our good one");
+
+            //Console.WriteLine(VolunteerActivities[0]);
+            try
+            {
+                return VolunteerActivities[0];
+
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+        public async void DoClockout(Volunteer ourVolunteer, Boolean after)
+        {
+            VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+            if (!after){
+                LastActivity.EndTime = DateTime.Now;
+
+            }
+            LastActivity.ClockedIn = false;
+
+            _context.Attach(LastActivity).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+
+
+        }
+
+        public async void HandleClockRequests(Volunteer ourVolunteer)
+        {
+            VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+
+            // If the user clicks the button before they hit the 2 hour mark
+            if (LastActivity != null)
+            {
+                if (LastActivity.ClockedIn)
+                {
+                    if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+                    {
+                        DoClockout(ourVolunteer, false);
+                    }
+                    else
+                    {
+                        DoClockout(ourVolunteer, true);
+                    }
+                }
+                else
+                {
+                    //Check if the last thing is clocked in
+                    Clockin(ourVolunteer);
+                }
+            }
+            else
+            {
+                Clockin(ourVolunteer);
+            }
+
+        }
+
+        public async void Clockin(Volunteer ourVolunteer)
+        {
+            VolunteerActivity.InitiativeId = Initiative.InitiativeID;
+            VolunteerActivity.StartTime = DateTime.Now;
+            VolunteerActivity.EndTime = VolunteerActivity.StartTime.AddHours(2.0);
+            VolunteerActivity.ClockedIn = true;
+
+
+
+
+            _context.VolunteerActivity.Add(VolunteerActivity);
+            await _context.SaveChangesAsync();
+        }
+
+
+        // more details see https://aka.ms/RazorPagesCRUD.
+        public async Task<IActionResult> OnPostAsync()
+        {
+
+
+            Console.WriteLine("Our initiative is ");
+            Console.WriteLine(Initiative.Description);
+
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
+           
+            HandleClockRequests(ourVolunteer);
+            return RedirectToPage("./Index");
         }
     }
 }
