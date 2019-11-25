@@ -31,6 +31,14 @@ namespace CoHO.Pages.VolunteerActivities
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
 
+        public VolunteerActivity GetLastActivity(Volunteer volunteer)
+        {
+
+            List<VolunteerActivity> VolunteerActivities = (from volunteeractivity in _context.VolunteerActivity where volunteeractivity.VolunteerId == volunteer.VolunteerID orderby volunteeractivity.EndTime select volunteeractivity).ToList();
+            VolunteerActivities.Reverse();
+
+            return VolunteerActivities[0];
+        }
 
 
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -43,6 +51,12 @@ namespace CoHO.Pages.VolunteerActivities
             VolunteerActivity.EndTime = VolunteerActivity.StartTime.AddHours(2.0);
             VolunteerActivity.ClockedIn = true;
 
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
+
+            VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+
+
+            Console.WriteLine(LastActivity.StartTime);
 
 
             _context.VolunteerActivity.Add(VolunteerActivity);
