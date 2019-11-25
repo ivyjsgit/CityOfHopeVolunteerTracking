@@ -54,13 +54,11 @@ namespace CoHO.Pages.VolunteerActivities
         public async void DoClockout(Volunteer ourVolunteer, Boolean after)
         {
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
-            Console.WriteLine(LastActivity.StartTime);
             if (!after){
                 LastActivity.EndTime = DateTime.Now;
 
             }
             LastActivity.ClockedIn = false;
-
 
             _context.Attach(LastActivity).State = EntityState.Modified;
 
@@ -70,12 +68,9 @@ namespace CoHO.Pages.VolunteerActivities
 
         }
 
-        public async void Clockout(Volunteer ourVolunteer)
+        public async void HandleClockRequests(Volunteer ourVolunteer)
         {
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
-            Console.WriteLine("HERE IS THE TIME");
-            Console.WriteLine(LastActivity.EndTime);
-
 
             // If the user clicks the button before they hit the 2 hour mark
             if (LastActivity.ClockedIn)
@@ -115,7 +110,7 @@ namespace CoHO.Pages.VolunteerActivities
         public async Task<IActionResult> OnPostAsync()
         {
             Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
-            Clockout(ourVolunteer);
+            HandleClockRequests(ourVolunteer);
             return RedirectToPage("./Index");
         }
     }
