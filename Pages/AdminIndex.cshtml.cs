@@ -53,12 +53,14 @@ namespace CoHO.Pages
             //Accessing first worksheet in the workbook.
             IWorksheet worksheet = workbook.Worksheets[0];
 
-            //Adding text to a cell
+            
             worksheet.SetColumnWidth(1, 25);
             for (int i = 2; i < 15; i++)
             {
                 worksheet.SetColumnWidth(i, 15);
             }
+
+            //Adding text to cells.
             worksheet.Range["A1"].Text = _context.Volunteer.FirstOrDefault(m => m.VolunteerID == 1).VolunteerTypeID.ToString();
             worksheet.Range["A16"].Text = "January";
             worksheet.Range["A17"].Text = "Feburary";
@@ -85,10 +87,11 @@ namespace CoHO.Pages
                 int volunteerHours = 0;
                 foreach (var volunteerActivity in volunteerActivities)
                 {
+                    Volunteer thisVolunteer = volunteers.Single(m => m.VolunteerID == volunteerActivity.VolunteerId);
                     DateTime date = volunteerActivity.StartTime;
                     if (DateTime.Now.Year == volunteerActivity.StartTime.Year && volunteerActivity.StartTime.Month == i)
                     {
-                        if (volunteerActivity.Volunteer.VolunteerTypeID == 1)
+                        if (thisVolunteer.VolunteerTypeID == 1)
                         {
                             volunteerHours += volunteerActivity.ElapsedTime.Hours;
                         }
@@ -101,11 +104,11 @@ namespace CoHO.Pages
                 DateTime dateTime = new DateTime(DateTime.Today.Year, i, 1);
                 ValueOfHour valueOfHour = valuesOfHours.OrderBy(m => m.EffectiveDate).Last(m => m.EffectiveDate <= dateTime);
                 worksheet.Range["B" + (i + 15)].Number = staffHours;
-                worksheet.Range["C" + (i + 15)].Number = (staffHours * valueOfHour.Value);
+                worksheet.Range["C" + (i + 15)].Number = Math.Round((staffHours * valueOfHour.Value), 2);
                 worksheet.Range["D" + (i + 15)].Number = volunteerHours;
-                worksheet.Range["E" + (i + 15)].Number = (volunteerHours * valueOfHour.Value);
-                worksheet.Range["F" + (i + 15)].Number = (staffHours + volunteerHours);
-                worksheet.Range["G" + (i + 15)].Number = ((staffHours + volunteerHours) * valueOfHour.Value);
+                worksheet.Range["E" + (i + 15)].Number = Math.Round((volunteerHours * valueOfHour.Value), 2);
+                worksheet.Range["F" + (i + 15)].Number = staffHours + volunteerHours;
+                worksheet.Range["G" + (i + 15)].Number = Math.Round(((staffHours + volunteerHours) * valueOfHour.Value), 2);
 
 
             }
