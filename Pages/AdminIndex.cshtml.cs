@@ -23,7 +23,9 @@ namespace CoHO.Pages
             _context = context;
         }
 
+        public VolunteerActivity VolunteerActivity { get; set; }
         public Volunteer Volunteer { get; set; }
+        public Initiative Initiative { get; set; }
 
         public void OnGet()
         {
@@ -39,6 +41,11 @@ namespace CoHO.Pages
             var volunteers = _context.Volunteer;
             var volunteerActivities = _context.VolunteerActivity;
             var valuesOfHours = _context.ValueOfHour;
+            var initiatives = _context.Initiative;
+
+            //Save information to dictionary
+            int numInitiatives = initiatives.Count();
+            double[,] initiativeMonth = new double[numInitiatives, 13];
 
             using ExcelEngine excelEngine = new ExcelEngine();
             //Initialize Application.
@@ -53,15 +60,33 @@ namespace CoHO.Pages
             //Accessing first worksheet in the workbook.
             IWorksheet worksheet = workbook.Worksheets[0];
 
-            
+
             worksheet.SetColumnWidth(1, 25);
-            for (int i = 2; i < 15; i++)
-            {
-                worksheet.SetColumnWidth(i, 15);
-            }
 
             //Adding text to cells.
-            worksheet.Range["A1"].Text = _context.Volunteer.FirstOrDefault(m => m.VolunteerID == 1).VolunteerTypeID.ToString();
+            for (int i = 1; i < numInitiatives + 1; i++)
+            {
+                worksheet.Range[i + 1, 1].Text = initiatives.Single(m => m.InitiativeID == i).Description;
+                for (int j = 1; j < 13; j++)
+                {
+                    double hours = 0;
+                    var activities = volunteerActivities.Where(m => m.StartTime.Month == j && m.InitiativeId == i);
+                    foreach (var activity in activities)
+                    {
+                        hours += activity.ElapsedTime.Hours + activity.ElapsedTime.Minutes / 60;
+                    }
+                    initiativeMonth[i - 1, j - 1] = hours;
+                    worksheet.Range[i + 1, j + 1].Number = hours;
+                }
+                
+                
+            }
+            String[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+            for (int i = 1; i < 13; i++)
+            {
+                worksheet.Range[1, i + 1].Text = months[i - 1];
+            }
+
             worksheet.Range["A16"].Text = "January";
             worksheet.Range["A17"].Text = "Feburary";
             worksheet.Range["A18"].Text = "March";
@@ -83,21 +108,22 @@ namespace CoHO.Pages
 
             for (int i = 1; i < 13; i++)
             {
-                int staffHours = 0;
-                int volunteerHours = 0;
+                double staffHours = 0;
+                double volunteerHours = 0;
                 foreach (var volunteerActivity in volunteerActivities)
                 {
                     Volunteer thisVolunteer = volunteers.Single(m => m.VolunteerID == volunteerActivity.VolunteerId);
                     DateTime date = volunteerActivity.StartTime;
-                    if (DateTime.Now.Year == volunteerActivity.StartTime.Year && volunteerActivity.StartTime.Month == i)
+                    Console.Write(volunteerActivity.StartTime);
+                    if (DateTime.Now.Year == date.Year && date.Month == i)
                     {
                         if (thisVolunteer.VolunteerTypeID == 1)
                         {
-                            volunteerHours += volunteerActivity.ElapsedTime.Hours;
+                            volunteerHours += volunteerActivity.ElapsedTime.Minutes / 60 + volunteerActivity.ElapsedTime.Hours;
                         }
                         else
                         {
-                            staffHours += volunteerActivity.ElapsedTime.Hours;
+                            staffHours += volunteerActivity.ElapsedTime.Minutes / 60 + volunteerActivity.ElapsedTime.Hours;
                         }
                     }
                 }

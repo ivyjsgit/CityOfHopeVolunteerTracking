@@ -4,13 +4,7 @@
 ViewData["Title"] = "Login";
 Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
-<form asp-page-handler="view" method="post">
-
-    <button class="btn btn-default" style="background:lightgrey; margin:10px;">
-        Call the onPostView method
-    </button>
-
-</form>
+ 
 <div class="createReportPage">
     <div class="container">
         <div class="row">
@@ -29,10 +23,15 @@ Layout = "~/Pages/Shared/_AdminLayout.cshtml";
                     End Date: <input type="date" />
                 </label>
                 <label style="padding-bottom: 20px">
-                    User ID: <input type="text" />
+                    <input type="text" class="form-control" placeholder="User ID"/>
                 </label>
-
-
+                <form asp-page-handler="view" method="post">
+                    <button class="btn btn-default" style="background:lightgrey; margin:10px;">
+                        Generate Report
+                    </button>
+                </form>
+               
+                
             </div>
             <div class="col-sm-4">
                 <label style="padding-top: 20px; padding-bottom: 20px">
