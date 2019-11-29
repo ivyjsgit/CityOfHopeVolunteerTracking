@@ -26,5 +26,11 @@ namespace CoHO.Pages.VolunteerActivities
             VolunteerActivity = await _context.VolunteerActivity
                 .Include(v => v.Volunteer).ToListAsync();
         }
+        public static String GetActivityName(int ourID)
+        {
+            return (from initiative in _context.Initiative where initiative.InitiativeID == ourID select initiative.Description).ToList()[0];
+
+        }
+
     }
 }
