@@ -120,17 +120,64 @@ namespace CoHO.Pages
 
 
         // more details see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        //public async Task<IActionResult> OnPostAsync()
+        //{
+
+
+        //    //Console.WriteLine("Our initiative is ");
+        //    //Console.WriteLine(Initiative.Description);
+
+        //    //Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
+
+        //    //HandleClockRequests(ourVolunteer);
+        //    //return RedirectToPage("./Index");
+        //}
+
+        //[HttpPost]
+        public void OnPostClockOut()
         {
-
-
-            Console.WriteLine("Our initiative is ");
-            Console.WriteLine(Initiative.Description);
-
+            Console.WriteLine("Clocking in");
+            //Move over the clock in code here
             Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
-           
-            HandleClockRequests(ourVolunteer);
-            return RedirectToPage("./Index");
+            VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+
+            if (LastActivity != null)
+            {
+                if (LastActivity.ClockedIn)
+                {
+                    if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+                    {
+                        DoClockout(ourVolunteer, false);
+                    }
+                    else
+                    {
+                        DoClockout(ourVolunteer, true);
+                    }
+                }
+                else
+                {
+                    Clockin(ourVolunteer);
+                }
+            }
+
+
+
+
+
         }
+        public void OnPostClockIn()
+        {
+            Console.WriteLine("Clocking out");
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
+            VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+
+            Clockin(ourVolunteer);
+
+            //Put the clockout code here.
+
+        }
+
+
     }
 }
+

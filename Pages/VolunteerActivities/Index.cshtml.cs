@@ -28,7 +28,8 @@ namespace CoHO.Pages.VolunteerActivities
         }
         public static String GetActivityName(int ourID)
         {
-            return (from initiative in _context.Initiative where initiative.InitiativeID == ourID select initiative.Description).ToList()[0];
+            return "pls no crash";
+            //return (from initiative in _context.Initiative where initiative.InitiativeID == ourID select initiative.Description).ToList()[0];
 
         }
 

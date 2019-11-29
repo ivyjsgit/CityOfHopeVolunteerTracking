@@ -35,7 +35,7 @@
 @foreach (var item in Model.VolunteerActivity) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => (IndexModel.GetActivityName(item.InitiativeId)))
+                @Html.DisplayFor(modelItem => item.InitiativeId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartTime)
