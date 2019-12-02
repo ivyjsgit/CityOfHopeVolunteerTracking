@@ -120,18 +120,18 @@ namespace CoHO.Pages
 
 
         // more details see https://aka.ms/RazorPagesCRUD.
-        //public async Task<IActionResult> OnPostAsync()
-        //{
+        public async Task<IActionResult> OnPostClockInClockOut()
+        {
 
 
-        //    //Console.WriteLine("Our initiative is ");
-        //    //Console.WriteLine(Initiative.Description);
+            //Console.WriteLine("Our initiative is ");
+            //Console.WriteLine(Initiative.Description);
 
-        //    //Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
 
-        //    //HandleClockRequests(ourVolunteer);
-        //    //return RedirectToPage("./Index");
-        //}
+            HandleClockRequests(ourVolunteer);
+            return RedirectToPage("./Index");
+        }
 
         //[HttpPost]
         public void OnPostClockOut()
