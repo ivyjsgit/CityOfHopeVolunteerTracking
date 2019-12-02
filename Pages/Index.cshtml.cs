@@ -22,7 +22,7 @@ namespace CoHO.Pages
 
         public IActionResult OnGet()
         {
-            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "Email");
+            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "UserName");
             ViewData["InitiativeId"] = new SelectList(_context.Initiative, "InitiativeID", "Description");
 
             return Page();
@@ -30,6 +30,7 @@ namespace CoHO.Pages
 
         [BindProperty]
         public VolunteerActivity VolunteerActivity { get; set; }
+        public Volunteer Volunteers { get; set; }
         [BindProperty]
         public Initiative Initiative { get; set; }
 
