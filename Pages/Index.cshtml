@@ -13,7 +13,7 @@ Layout = "~/Pages/Shared/_Layout.cshtml";
                 <div class="login-box span12 pagination-centered">
                     <h2 class="text-center">Volunteer Clock In</h2>
                     <div class="form-group">
-                        <form method="post">
+                       <form method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
                                 <label asp-for="VolunteerActivity.VolunteerId" class="control-label"></label>
@@ -27,8 +27,9 @@ Layout = "~/Pages/Shared/_Layout.cshtml";
                                     asp-items="ViewBag.InitiativeId"></select>
                             </div>
 
+           
 
-
+                       
 
                             <div class="form-group">
                                 <input type="submit" asp-page-handler="ClockIn" value="Clock In" class="btn btn-primary" />
@@ -36,7 +37,7 @@ Layout = "~/Pages/Shared/_Layout.cshtml";
 
 
                             </div>
-                        </form>
+                       </form>
                     </div>
                 </div>
             </div>
