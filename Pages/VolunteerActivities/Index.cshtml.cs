@@ -24,13 +24,8 @@ namespace CoHO.Pages.VolunteerActivities
         public async Task OnGetAsync()
         {
             VolunteerActivity = await _context.VolunteerActivity
-                .Include(v => v.Volunteer).ToListAsync();
-        }
-        public static String GetActivityName(int ourID)
-        {
-            return "pls no crash";
-            //return (from initiative in _context.Initiative where initiative.InitiativeID == ourID select initiative.Description).ToList()[0];
-
+                .Include(v => v.Volunteer)
+                .Include(v=> v.Initiative).ToListAsync();
         }
 
     }

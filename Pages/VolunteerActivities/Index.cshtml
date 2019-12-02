@@ -11,22 +11,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.VolunteerActivity[0].InitiativeId)
+                Initiative
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VolunteerActivity[0].StartTime)
+                Start Time
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VolunteerActivity[0].EndTime)
+                End Time
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VolunteerActivity[0].ElapsedTime)
+                Elapsed Time
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VolunteerActivity[0].ClockedIn)
+                Clocked In
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VolunteerActivity[0].Volunteer)
+                Volunteer Name
             </th>
             <th></th>
         </tr>
@@ -35,7 +35,7 @@
 @foreach (var item in Model.VolunteerActivity) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.InitiativeId)
+                @Html.DisplayFor(modelItem => item.Initiative.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartTime)
