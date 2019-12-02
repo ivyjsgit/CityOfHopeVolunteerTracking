@@ -33,7 +33,7 @@ namespace CoHO.Pages.Volunteers
             Volunteer = await _context.Volunteer
                 .Include(v => v.EducationLevel)
                 .Include(v => v.Race)
-                .Include(v => v.VolunterrType).FirstOrDefaultAsync(m => m.VolunteerID == id);
+                .Include(v => v.VolunteerType).FirstOrDefaultAsync(m => m.VolunteerID == id);
 
             if (Volunteer == null)
             {

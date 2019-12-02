@@ -518,7 +518,7 @@ namespace CoHO.Migrations
                         .WithMany("Volunteer")
                         .HasForeignKey("RaceID");
 
-                    b.HasOne("CoHO.Models.VolunteerType", "VolunterrType")
+                    b.HasOne("CoHO.Models.VolunteerType", "VolunteerType")
                         .WithMany("Volunteer")
                         .HasForeignKey("VolunteerTypeID")
                         .OnDelete(DeleteBehavior.Cascade)

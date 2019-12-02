@@ -26,7 +26,7 @@ namespace CoHO.Pages.Volunteers
             Volunteer = await _context.Volunteer
                 .Include(v => v.EducationLevel)
                 .Include(v => v.Race)
-                .Include(v => v.VolunterrType).ToListAsync();
+                .Include(v => v.VolunteerType).ToListAsync();
         }
     }
 }

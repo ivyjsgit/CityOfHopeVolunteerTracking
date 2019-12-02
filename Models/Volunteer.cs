@@ -39,7 +39,7 @@ namespace CoHO.Models
         public Boolean Admin { get; set; }
         
         public Race Race { get; set; }
-        public VolunteerType VolunterrType { get; set; }
+        public VolunteerType VolunteerType { get; set; }
         public EducationLevel EducationLevel { get; set; }
         public ICollection<DisabilitySelection> DisabilitySelection { get; set; }
         public ICollection<SkillSelection> SkillSelection { get; set; }
