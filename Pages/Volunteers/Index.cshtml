@@ -18,13 +18,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].UserName)
+                Username
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].First)
+                First Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].Last)
+                Last Name
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Volunteer[0].Birthday)
@@ -39,16 +39,16 @@
                 @Html.DisplayNameFor(model => model.Volunteer[0].Cell)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].ClockedIn)
+                Clocked in
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].InActive)
+                Inactive
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].CommunityService)
+                Community Service
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].WorkersComp)
+                Worker's Comp
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Volunteer[0].Veteran)
@@ -91,7 +91,7 @@
                     @Html.DisplayFor(modelItem => item.Home)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Cell)
+                    @Html.DisplayFor(modelItem=> item.Cell)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ClockedIn)
