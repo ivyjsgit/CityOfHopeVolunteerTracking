@@ -25,11 +25,9 @@ Layout = "~/Pages/Shared/_AdminLayout.cshtml";
                 <label style="padding-bottom: 20px">
                     <input type="text" class="form-control" placeholder="User ID"/>
                 </label>
-                <select asp-for="VolunteerActivity.VolunteerId" class="form-control"
-                                    asp-items="ViewBag.VolunteerId"></select>
                 <form asp-page-handler="view" method="post">
                     <button class="btn btn-default" style="background:lightgrey; margin:10px;">
-                        Generate Full Year Report
+                        Generate Report
                     </button>
                 </form>
                

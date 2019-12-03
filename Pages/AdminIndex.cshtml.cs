@@ -10,8 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Office.Interop.Excel;
 using Syncfusion.XlsIO;
 using System.IO;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace CoHO.Pages
 {
@@ -28,11 +27,9 @@ namespace CoHO.Pages
         public Volunteer Volunteer { get; set; }
         public Initiative Initiative { get; set; }
 
-        public IActionResult OnGet()
+        public void OnGet()
         {
-            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "Email");
 
-            return Page();
         }
 
 
@@ -45,7 +42,6 @@ namespace CoHO.Pages
             var volunteerActivities = _context.VolunteerActivity;
             var valuesOfHours = _context.ValueOfHour;
             var initiatives = _context.Initiative;
-
 
             //Save information to 2d array.
             int numInitiatives = initiatives.Count();
@@ -65,7 +61,7 @@ namespace CoHO.Pages
             IWorksheet worksheet = workbook.Worksheets[0];
 
             //Setting first column width to 25.
-            worksheet.SetColumnWidth(1, 35);
+            worksheet.SetColumnWidth(1, 25);
 
             //Setting all other column widths to 15.
             for (int i = 2; i < 20; i++)
@@ -79,14 +75,13 @@ namespace CoHO.Pages
                 
                 if (i > 0)
                 {
-                    worksheet.Range[2 * (i + 1), 1].Text = initiatives.Single(m => m.InitiativeID == i).Description + " (non-staff) hours";
-                    worksheet.Range[2 * (i + 1) + 1, 1].Text = initiatives.Single(m => m.InitiativeID == i).Description + " (non-staff) value";
+                    worksheet.Range[2 * (i + 1), 1].Text = initiatives.Single(m => m.InitiativeID == i).Description + "(non-staff) hours";
+                    worksheet.Range[2 * (i + 1) + 1, 1].Text = initiatives.Single(m => m.InitiativeID == i).Description + "(non-staff) value";
                 }
                 else
                 {
                     worksheet.Range[2, 1].Text = "Staff Hours";
                     worksheet.Range[3, 1].Text = "Staff Value";
-                    
                 }
                 // labels for the months and initiatives.
 

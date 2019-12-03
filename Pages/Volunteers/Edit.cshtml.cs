@@ -8,20 +8,32 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoHO.Data;
 using CoHO.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace CoHO.Pages.Volunteers
 {
     public class EditModel : PageModel
     {
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly CoHO.Data.ApplicationDbContext _context;
 
-        public EditModel(CoHO.Data.ApplicationDbContext context)
+        public EditModel(
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+            CoHO.Data.ApplicationDbContext context)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
             _context = context;
         }
 
         [BindProperty]
         public Volunteer Volunteer { get; set; }
+        public string Username { get; set; }
+        public Boolean OldAdminValue { get; set; }
+        public IdentityUser VolunteerIdentity { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -39,9 +51,16 @@ namespace CoHO.Pages.Volunteers
             {
                 return NotFound();
             }
-           ViewData["EducationLevelID"] = new SelectList(_context.EducationLevel, "EducationLevelID", "Description");
-           ViewData["RaceID"] = new SelectList(_context.Race, "RaceID", "Description");
-           ViewData["VolunteerTypeID"] = new SelectList(_context.VolunteerType, "VolunteerTypeID", "Description");
+            OldAdminValue = Volunteer.Admin;
+         //   var user = await _userManager.FindByNameAsync(Volunteer.UserName);
+        //    if (user == null)
+        //    {
+        //        return NotFound($"Unable to load user with ID '{_userManager.FindByNameAsync(Volunteer.UserName)}'.");
+        //    }
+        //    VolunteerIdentity = user;
+            ViewData["EducationLevelID"] = new SelectList(_context.EducationLevel, "EducationLevelID", "Description");
+            ViewData["RaceID"] = new SelectList(_context.Race, "RaceID", "Description");
+            ViewData["VolunteerTypeID"] = new SelectList(_context.VolunteerType, "VolunteerTypeID", "Description");
             return Page();
         }
 
@@ -55,6 +74,21 @@ namespace CoHO.Pages.Volunteers
             }
 
             _context.Attach(Volunteer).State = EntityState.Modified;
+
+            VolunteerIdentity = await _userManager.FindByNameAsync(Volunteer.UserName);
+
+            if (OldAdminValue != Volunteer.Admin)
+            { 
+                if (Volunteer.Admin)
+                {
+                    await _userManager.AddClaimAsync(VolunteerIdentity, new Claim("super", "true"));
+                } else
+                {
+                    await _userManager.RemoveClaimAsync(VolunteerIdentity, new Claim("super", "true"));
+                }
+
+            } 
+
 
             try
             {
