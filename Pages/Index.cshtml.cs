@@ -30,6 +30,7 @@ namespace CoHO.Pages
 
         [BindProperty]
         public VolunteerActivity VolunteerActivity { get; set; }
+        [BindProperty]
         public Volunteer Volunteers { get; set; }
         [BindProperty]
         public Initiative Initiative { get; set; }
@@ -60,7 +61,8 @@ namespace CoHO.Pages
         public async void DoClockout(Volunteer ourVolunteer, Boolean after)
         {
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
-            if (!after){
+            if (!after)
+            {
                 LastActivity.EndTime = DateTime.Now;
 
             }
@@ -107,11 +109,15 @@ namespace CoHO.Pages
 
         public async void Clockin(Volunteer ourVolunteer)
         {
+
+            Console.WriteLine("Our volunteer still is ");
+            Console.WriteLine(ourVolunteer.Email);
             VolunteerActivity.InitiativeId = Initiative.InitiativeID;
             VolunteerActivity.StartTime = DateTime.Now;
             VolunteerActivity.EndTime = VolunteerActivity.StartTime.AddHours(2.0);
             VolunteerActivity.ClockedIn = true;
-
+            VolunteerActivity.Volunteer = ourVolunteer;
+            VolunteerActivity.Initiative = (from activity in _context.Initiative where activity.InitiativeID == Initiative.InitiativeID select activity).ToList()[0];
 
 
 
@@ -127,8 +133,14 @@ namespace CoHO.Pages
 
             //Console.WriteLine("Our initiative is ");
             //Console.WriteLine(Initiative.Description);
+            Console.Write(Volunteers.UserName);
 
-            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
+
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email == Volunteers.Email select volunteer).ToList()[0];
+            Console.Write("Our Volunteer is....");
+            Console.Write(ourVolunteer.Email);
+
+
 
             HandleClockRequests(ourVolunteer);
             return RedirectToPage("./Index");
