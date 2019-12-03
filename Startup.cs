@@ -43,6 +43,20 @@ namespace CoHO
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizePage("/ButtonTest", "IsAdmin");
+                    options.Conventions.AuthorizePage("/AdminIndex", "IsAdmin");
+                    options.Conventions.AuthorizeAreaPage("Identity","/Account/ResetPassword", "IsAdmin");
+                    options.Conventions.AuthorizePage("/Identity/Account/Register", "IsAdmin");
+                    options.Conventions.AuthorizeAreaPage("Identity", "/Account/Register", "IsAdmin");
+                    options.Conventions.AuthorizeFolder("/Disabilities", "IsAdmin");
+                    options.Conventions.AuthorizeFolder("/EducationLevels", "IsAdmin");
+                    options.Conventions.AuthorizeFolder("/Initiatives", "IsAdmin");
+                    options.Conventions.AuthorizeFolder("/Races", "IsAdmin");
+                    options.Conventions.AuthorizeFolder("/Skills", "IsAdmin");
+                    options.Conventions.AuthorizeFolder("/ValueOfHours", "IsAdmin");
+                    options.Conventions.AuthorizeFolder("/VolunteerActivities", "IsAdmin");
+                    options.Conventions.AuthorizeFolder("/Volunteers", "IsAdmin");
+
+
                 });
             
             services.AddMvc();

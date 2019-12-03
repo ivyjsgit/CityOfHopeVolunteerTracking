@@ -88,7 +88,6 @@ namespace CoHO.Pages
                     if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
                     {
                         DoClockout(ourVolunteer, false);
-
                     }
                     else
                     {
@@ -148,11 +147,11 @@ namespace CoHO.Pages
         }
 
         //[HttpPost]
-        public async Task<IActionResult> OnPostClockOut()
+        public void OnPostClockOut()
         {
             Console.WriteLine("Clocking in");
             //Move over the clock in code here
-            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email == Volunteers.Email select volunteer).ToList()[0];
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
 
             if (LastActivity != null)
@@ -176,19 +175,16 @@ namespace CoHO.Pages
 
 
 
-            return RedirectToPage("./Index");
 
 
         }
-        public async Task<IActionResult> OnPostClockIn()
+        public void OnPostClockIn()
         {
             Console.WriteLine("Clocking out");
-            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email == Volunteers.Email select volunteer).ToList()[0];
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.VolunteerID == VolunteerActivity.VolunteerId select volunteer).ToList()[0];
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
 
             Clockin(ourVolunteer);
-            return RedirectToPage("./Index");
-
 
             //Put the clockout code here.
 
