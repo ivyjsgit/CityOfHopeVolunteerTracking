@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using CoHO.Data;
 using CoHO.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace CoHO.Areas.Identity.Pages.Account
 {
@@ -104,8 +105,16 @@ namespace CoHO.Areas.Identity.Pages.Account
                     EmailConfirmed = true
                 };
                 Console.WriteLine(user);
+                       
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
+
+                if (Volunteer.Admin)
+                {
+                    await _userManager.AddClaimAsync(user, new Claim("super", "true"));
+                }
+
+            if (result.Succeeded)
                 {
                     Console.WriteLine("It worked! " + user);
 
