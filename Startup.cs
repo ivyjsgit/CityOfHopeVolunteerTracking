@@ -53,7 +53,7 @@ namespace CoHO
                     options.Conventions.AuthorizeFolder("/Skills", "IsAdmin");
                     options.Conventions.AuthorizeFolder("/ValueOfHours", "IsAdmin");
                     options.Conventions.AuthorizeFolder("/VolunteerActivities", "IsAdmin");
-                   // options.Conventions.AuthorizeFolder("/Volunteers", "IsAdmin");
+                    options.Conventions.AuthorizeFolder("/Volunteers", "IsAdmin");
                 });
             
             services.AddMvc();
