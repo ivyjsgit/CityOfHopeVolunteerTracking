@@ -20,7 +20,7 @@ using System.Security.Claims;
 
 namespace CoHO.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+ 
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;

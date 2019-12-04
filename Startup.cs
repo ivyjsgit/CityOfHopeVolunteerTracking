@@ -44,7 +44,6 @@ namespace CoHO
                 {
                     options.Conventions.AuthorizePage("/ButtonTest", "IsAdmin");
                     options.Conventions.AuthorizePage("/AdminIndex", "IsAdmin");
-                    options.Conventions.AuthorizeAreaFolder("Identity", "/Account", "IsAdmin");
                     options.Conventions.AuthorizeAreaPage("Identity","/Account/ResetPassword", "IsAdmin");
                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Register", "IsAdmin");
                     options.Conventions.AuthorizeFolder("/Disabilities", "IsAdmin");
@@ -57,7 +56,7 @@ namespace CoHO
                     options.Conventions.AuthorizeFolder("/Volunteers", "IsAdmin");
                 });
             
-         //   services.AddMvc();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

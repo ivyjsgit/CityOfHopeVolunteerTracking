@@ -32,8 +32,9 @@ namespace CoHO.Pages.Volunteers
         [BindProperty]
         public Volunteer Volunteer { get; set; }
         public string Username { get; set; }
-        public Boolean OldAdminValue { get; set; }
         public IdentityUser VolunteerIdentity { get; set; }
+
+
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -51,16 +52,11 @@ namespace CoHO.Pages.Volunteers
             {
                 return NotFound();
             }
-            OldAdminValue = Volunteer.Admin;
-         //   var user = await _userManager.FindByNameAsync(Volunteer.UserName);
-        //    if (user == null)
-        //    {
-        //        return NotFound($"Unable to load user with ID '{_userManager.FindByNameAsync(Volunteer.UserName)}'.");
-        //    }
-        //    VolunteerIdentity = user;
+
             ViewData["EducationLevelID"] = new SelectList(_context.EducationLevel, "EducationLevelID", "Description");
             ViewData["RaceID"] = new SelectList(_context.Race, "RaceID", "Description");
             ViewData["VolunteerTypeID"] = new SelectList(_context.VolunteerType, "VolunteerTypeID", "Description");
+
             return Page();
         }
 
@@ -76,19 +72,23 @@ namespace CoHO.Pages.Volunteers
             _context.Attach(Volunteer).State = EntityState.Modified;
 
             VolunteerIdentity = await _userManager.FindByNameAsync(Volunteer.UserName);
+            IList<Claim> claimList = await _userManager.GetClaimsAsync(VolunteerIdentity);
+            bool hasAdmin = HasAdminClaim(VolunteerIdentity, claimList);
 
-            if (OldAdminValue != Volunteer.Admin)
-            { 
-                if (Volunteer.Admin)
+
+            if (Volunteer.Admin && !hasAdmin)
+            {
+                await _userManager.AddClaimAsync(VolunteerIdentity, new Claim("super", "true"));
+            } else if (!Volunteer.Admin) 
+            {
+                foreach (Claim claim in claimList)
                 {
-                    await _userManager.AddClaimAsync(VolunteerIdentity, new Claim("super", "true"));
-                } else
-                {
-                    await _userManager.RemoveClaimAsync(VolunteerIdentity, new Claim("super", "true"));
-                }
-
-            } 
-
+                    if (claim.Type == "super")
+                    {
+                        await _userManager.RemoveClaimAsync(VolunteerIdentity, claim);
+                    }
+                }     
+            }
 
             try
             {
@@ -105,7 +105,6 @@ namespace CoHO.Pages.Volunteers
                     throw;
                 }
             }
-
             return RedirectToPage("./Index");
         }
 
@@ -113,5 +112,18 @@ namespace CoHO.Pages.Volunteers
         {
             return _context.Volunteer.Any(e => e.VolunteerID == id);
         }
+
+        private bool HasAdminClaim(IdentityUser user, IList<Claim> claimList)
+        {
+            foreach (Claim claim in claimList)
+            {
+                if (claim.Type == "super")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
     }
 }

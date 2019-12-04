@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace CoHO.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -22,6 +21,7 @@ namespace CoHO.Areas.Identity.Pages.Account
             _userManager = userManager;
         }
 
+        public string VolunteerEmail ;
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -44,9 +44,10 @@ namespace CoHO.Areas.Identity.Pages.Account
             public string Code { get; set; }
         }
 
-        public IActionResult OnGet(string code = null)
+        public IActionResult OnGet(string email)
         {
 
+            VolunteerEmail = email;
             Input = new InputModel { };
             return Page();
             
