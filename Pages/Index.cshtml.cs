@@ -137,7 +137,7 @@ namespace CoHO.Pages
             Console.Write(Volunteers.UserName);
 
 
-            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email == Volunteers.Email select volunteer).ToList()[0];
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
             Console.Write("Our Volunteer is....");
             Console.Write(ourVolunteer.Email);
 
@@ -152,7 +152,7 @@ namespace CoHO.Pages
         {
             Console.WriteLine("Clocking in");
             //Move over the clock in code here
-            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email == Volunteers.Email select volunteer).ToList()[0];
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
 
             if (LastActivity != null)
@@ -183,7 +183,7 @@ namespace CoHO.Pages
         public async Task<IActionResult> OnPostClockIn()
         {
             Console.WriteLine("Clocking out");
-            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email == Volunteers.Email select volunteer).ToList()[0];
+            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
 
             Clockin(ourVolunteer);

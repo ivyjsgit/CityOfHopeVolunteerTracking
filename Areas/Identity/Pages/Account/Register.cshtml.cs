@@ -90,7 +90,7 @@ namespace CoHO.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
 
-            Volunteer.UserName = Volunteer.Email;
+            Volunteer.UserName = Volunteer.Email.ToLower();
 
             //Volunteer.Password = "Please";
             //Volunteer.Email= Input.
@@ -101,7 +101,7 @@ namespace CoHO.Areas.Identity.Pages.Account
             //if (ModelState.IsValid)
             //{
                 
-                var user = new IdentityUser { UserName = Volunteer.Email, Email = Volunteer.Email,
+                var user = new IdentityUser { UserName = Volunteer.Email.ToLower(), Email = Volunteer.Email.ToLower(),
                     EmailConfirmed = true
                 };
                 Console.WriteLine(user);
