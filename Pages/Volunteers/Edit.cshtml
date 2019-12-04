@@ -6,18 +6,18 @@
     Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Edit</h1>
+<h1 class="padding">Edit</h1>
 
-<h4>Volunteer</h4>
+<h4 class="padding">Volunteer</h4>
 <hr />
 
 
 <form method="get">
-    <button type="submit"  asp-area="Identity"  asp-page="/Account/ResetPassword" asp-route-email="Volunteer.Email">Reset User's Password</button>
+    <button type="submit" style="margin-left:30px; margin-bottom:20px"  asp-area="Identity"  asp-page="/Account/ResetPassword" asp-route-email="Volunteer.Email">Reset User's Password</button>
 </form>
 <br />
 
-<div class="row">
+<div class="row padding">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
