@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Office.Interop.Excel;
 using Syncfusion.XlsIO;
 using System.IO;
-
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CoHO.Pages
 {
@@ -27,9 +28,11 @@ namespace CoHO.Pages
         public Volunteer Volunteer { get; set; }
         public Initiative Initiative { get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "Email");
 
+            return Page();
         }
 
 
@@ -42,6 +45,7 @@ namespace CoHO.Pages
             var volunteerActivities = _context.VolunteerActivity;
             var valuesOfHours = _context.ValueOfHour;
             var initiatives = _context.Initiative;
+
 
             //Save information to 2d array.
             int numInitiatives = initiatives.Count();
@@ -59,9 +63,10 @@ namespace CoHO.Pages
 
             //Accessing first worksheet in the workbook.
             IWorksheet worksheet = workbook.Worksheets[0];
+            worksheet.EnableSheetCalculations();
 
             //Setting first column width to 25.
-            worksheet.SetColumnWidth(1, 25);
+            worksheet.SetColumnWidth(1, 35);
 
             //Setting all other column widths to 15.
             for (int i = 2; i < 20; i++)
@@ -69,21 +74,24 @@ namespace CoHO.Pages
                 worksheet.SetColumnWidth(i, 15);
             }
 
+            int rows = 0;
             //looping through initiatives
             for (int i = 0; i < numInitiatives + 1; i++)
             {
-                
+                rows = 2 * (i + 1) + 1;
                 if (i > 0)
                 {
-                    worksheet.Range[2 * (i + 1), 1].Text = initiatives.Single(m => m.InitiativeID == i).Description + "(non-staff) hours";
-                    worksheet.Range[2 * (i + 1) + 1, 1].Text = initiatives.Single(m => m.InitiativeID == i).Description + "(non-staff) value";
+                    // non-staff values and hours.
+                    worksheet.Range[2 * (i + 1), 1].Text = initiatives.Single(m => m.InitiativeID == i).Description + " (non-staff) hours";
+                    worksheet.Range[2 * (i + 1) + 1, 1].Text = initiatives.Single(m => m.InitiativeID == i).Description + " (non-staff) value";
                 }
                 else
                 {
+                    // staff values and hours.
                     worksheet.Range[2, 1].Text = "Staff Hours";
                     worksheet.Range[3, 1].Text = "Staff Value";
+                    
                 }
-                // labels for the months and initiatives.
 
                 //looping through the months.
                 for (int j = 1; j < 13; j++)
@@ -129,14 +137,41 @@ namespace CoHO.Pages
                     worksheet.Range[2 * (i + 1), j + 1].Number = Math.Round(hours, 2);
                     worksheet.Range[2 * (i + 1) + 1, j + 1].Number = Math.Round(value, 2);
                 }
-                
-                
+                int row = 2 * (i + 1);
+                worksheet.Range[row, 14].Formula = "=SUM(A" + row + ":M" + row + ")";
+                worksheet.Range[row + 1, 14].Formula = "=SUM(A" + (row + 1) + ":M" + (row + 1) + ")";
+
+
+
             }
-            String[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+
+            worksheet.Range[rows + 1, 1].Text = "Total Hours";
+            worksheet.Range[rows + 2, 1].Text = "Total Value";
+            String hoursFormula = "=SUM(N2";
+            String valueFormula = "=SUM(N3";
+            for (int i = 4; i <= rows; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    hoursFormula += ",N" + i;
+                }
+                else
+                {
+                    valueFormula += ",N" + i;
+                }
+            }
+            worksheet.Range[rows + 1, 14].Formula = hoursFormula + ")";
+            worksheet.Range[rows + 2, 14].Formula = valueFormula + ")";
+            
+
+            String[] months = { "January", "February", "March", "April", "May",
+                "June", "July", "August", "September", "October", "November",
+                "December" };
             for (int i = 1; i < 13; i++)
             {
                 worksheet.Range[1, i + 1].Text = months[i - 1];
             }
+            worksheet.Range[1, 14].Text = DateTime.Now.Year + " Totals";
 
           
 
