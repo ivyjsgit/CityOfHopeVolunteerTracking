@@ -8,9 +8,9 @@
 @Html.DisplayFor(model => model.Volunteer.Email)
 @Html.DisplayFor(model => model.Volunteer.UserName)
 
-<h1>Create new account</h1>
+<h1 class="padding">Create new account</h1>
 
-<div class="row">
+<div class="row padding">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <hr />
@@ -94,7 +94,7 @@
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
-
+</div>
     @section Scripts {
         <partial name="_ValidationScriptsPartial" />
     }
