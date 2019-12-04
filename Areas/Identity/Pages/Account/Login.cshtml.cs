@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using CoHO.Models;
 
 namespace CoHO.Areas.Identity.Pages.Account
 {
@@ -21,16 +22,20 @@ namespace CoHO.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly CoHO.Data.ApplicationDbContext _context;
+
 
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender, CoHO.Data.ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _context = context;
+
         }
 
         [BindProperty]
@@ -86,6 +91,14 @@ namespace CoHO.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    Console.WriteLine(Input.Email);
+                    var ourVolunteer = (from volunteer in _context.Volunteer where volunteer.UserName.ToLower() == Input.Email.ToLower() select volunteer).ToList();
+                    Console.WriteLine(ourVolunteer[0]);
+                    Console.WriteLine("Is admin?");
+                    //Console.WriteLine(ourVolunteer.Admin);
+
+
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
