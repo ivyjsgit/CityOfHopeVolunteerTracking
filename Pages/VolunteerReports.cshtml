@@ -24,9 +24,9 @@
                 <label style="padding-bottom: 20px">
                     End Date: <input type="date" />
                 </label>
-                <label style="padding-left: 70px">
-                    <button type="button" id="volReport">Generate Report</button>
-                </label>
+                <form asp-page-handler="View">
+                    <input type="submit" id="volReport" style="margin-left:70px">Generate Report</input>
+                </form>
             </div>
             <div class="col-sm-4">
                 <label style="padding-left: 120px; padding-top:20px">
