@@ -172,12 +172,9 @@ namespace CoHO.Pages
             }
             worksheet.Range[1, 14].Text = DateTime.Now.Year + " Totals";
 
-          
+            SecondMainGraph(worksheet, rows + 5, months);
 
-            
-
-
-
+       
 
             //Saving the Excel to the MemoryStream 
             MemoryStream stream = new MemoryStream();
@@ -197,6 +194,42 @@ namespace CoHO.Pages
 
 
 
+        }
+
+
+        public void SecondMainGraph(IWorksheet worksheet, int startRow, String[] months)
+        {
+            worksheet.Range[startRow - 1, 2].Text = "Staff Hours";
+            worksheet.Range[startRow - 1, 3].Text = "Staff Value";
+            worksheet.Range[startRow - 1, 4].Text = "Volunteer Hours";
+            worksheet.Range[startRow - 1, 5].Text = "Volunteer Value";
+            worksheet.Range[startRow - 1, 6].Text = "Total Hours";
+            worksheet.Range[startRow - 1, 7].Text = "Total Value";
+
+            for (int i = 0; i < 12; i++)
+            {
+                worksheet.Range[startRow + i, 1].Text = months[i];
+                worksheet.Range[startRow + i, 2].Formula = "=SUM(" + (char)(66 + i) + "2)";
+                worksheet.Range[startRow + i, 3].Formula = "=SUM(" + (char)(66 + i) + "3)";
+                String volunteerHours = "=SUM(";
+                String volunteerValue = "=SUM(";
+                for (int j = 4; j < startRow - 5; j++)
+                {
+                    if (j % 2 == 0)
+                    {
+                        volunteerHours += "," + (char)(66 + i) + j;
+                    }
+                    else
+                    {
+                        volunteerValue += "," + (char)(66 + i) + j;
+                    }
+                }
+                worksheet.Range[startRow + i, 4].Formula = volunteerHours + ")";
+                worksheet.Range[startRow + i, 5].Formula = volunteerValue + ")";
+                worksheet.Range[startRow + i, 6].Formula = "=SUM(B" + (startRow + i) + "+D" + (startRow + i) + ")";
+                worksheet.Range[startRow + i, 7].Formula = "=SUM(C" + (startRow + i) + "+E" + (startRow + i) + ")";
+
+            }
         }
     }
 }

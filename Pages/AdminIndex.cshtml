@@ -16,18 +16,24 @@ Layout = "~/Pages/Shared/_AdminLayout.cshtml";
                 </label>
             </div>
             <div class="col-sm-4">
+                <form asp-page-handler="freeform" method="post">
                 <label style="padding-bottom: 20px; padding-top: 20px">
                     Start Date: <input type="date" />
                 </label>
                 <label style="padding-bottom: 20px">
                     End Date: <input type="date" />
                 </label>
+                </form>
                 <label style="padding-bottom: 20px">
                     <input type="text" class="form-control" placeholder="User ID"/>
                 </label>
+                <form asp-page-handler="volunteer" method="post">
+                <select asp-for="VolunteerActivity.VolunteerId" class="form-control"
+                                    asp-items="ViewBag.VolunteerId"></select>
+                </form>
                 <form asp-page-handler="view" method="post">
                     <button class="btn btn-default" style="background:lightgrey; margin:10px;">
-                        Generate Report
+                        Generate Full Year Report
                     </button>
                 </form>
                
