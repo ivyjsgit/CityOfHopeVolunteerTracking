@@ -26,6 +26,7 @@
 <PrivateAssets>all</PrivateAssets>
 </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.1" />
+    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1000" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
     <PackageReference Include="Syncfusion.DocIO.Net.Core" Version="17.3.0.30" />
     <PackageReference Include="Syncfusion.XlsIO.Net.Core" Version="17.3.0.30" />
