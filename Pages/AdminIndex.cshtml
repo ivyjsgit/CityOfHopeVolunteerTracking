@@ -4,48 +4,42 @@
 ViewData["Title"] = "Login";
 Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
- 
-<div class="createReportPage">
+
+
+<div class="login-background nopadding splash nomargins">
     <div class="container">
         <div class="row">
-            <div class="col-sm-4">
-                <label style="padding-top: 75px">
-                    <p style="font-size: 40px">
-                        Create Reports
-                    </p>
-                </label>
-            </div>
-            <div class="col-sm-4">
-                <form asp-page-handler="freeform" method="post">
-                <label style="padding-bottom: 20px; padding-top: 20px">
-                    Start Date: <input type="date" />
-                </label>
-                <label style="padding-bottom: 20px">
-                    End Date: <input type="date" />
-                </label>
-                </form>
-                <label style="padding-bottom: 20px">
-                    <input type="text" class="form-control" placeholder="User ID"/>
-                </label>
-                <form asp-page-handler="volunteer" method="post">
-                <select asp-for="VolunteerActivity.VolunteerId" class="form-control"
-                                    asp-items="ViewBag.VolunteerId"></select>
-                </form>
-                <form asp-page-handler="view" method="post">
-                    <button class="btn btn-default" style="background:lightgrey; margin:10px;">
-                        Generate Full Year Report
-                    </button>
-                </form>
-               
-                
-            </div>
-            <div class="col-sm-4">
-                <label style="padding-top: 20px; padding-bottom: 20px">
-                    Value of Hours: <input type="number" />
-                </label>
-                <label style="padding-left: 120px">
-                    <button type="button" id="setHours">Update Value</button>
-                </label>
+            <div class="col-sm-12">
+                <div class="login-box span12 pagination-centered">
+                    <h2 class="text-center">Report Generator</h2>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <form asp-page-handler="range" method="post">
+                                    <input type="date" class="admin-input form-control" name="start" placeholder="Start Date"/>
+                                    <input type="date" class="form-control admin-input" name="end" placeholder="End Date"/>
+                                    <button class="btn btn-primary">Generate Report from Selected Date Range</button>
+                                </form>
+                            </div>
+                            <div class="form-group">
+                                <form asp-page-handler="volunteer" method="post">
+                                    <select asp-for="VolunteerActivity.VolunteerId" class="form-control"
+                                            asp-items="ViewBag.VolunteerId"></select>
+                                    <button class="btn btn-primary">Generate Selected User's Report</button>
+                                </form>
+                            </div>
+                            <div class="form-group">
+                                <form asp-page-handler="view" method="post">
+                                    <button class="btn btn-primary">
+                                        Generate Full Year Report
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Value of Hours"/>
+                                <button type="button" class="btn btn-primary">Update Value</button>
+                            </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CoHO.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Office.Interop.Excel;
 using Syncfusion.XlsIO;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,53 @@ namespace CoHO.Pages
         }
 
 
+        public FileStreamResult OnPostRange()
+        {
+            String startDate = Request.Form["start"];
+            String endDate = Request.Form["end"];
+
+            //Initialize database variables.
+            var volunteers = _context.Volunteer;
+            var volunteerActivities = _context.VolunteerActivity;
+            var valuesOfHours = _context.ValueOfHour;
+            var initiatives = _context.Initiative;
+
+            using ExcelEngine excelEngine = new ExcelEngine();
+            //Initialize Application.
+            IApplication application = excelEngine.Excel;
+
+            //Set default version for application.
+            application.DefaultVersion = ExcelVersion.Excel2013;
+
+            //Create a new workbook.
+            IWorkbook workbook = application.Workbooks.Create(1);
+
+            //Accessing first worksheet in the workbook.
+            IWorksheet worksheet = workbook.Worksheets[0];
+            worksheet.EnableSheetCalculations();
+
+            worksheet.Range[1, 1].Text = startDate;
+            worksheet.Range[1, 2].Text = endDate;
+
+
+
+
+            //Saving the Excel to the MemoryStream 
+            MemoryStream stream = new MemoryStream();
+
+            workbook.SaveAs(stream);
+
+            //Set the position as '0'.
+            stream.Position = 0;
+
+            //Download the Excel file in the browser
+            FileStreamResult fileStreamResult = new FileStreamResult(stream, "application/excel")
+            {
+                FileDownloadName = "Hours/Values.xlsx"
+            };
+
+            return fileStreamResult;
+        }
 
 
         public FileStreamResult OnPostView()
@@ -46,9 +94,8 @@ namespace CoHO.Pages
             var initiatives = _context.Initiative;
 
 
-            //Save information to 2d array.
+            //Number of initiatives currently.
             int numInitiatives = initiatives.Count();
-            double[,] initiativeMonth = new double[numInitiatives, 13];
 
             using ExcelEngine excelEngine = new ExcelEngine();
             //Initialize Application.
@@ -174,7 +221,6 @@ namespace CoHO.Pages
 
             SecondMainGraph(worksheet, rows + 5, months);
 
-       
 
             //Saving the Excel to the MemoryStream 
             MemoryStream stream = new MemoryStream();
