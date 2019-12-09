@@ -1,11 +1,18 @@
 ﻿$(document).ready(function () {
 
-    $("input").click(function () {
+    $("#clockin").click(function () {
         console.log("Test");
         var body = $("body");
-        body.overhang({
-            type: "success",
-            message: "Woohoo! Our message works!"
-        });
+        toastr.success('You have been clocked in')
+
     });
+
+    $("#clockout").click(function () {
+        console.log("Test");
+        var body = $("body");
+        toastr.success('You have been clocked out')
+
+    });
+
+
 });

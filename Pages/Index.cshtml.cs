@@ -179,6 +179,7 @@ namespace CoHO.Pages
             }
 
 
+            System.Threading.Thread.Sleep(500);
 
             return RedirectToPage("./Index");
 
@@ -191,6 +192,8 @@ namespace CoHO.Pages
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
 
             Clockin(ourVolunteer);
+            System.Threading.Thread.Sleep(500);
+
             return RedirectToPage("./Index");
 
 
