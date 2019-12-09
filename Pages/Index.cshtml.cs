@@ -22,8 +22,12 @@ namespace CoHO.Pages
 
         public IActionResult OnGet()
         {
+            var ValidInitiatives = from i in _context.Initiative
+                                   where i.InActive == false
+                                   orderby i.Description // Sort by name.
+                                   select i;
             ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "UserName");
-            ViewData["InitiativeId"] = new SelectList(_context.Initiative, "InitiativeID", "Description");
+            ViewData["InitiativeId"] = new SelectList(ValidInitiatives.AsNoTracking(), "InitiativeID", "Description");
 
             return Page();
         }

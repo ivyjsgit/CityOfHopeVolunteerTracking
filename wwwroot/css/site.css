@@ -161,3 +161,7 @@ body {
     padding-left: 30px;
     padding-bottom: 20px;
 }
+
+.admin-input {
+    padding: 10px;
+}

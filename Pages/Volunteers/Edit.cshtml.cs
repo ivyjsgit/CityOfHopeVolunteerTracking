@@ -53,9 +53,23 @@ namespace CoHO.Pages.Volunteers
                 return NotFound();
             }
 
-            ViewData["EducationLevelID"] = new SelectList(_context.EducationLevel, "EducationLevelID", "Description");
-            ViewData["RaceID"] = new SelectList(_context.Race, "RaceID", "Description");
-            ViewData["VolunteerTypeID"] = new SelectList(_context.VolunteerType, "VolunteerTypeID", "Description");
+            var ValidEducationLevels = from e in _context.EducationLevel
+                                       where e.InActive == false
+                                       orderby e.Description // Sort by name.
+                                       select e;
+            ViewData["EducationLevelID"] = new SelectList(ValidEducationLevels, "EducationLevelID", "Description");
+
+            var ValidRaces = from r in _context.Race
+                             where r.InActive == false
+                             orderby r.Description // Sort by name.
+                             select r;
+            ViewData["RaceID"] = new SelectList(ValidRaces, "RaceID", "Description");
+
+            var ValidInitiatives = from v in _context.VolunteerType
+                                   where v.InActive == false
+                                   orderby v.Description // Sort by name.
+                                   select v;
+            ViewData["VolunteerTypeID"] = new SelectList(ValidInitiatives, "VolunteerTypeID", "Description");
 
             return Page();
         }
@@ -70,8 +84,10 @@ namespace CoHO.Pages.Volunteers
             }
 
             _context.Attach(Volunteer).State = EntityState.Modified;
-
-            VolunteerIdentity = await _userManager.FindByNameAsync(Volunteer.UserName);
+             VolunteerIdentity = await _userManager.FindByNameAsync(Volunteer.UserName);
+            Volunteer.UserName = Volunteer.Email;
+            VolunteerIdentity.Email = Volunteer.Email;
+            VolunteerIdentity.UserName = Volunteer.Email;
             IList<Claim> claimList = await _userManager.GetClaimsAsync(VolunteerIdentity);
             bool hasAdmin = HasAdminClaim(VolunteerIdentity, claimList);
 

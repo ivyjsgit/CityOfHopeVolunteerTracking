@@ -36,6 +36,53 @@ namespace CoHO.Pages
         }
 
 
+        public FileStreamResult OnPostRange()
+        {
+            String startDate = Request.Form["start"];
+            String endDate = Request.Form["end"];
+
+            //Initialize database variables.
+            var volunteers = _context.Volunteer;
+            var volunteerActivities = _context.VolunteerActivity;
+            var valuesOfHours = _context.ValueOfHour;
+            var initiatives = _context.Initiative;
+
+            using ExcelEngine excelEngine = new ExcelEngine();
+            //Initialize Application.
+            IApplication application = excelEngine.Excel;
+
+            //Set default version for application.
+            application.DefaultVersion = ExcelVersion.Excel2013;
+
+            //Create a new workbook.
+            IWorkbook workbook = application.Workbooks.Create(1);
+
+            //Accessing first worksheet in the workbook.
+            IWorksheet worksheet = workbook.Worksheets[0];
+            worksheet.EnableSheetCalculations();
+
+            worksheet.Range[1, 1].Text = startDate;
+            worksheet.Range[1, 2].Text = endDate;
+
+
+
+
+            //Saving the Excel to the MemoryStream 
+            MemoryStream stream = new MemoryStream();
+
+            workbook.SaveAs(stream);
+
+            //Set the position as '0'.
+            stream.Position = 0;
+
+            //Download the Excel file in the browser
+            FileStreamResult fileStreamResult = new FileStreamResult(stream, "application/excel")
+            {
+                FileDownloadName = "Hours/Values.xlsx"
+            };
+
+            return fileStreamResult;
+        }
 
 
         public FileStreamResult OnPostView()
@@ -47,9 +94,8 @@ namespace CoHO.Pages
             var initiatives = _context.Initiative;
 
 
-            //Save information to 2d array.
+            //Number of initiatives currently.
             int numInitiatives = initiatives.Count();
-            double[,] initiativeMonth = new double[numInitiatives, 13];
 
             using ExcelEngine excelEngine = new ExcelEngine();
             //Initialize Application.
@@ -173,11 +219,7 @@ namespace CoHO.Pages
             }
             worksheet.Range[1, 14].Text = DateTime.Now.Year + " Totals";
 
-          
-
-            
-
-
+            SecondMainGraph(worksheet, rows + 5, months);
 
 
             //Saving the Excel to the MemoryStream 
@@ -198,6 +240,42 @@ namespace CoHO.Pages
 
 
 
+        }
+
+
+        public void SecondMainGraph(IWorksheet worksheet, int startRow, String[] months)
+        {
+            worksheet.Range[startRow - 1, 2].Text = "Staff Hours";
+            worksheet.Range[startRow - 1, 3].Text = "Staff Value";
+            worksheet.Range[startRow - 1, 4].Text = "Volunteer Hours";
+            worksheet.Range[startRow - 1, 5].Text = "Volunteer Value";
+            worksheet.Range[startRow - 1, 6].Text = "Total Hours";
+            worksheet.Range[startRow - 1, 7].Text = "Total Value";
+
+            for (int i = 0; i < 12; i++)
+            {
+                worksheet.Range[startRow + i, 1].Text = months[i];
+                worksheet.Range[startRow + i, 2].Formula = "=SUM(" + (char)(66 + i) + "2)";
+                worksheet.Range[startRow + i, 3].Formula = "=SUM(" + (char)(66 + i) + "3)";
+                String volunteerHours = "=SUM(";
+                String volunteerValue = "=SUM(";
+                for (int j = 4; j < startRow - 5; j++)
+                {
+                    if (j % 2 == 0)
+                    {
+                        volunteerHours += "," + (char)(66 + i) + j;
+                    }
+                    else
+                    {
+                        volunteerValue += "," + (char)(66 + i) + j;
+                    }
+                }
+                worksheet.Range[startRow + i, 4].Formula = volunteerHours + ")";
+                worksheet.Range[startRow + i, 5].Formula = volunteerValue + ")";
+                worksheet.Range[startRow + i, 6].Formula = "=SUM(B" + (startRow + i) + "+D" + (startRow + i) + ")";
+                worksheet.Range[startRow + i, 7].Formula = "=SUM(C" + (startRow + i) + "+E" + (startRow + i) + ")";
+
+            }
         }
     }
 }
