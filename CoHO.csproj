@@ -32,4 +32,7 @@
     <PackageReference Include="Syncfusion.XlsIO.Net.Core" Version="17.3.0.30" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\dist\overhang.min.css" />
+  </ItemGroup>
 </Project>
