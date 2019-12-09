@@ -46,7 +46,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="Volunteer.RaceID" class="control-label"></label>
-                <select asp-for="Volunteer.RaceID" class="form-control" asp-items="ViewBag.RaceID"></select>
+                <select asp-for="Volunteer.RaceID" class="form-control" asp-items="ViewBag.RaceID">
+                    <option value=""></option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Volunteer.VolunteerTypeID" class="control-label"></label>
@@ -54,7 +56,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="Volunteer.EducationLevelID" class="control-label"></label>
-                <select asp-for="Volunteer.EducationLevelID" class="form-control" asp-items="ViewBag.EducationLevelID"></select>
+                <select asp-for="Volunteer.EducationLevelID" class="form-control" asp-items="ViewBag.EducationLevelID">
+                    <option value=""></option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
