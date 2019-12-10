@@ -15,10 +15,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Initiative[0].Description)
+                Initiative
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Initiative[0].InActive)
+                Inactive
             </th>
             <th></th>
         </tr>
@@ -33,9 +33,7 @@
                 @Html.DisplayFor(modelItem => item.InActive)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.InitiativeID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.InitiativeID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.InitiativeID">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.InitiativeID">Edit</a>
             </td>
         </tr>
 }

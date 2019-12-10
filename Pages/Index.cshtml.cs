@@ -156,30 +156,38 @@ namespace CoHO.Pages
         {
             Console.WriteLine("Clocking in");
             //Move over the clock in code here
-            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
-            VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
-
-            if (LastActivity != null)
+            try
             {
-                if (LastActivity.ClockedIn)
+                Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
+                VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+
+                if (LastActivity != null)
                 {
-                    if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+                    if (LastActivity.ClockedIn)
                     {
-                        DoClockout(ourVolunteer, false);
+                        if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+                        {
+                            DoClockout(ourVolunteer, false);
+                        }
+                        else
+                        {
+                            DoClockout(ourVolunteer, true);
+                        }
                     }
                     else
                     {
-                        DoClockout(ourVolunteer, true);
+                        Clockin(ourVolunteer);
                     }
                 }
-                else
-                {
-                    Clockin(ourVolunteer);
-                }
+
+
+                System.Threading.Thread.Sleep(500);
             }
-
-
-            System.Threading.Thread.Sleep(500);
+            catch
+            {
+                Console.WriteLine("Error handling code here");
+            }
+            
 
             return RedirectToPage("./Index");
 
@@ -188,17 +196,26 @@ namespace CoHO.Pages
         public async Task<IActionResult> OnPostClockIn()
         {
             Console.WriteLine("Clocking out");
-            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
-            VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
-            if (LastActivity != null && !LastActivity.ClockedIn)
+            try
             {
-                Clockin(ourVolunteer);
-                TempData["message"] = "You are clocked in!";
-                System.Threading.Thread.Sleep(500);
-            } else if (LastActivity != null && LastActivity.ClockedIn)
-            {
-                TempData["message"] = "You are already clocked in. Please Clock out!";
+                Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
+                VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+                if (LastActivity != null && !LastActivity.ClockedIn)
+                {
+                    Clockin(ourVolunteer);
+                    TempData["message"] = "You are clocked in!";
+                    System.Threading.Thread.Sleep(500);
+                }
+                else if (LastActivity != null && LastActivity.ClockedIn)
+                {
+                    TempData["message"] = "You are already clocked in. Please Clock out!";
+                }
             }
+            catch
+            {
+                Console.WriteLine("You should display an error message here");
+            }
+     
             return RedirectToPage("./Index");
             //Put the clockout code here.
 

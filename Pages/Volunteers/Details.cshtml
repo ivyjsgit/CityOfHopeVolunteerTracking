@@ -6,10 +6,9 @@
     Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
-<h1 class="padding">Details</h1>
+<h1 class="padding">Volunteer Details</h1>
 
 <div class="padding">
-    <h4>Volunteer</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -49,22 +48,16 @@
             @Html.DisplayFor(model => model.Volunteer.Cell)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Volunteer.ClockedIn)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Volunteer.ClockedIn)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Volunteer.InActive)
+            Inactive
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Volunteer.InActive)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Volunteer.CommunityService)
+            Community Service
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Volunteer.CommunityService)
+            Workers Comp
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Volunteer.WorkersComp)
@@ -91,13 +84,13 @@
             @Html.DisplayFor(model => model.Volunteer.Race.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Volunteer.VolunteerType)
+            Volunteer Type
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Volunteer.VolunteerType.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Volunteer.EducationLevel)
+            Education Level
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Volunteer.EducationLevel.Description)
