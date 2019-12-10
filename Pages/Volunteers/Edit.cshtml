@@ -13,7 +13,8 @@
 
 
 <form method="get">
-    <button type="submit" style="margin-left:30px; margin-bottom:20px"  asp-area="Identity"  asp-page="/Account/ResetPassword" asp-route-email="Volunteer.Email">Reset User's Password</button>
+    <input type="hidden" name="email" value="@Model.Volunteer.Email" />
+    <button type="submit" style="margin-left:30px; margin-bottom:20px" asp-area="Identity" asp-page="/Account/ResetPassword">Reset User's Password</button>
 </form>
 <br />
 

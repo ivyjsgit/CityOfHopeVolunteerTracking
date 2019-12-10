@@ -47,7 +47,7 @@ namespace CoHO.Areas.Identity.Pages.Account
         public IActionResult OnGet(string email)
         {
 
-            VolunteerEmail = email;
+            VolunteerEmail = Request.Query["email"];
             Input = new InputModel { };
             return Page();
             
