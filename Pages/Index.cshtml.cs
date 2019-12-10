@@ -156,38 +156,45 @@ namespace CoHO.Pages
         {
             Console.WriteLine("Clocking in");
             //Move over the clock in code here
+            Volunteer ourVolunteer = null;
+            VolunteerActivity LastActivity = null;
             try
             {
-                Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
-                VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
-
-                if (LastActivity != null)
-                {
-                    if (LastActivity.ClockedIn)
-                    {
-                        if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
-                        {
-                            DoClockout(ourVolunteer, false);
-                        }
-                        else
-                        {
-                            DoClockout(ourVolunteer, true);
-                        }
-                    }
-                    else
-                    {
-                        Clockin(ourVolunteer);
-                    }
-                }
-
-
-                System.Threading.Thread.Sleep(750);
+                ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
+                LastActivity = GetLastActivity(ourVolunteer);
             }
             catch
             {
-                Console.WriteLine("Error handling code here");
+               
             }
-            
+
+
+            if (LastActivity != null)
+            {
+                if (LastActivity.ClockedIn)
+                {
+                    if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+                    {
+                        DoClockout(ourVolunteer, false);
+                    }
+                    else
+                    {
+                        DoClockout(ourVolunteer, true);
+                    }
+                    TempData["message"] = "CO";
+                    System.Threading.Thread.Sleep(500);
+                }
+           
+
+                else
+                {
+                    TempData["message"] = "NCI";
+                    System.Threading.Thread.Sleep(500);
+                }
+            }
+
+
+            System.Threading.Thread.Sleep(500);
 
             return RedirectToPage("./Index");
 
@@ -195,7 +202,6 @@ namespace CoHO.Pages
         }
         public async Task<IActionResult> OnPostClockIn()
         {
-            Console.WriteLine("Clocking out");
             try
             {
                 Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
@@ -203,19 +209,28 @@ namespace CoHO.Pages
                 if (LastActivity != null && !LastActivity.ClockedIn)
                 {
                     Clockin(ourVolunteer);
-                    TempData["message"] = "You are clocked in!";
-                    System.Threading.Thread.Sleep(750);
+                    TempData["message"] = "CI";
+                    System.Threading.Thread.Sleep(500);
                 }
                 else if (LastActivity != null && LastActivity.ClockedIn)
                 {
-                    TempData["message"] = "You are already clocked in. Please Clock out!";
+                    TempData["message"] = "NCO";
+                    System.Threading.Thread.Sleep(500);
+
+                }
+                else
+                {
+                    Clockin(ourVolunteer);
+                    TempData["message"] = "CI";
+                    System.Threading.Thread.Sleep(500);
+
                 }
             }
             catch
             {
-                Console.WriteLine("You should display an error message here");
-            }
-     
+                
+            }        
+         
             return RedirectToPage("./Index");
             //Put the clockout code here.
 

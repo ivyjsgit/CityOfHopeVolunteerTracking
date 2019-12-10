@@ -6,7 +6,6 @@
 }
 
 
-
 <div class="login-background nopadding splash nomargins" id="loginbody">
     <div class="container">
         <div class="row">
@@ -51,8 +50,33 @@
         </div>
     </div>
 </div>
-
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+<script>
+    $(function () {
+        var r = "@TempData["message"]";
+        if (r.length > 0) {
+            console.log(r)
+            if (r == "NCI") {
+                toastr.error("You aren't clocked in.")
+            }
+            else if (r == "NCO") {
+                toastr.error("You are currently clocked in. Please clock out.");
+            } else if (r == "CO") {
+                toastr.success("You have been clocked out");
+
+            } else if (r == "CI") {
+                toastr.success("You have been clocked in");
+            }
+
+            else {
+                toastr.error("You shouldn't be seeing this. If you are seeing this, contact the website team.");
+            }
+        }
+    });
+</script>
+
+
 <script type="text/javascript" src="js/login.js"></script>
