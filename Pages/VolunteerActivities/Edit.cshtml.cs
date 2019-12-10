@@ -37,7 +37,7 @@ namespace CoHO.Pages.VolunteerActivities
             {
                 return NotFound();
             }
-           ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "First");
+           ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "Email");
            ViewData["InitiativeId"] = new SelectList(_context.Initiative, "InitiativeID", "Description");
             return Page();
         }
