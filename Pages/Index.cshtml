@@ -5,18 +5,6 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-body">
-                <p>@TempData["message"]</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <div class="login-background nopadding splash nomargins" id="loginbody">
@@ -64,16 +52,6 @@
     </div>
 </div>
 
-
-<script>
-    $(function() {
-        var r = '@TempData["message"]';
-        if (r.length>0)
-        {
-            $('#myModal').modal('show');
-        }
-    });
-</script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />

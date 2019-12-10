@@ -181,7 +181,7 @@ namespace CoHO.Pages
                 }
 
 
-                System.Threading.Thread.Sleep(500);
+                System.Threading.Thread.Sleep(750);
             }
             catch
             {
@@ -204,7 +204,7 @@ namespace CoHO.Pages
                 {
                     Clockin(ourVolunteer);
                     TempData["message"] = "You are clocked in!";
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(750);
                 }
                 else if (LastActivity != null && LastActivity.ClockedIn)
                 {
