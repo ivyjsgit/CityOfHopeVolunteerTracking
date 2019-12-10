@@ -1,9 +1,22 @@
 ﻿@page
 @model CreateModel
 @{
-ViewData["Title"] = "Index";
-Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>@TempData["message"]</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="login-background nopadding splash nomargins" id="loginbody">
@@ -13,7 +26,7 @@ Layout = "~/Pages/Shared/_Layout.cshtml";
                 <div class="login-box span12 pagination-centered">
                     <h2 class="text-center">Volunteer Clock In</h2>
                     <div class="form-group">
-                       <form method="post">
+                        <form method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                             <div class="form-group">
@@ -30,20 +43,20 @@ Layout = "~/Pages/Shared/_Layout.cshtml";
                             <div class="form-group">
                                 <label asp-for="Initiative.InitiativeID" class="control-label">Initiative</label>
                                 <select asp-for="Initiative.InitiativeID" class="form-control"
-                                    asp-items="ViewBag.InitiativeId"></select>
+                                        asp-items="ViewBag.InitiativeId"></select>
                             </div>
 
-           
 
-                       
+
+
 
                             <div class="form-group">
-                                <input id ="clockin" type="submit" asp-page-handler="ClockIn" value="Clock In" class="btn btn-primary" />
+                                <input id="clockin" type="submit" asp-page-handler="ClockIn" value="Clock In" class="btn btn-primary" />
                                 <input id="clockout" type="submit" asp-page-handler="ClockOut" value="Clock Out" class="btn btn-primary" />
 
 
                             </div>
-                       </form>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -51,6 +64,16 @@ Layout = "~/Pages/Shared/_Layout.cshtml";
     </div>
 </div>
 
+
+<script>
+    $(function() {
+        var r = '@TempData["message"]';
+        if (r.length>0)
+        {
+            $('#myModal').modal('show');
+        }
+    });
+</script>
 
 
 <script type="text/javascript" src="js/login.js"></script>

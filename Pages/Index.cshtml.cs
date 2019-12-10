@@ -190,13 +190,16 @@ namespace CoHO.Pages
             Console.WriteLine("Clocking out");
             Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
-
-            Clockin(ourVolunteer);
-            System.Threading.Thread.Sleep(500);
-
+            if (LastActivity != null && !LastActivity.ClockedIn)
+            {
+                Clockin(ourVolunteer);
+                TempData["message"] = "You are clocked in!";
+                System.Threading.Thread.Sleep(500);
+            } else if (LastActivity != null && LastActivity.ClockedIn)
+            {
+                TempData["message"] = "You are already clocked in. Please Clock out!";
+            }
             return RedirectToPage("./Index");
-
-
             //Put the clockout code here.
 
         }
