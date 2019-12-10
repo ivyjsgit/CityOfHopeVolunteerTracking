@@ -84,10 +84,12 @@ namespace CoHO.Pages.Volunteers
             }
 
             _context.Attach(Volunteer).State = EntityState.Modified;
-             VolunteerIdentity = await _userManager.FindByNameAsync(Volunteer.UserName);
+            VolunteerIdentity = await _userManager.FindByNameAsync(Volunteer.UserName);
             Volunteer.UserName = Volunteer.Email;
             VolunteerIdentity.Email = Volunteer.Email;
+            VolunteerIdentity.NormalizedEmail = Volunteer.Email.ToUpper();
             VolunteerIdentity.UserName = Volunteer.Email;
+            VolunteerIdentity.NormalizedUserName = Volunteer.Email.ToUpper();
             IList<Claim> claimList = await _userManager.GetClaimsAsync(VolunteerIdentity);
             bool hasAdmin = HasAdminClaim(VolunteerIdentity, claimList);
 

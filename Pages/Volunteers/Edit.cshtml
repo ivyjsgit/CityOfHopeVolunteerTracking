@@ -22,11 +22,8 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Volunteer.VolunteerID" />
-            <div class="form-group">
-                <label asp-for="Volunteer.UserName" class="control-label"></label>
-                <input asp-for="Volunteer.UserName" class="form-control" />
-                <span asp-validation-for="Volunteer.UserName" class="text-danger"></span>
-            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Volunteer.UserName" />
             <div class="form-group">
                 <label asp-for="Volunteer.First" class="control-label"></label>
                 <input asp-for="Volunteer.First" class="form-control" />
