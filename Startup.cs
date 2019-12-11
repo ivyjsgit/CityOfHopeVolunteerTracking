@@ -34,6 +34,7 @@ namespace CoHO
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("IsAdmin", policy => policy.RequireClaim("super"));
@@ -54,6 +55,7 @@ namespace CoHO
                     options.Conventions.AuthorizeFolder("/ValueOfHours", "IsAdmin");
                     options.Conventions.AuthorizeFolder("/VolunteerActivities", "IsAdmin");
                     options.Conventions.AuthorizeFolder("/Volunteers", "IsAdmin");
+                    options.Conventions.AuthorizeFolder("/VolunteerTypes", "IsAdmin");
                 });
             
             services.AddMvc();

@@ -61,20 +61,19 @@
             console.log(r)
             if (r == "NCI") {
                 toastr.error("You aren't clocked in.")
-            }
-            else if (r == "NCO") {
+            } else if (r == "NCO") {
                 toastr.error("You are currently clocked in. Please clock out.");
             } else if (r == "CO") {
                 toastr.success("You have been clocked out");
-
             } else if (r == "CI") {
                 toastr.success("You have been clocked in");
-            }
-
-            else {
+            } else if (r == "UNF") {
+                toastr.error("User Not Found");
+            } else {
                 toastr.error("You shouldn't be seeing this. If you are seeing this, contact the website team.");
             }
         }
+        @TempData.Remove("message");
     });
 </script>
 

@@ -75,42 +75,9 @@ namespace CoHO.Pages
             _context.Attach(LastActivity).State = EntityState.Modified;
 
             await _context.SaveChangesAsync();
-
-
-
         }
 
-        public async void HandleClockRequests(Volunteer ourVolunteer)
-        {
-            VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
-
-            // If the user clicks the button before they hit the 2 hour mark
-            if (LastActivity != null)
-            {
-                if (LastActivity.ClockedIn)
-                {
-                    if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
-                    {
-                        DoClockout(ourVolunteer, false);
-
-                    }
-                    else
-                    {
-                        DoClockout(ourVolunteer, true);
-                    }
-                }
-                else
-                {
-                    //Check if the last thing is clocked in
-                    Clockin(ourVolunteer);
-                }
-            }
-            else
-            {
-                Clockin(ourVolunteer);
-            }
-
-        }
+     
 
         public async void Clockin(Volunteer ourVolunteer)
         {
@@ -131,27 +98,7 @@ namespace CoHO.Pages
         }
 
 
-        // more details see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostClockInClockOut()
-        {
 
-
-            //Console.WriteLine("Our initiative is ");
-            //Console.WriteLine(Initiative.Description);
-            Console.Write(Volunteers.UserName);
-
-
-            Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
-            Console.Write("Our Volunteer is....");
-            Console.Write(ourVolunteer.Email);
-
-
-
-            HandleClockRequests(ourVolunteer);
-            return RedirectToPage("./Index");
-        }
-
-        //[HttpPost]
         public async Task<IActionResult> OnPostClockOut()
         {
             Console.WriteLine("Clocking in");
@@ -162,35 +109,33 @@ namespace CoHO.Pages
             {
                 ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
                 LastActivity = GetLastActivity(ourVolunteer);
-            }
-            catch
-            {
-               
-            }
+         
 
-
-            if (LastActivity != null)
-            {
-                if (LastActivity.ClockedIn)
+                if (LastActivity != null)
                 {
-                    if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+                    if (LastActivity.ClockedIn)
                     {
-                        DoClockout(ourVolunteer, false);
+                        if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+                        {
+                            DoClockout(ourVolunteer, false);
+                        }
+                        else
+                        {
+                            DoClockout(ourVolunteer, true);
+                        }
+                        TempData["message"] = "CO";
+                        System.Threading.Thread.Sleep(500);
                     }
                     else
                     {
-                        DoClockout(ourVolunteer, true);
+                        TempData["message"] = "NCI";
+                        System.Threading.Thread.Sleep(500);
                     }
-                    TempData["message"] = "CO";
-                    System.Threading.Thread.Sleep(500);
                 }
-           
-
-                else
-                {
-                    TempData["message"] = "NCI";
-                    System.Threading.Thread.Sleep(500);
-                }
+            }
+            catch
+            {
+                TempData["message"] = "UNF";
             }
 
 
@@ -228,7 +173,7 @@ namespace CoHO.Pages
             }
             catch
             {
-                
+                TempData["message"] = "UNF";
             }        
          
             return RedirectToPage("./Index");
