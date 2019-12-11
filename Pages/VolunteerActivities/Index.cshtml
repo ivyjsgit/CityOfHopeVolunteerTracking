@@ -50,9 +50,8 @@
                 @Html.DisplayFor(modelItem => item.ClockedIn)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Volunteer.First)
-                @Html.DisplayFor(modelItem => item.Volunteer.Last)
-            </td>
+                @Html.DisplayFor(modelItem => item.Volunteer.FullName)
+             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.VolunteerActivityID">Edit</a>
             </td>

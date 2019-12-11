@@ -23,7 +23,10 @@ namespace CoHO.Pages.Volunteers
 
         public async Task OnGetAsync()
         {
-            Volunteer = await _context.Volunteer
+            IQueryable<Volunteer> VolunteersIQueryable = from v in _context.Volunteer select v;
+            VolunteersIQueryable = VolunteersIQueryable.OrderBy(v => v.Last).ThenBy(v => v.First);
+
+            Volunteer = await VolunteersIQueryable
                 .Include(v => v.EducationLevel)
                 .Include(v => v.Race)
                 .Include(v => v.VolunteerType).ToListAsync();
