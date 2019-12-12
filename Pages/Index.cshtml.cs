@@ -99,7 +99,7 @@ namespace CoHO.Pages
 
 
 
-        public async Task<IActionResult> OnPostClockOut()
+        public IActionResult OnPostClockOut()
         {
             Console.WriteLine("Clocking in");
             //Move over the clock in code here
@@ -145,7 +145,7 @@ namespace CoHO.Pages
 
 
         }
-        public async Task<IActionResult> OnPostClockIn()
+        public IActionResult OnPostClockIn()
         {
             try
             {

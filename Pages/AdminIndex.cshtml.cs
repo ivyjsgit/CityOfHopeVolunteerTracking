@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using CoHO.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Office.Interop.Excel;
 using Syncfusion.XlsIO;
 using System.IO;
 using Microsoft.EntityFrameworkCore;

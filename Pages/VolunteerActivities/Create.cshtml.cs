@@ -73,7 +73,7 @@ namespace CoHO.Pages.VolunteerActivities
 
         }
 
-        public async void HandleClockRequests(Volunteer ourVolunteer)
+        public void HandleClockRequests(Volunteer ourVolunteer)
         {
             VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
 
@@ -120,7 +120,7 @@ namespace CoHO.Pages.VolunteerActivities
 
 
         // more details see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPostAsync()
         {
 
 
