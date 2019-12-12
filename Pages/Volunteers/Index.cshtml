@@ -13,12 +13,12 @@
     <a asp-area="Identity" asp-page="/Account/Register">Create New</a>
 </p>
 
-<button style="margin-left:30px; margin-bottom:20px">Toggle Inactive Records</button>
+<button style="margin-left:30px; margin-bottom:20px" id="hideshow">Show Inactive Records</button>
 <table class="table table-striped table-responsive padding">
     <thead>
         <tr>
             <th>
-                Username
+                Email/UserName
             </th>
             <th>
                 First Name
@@ -27,7 +27,7 @@
                 Last Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].VolunteerType)
+                Volunteer Type
             </th>
             <th>
                 Inactive
@@ -74,14 +74,16 @@
     var showInactive = false;
     console.log("showinactive set");
 
-    $("button").click(function () {
+    $("#hideshow").click(function () {
         console.log("button clicked");
         if (showInactive == false) {
+            $("#hideshow").text("Hide Inactive Volunteers")
             showInactive = true;
             $(".hide-me").addClass("show-me");
             $(".hide-me").removeClass("hide-me");
         } else {
             showInactive = false;
+            $("#hideshow").text("Show Inactive Volunteers")
             $(".show-me").addClass("hide-me");
             $(".show-me").removeClass("show-me");
 

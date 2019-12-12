@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace CoHO.Models
         public int VolunteerID { get; set; }
         [StringLength(50)]
         [Required]
+        [DisplayName("Email/UserName")]
         public string UserName { get; set; }
         [Required]
         public string First { get; set; }
@@ -24,12 +26,19 @@ namespace CoHO.Models
         }
         [DataType(DataType.Date)]
         public DateTime? Birthday{ get; set; }
+        [Required]
+        [DisplayName("Email/UserName")]
         public string Email { get; set; }
+        [Phone]
         public string Home { get; set; }
+        [Phone]
         public string Cell { get; set; }
+        [DisplayName("Race")]
         public int? RaceID { get; set; }
         [Required]
+        [DisplayName("Volunteer Type")]
         public int VolunteerTypeID { get; set; }
+        [DisplayName("Education")]
         public int? EducationLevelID { get; set; }
         public Boolean ClockedIn { get; set; }
         public Boolean InActive { get; set; }

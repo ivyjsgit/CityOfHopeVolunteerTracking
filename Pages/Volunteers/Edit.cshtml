@@ -13,7 +13,8 @@
 
 
 <form method="get">
-    <button type="submit" style="margin-left:30px; margin-bottom:20px"  asp-area="Identity"  asp-page="/Account/ResetPassword" asp-route-email="Volunteer.Email">Reset User's Password</button>
+    <input type="hidden" name="email" value="@Model.Volunteer.Email" />
+    <button type="submit" style="margin-left:30px; margin-bottom:20px" asp-area="Identity" asp-page="/Account/ResetPassword">Reset User's Password</button>
 </form>
 <br />
 
@@ -22,11 +23,8 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Volunteer.VolunteerID" />
-            <div class="form-group">
-                <label asp-for="Volunteer.UserName" class="control-label"></label>
-                <input asp-for="Volunteer.UserName" class="form-control" />
-                <span asp-validation-for="Volunteer.UserName" class="text-danger"></span>
-            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Volunteer.UserName" />
             <div class="form-group">
                 <label asp-for="Volunteer.First" class="control-label"></label>
                 <input asp-for="Volunteer.First" class="form-control" />
@@ -58,19 +56,19 @@
                 <span asp-validation-for="Volunteer.Cell" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Volunteer.RaceID" class="control-label"></label>
+                <label asp-for="Volunteer.RaceID" class="control-label">Race</label>
                 <select asp-for="Volunteer.RaceID" class="form-control" asp-items="ViewBag.RaceID">
                     <option value=""></option>
                 </select>
                 <span asp-validation-for="Volunteer.RaceID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Volunteer.VolunteerTypeID" class="control-label"></label>
+                <label asp-for="Volunteer.VolunteerTypeID" class="control-label">Volunteer Type</label>
                 <select asp-for="Volunteer.VolunteerTypeID" class="form-control" asp-items="ViewBag.VolunteerTypeID"></select>
                 <span asp-validation-for="Volunteer.VolunteerTypeID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Volunteer.EducationLevelID" class="control-label"></label>
+                <label asp-for="Volunteer.EducationLevelID" class="control-label">Education</label>
                 <select asp-for="Volunteer.EducationLevelID" class="form-control" asp-items="ViewBag.EducationLevelID">
                     <option value=""></option>
                 </select>
@@ -78,22 +76,17 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Volunteer.ClockedIn" /> @Html.DisplayNameFor(model => model.Volunteer.ClockedIn)
+                    <input class="form-check-input" asp-for="Volunteer.InActive" /> Inactive
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Volunteer.InActive" /> @Html.DisplayNameFor(model => model.Volunteer.InActive)
+                    <input class="form-check-input" asp-for="Volunteer.CommunityService" /> Community Service
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Volunteer.CommunityService" /> @Html.DisplayNameFor(model => model.Volunteer.CommunityService)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Volunteer.WorkersComp" /> @Html.DisplayNameFor(model => model.Volunteer.WorkersComp)
+                    <input class="form-check-input" asp-for="Volunteer.WorkersComp" /> Workers Comp
                 </label>
             </div>
             <div class="form-group form-check">

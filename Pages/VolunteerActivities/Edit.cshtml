@@ -6,9 +6,8 @@
     Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
-<h1 class="padding">Edit</h1>
+<h1 class="padding">Edit Volunteer Activity</h1>
 
-<h4 class="padding">VolunteerActivity</h4>
 <hr />
 <div class="row padding">
     <div class="col-md-4">
@@ -16,30 +15,27 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="VolunteerActivity.VolunteerActivityID" />
             <div class="form-group">
-                <label asp-for="VolunteerActivity.VolunteerId" class="control-label"></label>
+                <label asp-for="VolunteerActivity.VolunteerId" class="control-label">Volunteer</label>
                 <select asp-for="VolunteerActivity.VolunteerId" class="form-control" asp-items="ViewBag.VolunteerId"></select>
                 <span asp-validation-for="VolunteerActivity.VolunteerId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VolunteerActivity.InitiativeId" class="control-label"></label>
-                <input asp-for="VolunteerActivity.InitiativeId" class="form-control" />
+                <label asp-for="VolunteerActivity.InitiativeId" class="control-label">Initiative</label>
+                <select asp-for="VolunteerActivity.InitiativeId" class="form-control" asp-items="ViewBag.InitiativeId"></select>
                 <span asp-validation-for="VolunteerActivity.InitiativeId" class="text-danger"></span>
             </div>
+  
             <div class="form-group">
-                <label asp-for="VolunteerActivity.StartTime" class="control-label"></label>
+                <label asp-for="VolunteerActivity.StartTime" class="control-label">Start Time</label>
                 <input asp-for="VolunteerActivity.StartTime" class="form-control" />
                 <span asp-validation-for="VolunteerActivity.StartTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VolunteerActivity.EndTime" class="control-label"></label>
+                <label asp-for="VolunteerActivity.EndTime" class="control-label">End Time</label>
                 <input asp-for="VolunteerActivity.EndTime" class="form-control" />
                 <span asp-validation-for="VolunteerActivity.EndTime" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="VolunteerActivity.ElapsedTime" class="control-label"></label>
-                <input asp-for="VolunteerActivity.ElapsedTime" class="form-control" />
-                <span asp-validation-for="VolunteerActivity.ElapsedTime" class="text-danger"></span>
-            </div>
+        
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

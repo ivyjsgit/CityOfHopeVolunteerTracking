@@ -60,7 +60,7 @@ namespace CoHO.Areas.Identity.Pages.Account
             //public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[#$^+=!()@%&]).{8,}$", ErrorMessage = "The password must be at least 8 characters long and include upper case, lowercase, numerical, and special characters.")]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }

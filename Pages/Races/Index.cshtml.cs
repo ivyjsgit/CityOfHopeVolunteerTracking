@@ -23,7 +23,9 @@ namespace CoHO.Pages.Races
 
         public async Task OnGetAsync()
         {
-            Race = await _context.Race.ToListAsync();
+            IQueryable<Race> RaceIQueryable = from r in _context.Race select r;
+            RaceIQueryable = RaceIQueryable.OrderBy(r => r.Description);
+            Race = await RaceIQueryable.ToListAsync();
         }
     }
 }
