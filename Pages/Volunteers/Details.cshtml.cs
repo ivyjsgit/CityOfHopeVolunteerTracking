@@ -20,6 +20,7 @@ namespace CoHO.Pages.Volunteers
         }
 
         public Volunteer Volunteer { get; set; }
+        public IList<VolunteerActivity> Activities { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -31,12 +32,20 @@ namespace CoHO.Pages.Volunteers
             Volunteer = await _context.Volunteer
                 .Include(v => v.EducationLevel)
                 .Include(v => v.Race)
-                .Include(v => v.VolunteerType).FirstOrDefaultAsync(m => m.VolunteerID == id);
+                .Include(v => v.VolunteerType)
+                .FirstOrDefaultAsync(m => m.VolunteerID == id);
 
             if (Volunteer == null)
             {
                 return NotFound();
             }
+
+            IQueryable<VolunteerActivity> ActivitiesIQueryable = from v in _context.VolunteerActivity select v;
+            ActivitiesIQueryable = ActivitiesIQueryable.OrderByDescending(v => v.StartTime);
+            Activities = await ActivitiesIQueryable.Where(a => a.VolunteerId == Volunteer.VolunteerID)
+                .Include(a => a.Initiative).ToListAsync();
+
+
             return Page();
         }
     }
