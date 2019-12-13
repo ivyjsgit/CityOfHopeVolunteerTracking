@@ -2,8 +2,8 @@
 @model CoHO.Pages.Volunteers.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+ViewData["Title"] = "Edit";
+Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
 <h1 class="padding">Edit</h1>
@@ -14,7 +14,8 @@
 
 <form method="get">
     <input type="hidden" name="email" value="@Model.Volunteer.Email" />
-    <button type="submit" style="margin-left:30px; margin-bottom:20px" asp-area="Identity" asp-page="/Account/ResetPassword">Reset User's Password</button>
+    <button type="submit" style="margin-left:30px; margin-bottom:20px" asp-area="Identity"
+        asp-page="/Account/ResetPassword">Reset User's Password</button>
 </form>
 <br />
 
@@ -64,7 +65,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Volunteer.VolunteerTypeID" class="control-label">Volunteer Type</label>
-                <select asp-for="Volunteer.VolunteerTypeID" class="form-control" asp-items="ViewBag.VolunteerTypeID"></select>
+                <select asp-for="Volunteer.VolunteerTypeID" class="form-control"
+                    asp-items="ViewBag.VolunteerTypeID"></select>
                 <span asp-validation-for="Volunteer.VolunteerTypeID" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -91,12 +93,14 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Volunteer.Veteran" /> @Html.DisplayNameFor(model => model.Volunteer.Veteran)
+                    <input class="form-check-input" asp-for="Volunteer.Veteran" /> @Html.DisplayNameFor(model =>
+                    model.Volunteer.Veteran)
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Volunteer.Admin" /> @Html.DisplayNameFor(model => model.Volunteer.Admin)
+                    <input class="form-check-input" asp-for="Volunteer.Admin" /> @Html.DisplayNameFor(model =>
+                    model.Volunteer.Admin)
                 </label>
             </div>
             <div class="form-group">
@@ -111,5 +115,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

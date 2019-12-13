@@ -19,7 +19,7 @@ namespace CoHO.Pages.Disabilities
             _context = context;
         }
 
-        public IList<Disability> Disability { get;set; }
+        public IList<Disability> Disability { get; set; }
 
         public async Task OnGetAsync()
         {

@@ -135,7 +135,7 @@ namespace CoHO.Pages
                     // staff values and hours.
                     worksheet.Range[2, 1].Text = "Staff Hours";
                     worksheet.Range[3, 1].Text = "Staff Value";
-                    
+
                 }
 
                 //looping through the months.
@@ -207,7 +207,7 @@ namespace CoHO.Pages
             }
             worksheet.Range[rows + 1, 14].Formula = hoursFormula + ")";
             worksheet.Range[rows + 2, 14].Formula = valueFormula + ")";
-            
+
 
             String[] months = { "January", "February", "March", "April", "May",
                 "June", "July", "August", "September", "October", "November",

@@ -77,7 +77,7 @@ namespace CoHO.Pages
             await _context.SaveChangesAsync();
         }
 
-     
+
 
         public async void Clockin(Volunteer ourVolunteer)
         {
@@ -109,7 +109,7 @@ namespace CoHO.Pages
             {
                 ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
                 LastActivity = GetLastActivity(ourVolunteer);
-         
+
 
                 if (LastActivity != null)
                 {
@@ -180,8 +180,8 @@ namespace CoHO.Pages
             catch
             {
                 TempData["message"] = "UNF";
-            }        
-         
+            }
+
             return RedirectToPage("./Index");
             //Put the clockout code here.
 

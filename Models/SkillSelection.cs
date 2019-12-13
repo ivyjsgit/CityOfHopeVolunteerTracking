@@ -7,7 +7,7 @@ namespace CoHO.Models
 {
     public class SkillSelection
     {
-        public int SkillSelectionID {get;set;}
+        public int SkillSelectionID { get; set; }
         public int SKillID { get; set; }
         public int VolunteerID { get; set; }
 

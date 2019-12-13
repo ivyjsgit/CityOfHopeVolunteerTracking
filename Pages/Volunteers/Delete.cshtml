@@ -2,8 +2,8 @@
 @model CoHO.Pages.Volunteers.DeleteModel
 
 @{
-    ViewData["Title"] = "Delete";
-    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+ViewData["Title"] = "Delete";
+Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
 <h1 class="padding">Delete</h1>
@@ -110,7 +110,7 @@
             @Html.DisplayFor(model => model.Volunteer.EducationLevel.Description)
         </dd>
     </dl>
-    
+
     <form method="post">
         <input type="hidden" asp-for="Volunteer.VolunteerID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

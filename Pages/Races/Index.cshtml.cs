@@ -19,7 +19,7 @@ namespace CoHO.Pages.Races
             _context = context;
         }
 
-        public IList<Race> Race { get;set; }
+        public IList<Race> Race { get; set; }
 
         public async Task OnGetAsync()
         {

@@ -19,13 +19,13 @@ namespace CoHO.Pages.EducationLevels
             _context = context;
         }
 
-        public IList<EducationLevel> EducationLevel { get;set; }
+        public IList<EducationLevel> EducationLevel { get; set; }
 
         public async Task OnGetAsync()
         {
-             EducationLevel = await _context.EducationLevel
-                .OrderBy(e => e.Description)
-                .ToListAsync();
+            EducationLevel = await _context.EducationLevel
+               .OrderBy(e => e.Description)
+               .ToListAsync();
         }
     }
 }

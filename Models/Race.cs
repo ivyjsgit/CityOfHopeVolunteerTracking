@@ -16,6 +16,6 @@ namespace CoHO.Models
         [DisplayName("Inactive")]
         public Boolean InActive { get; set; }
         public ICollection<Volunteer> Volunteer { get; set; }
-        
+
     }
 }

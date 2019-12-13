@@ -19,13 +19,13 @@ namespace CoHO.Pages.ValueOfHours
             _context = context;
         }
 
-        public IList<ValueOfHour> ValueOfHour { get;set; }
+        public IList<ValueOfHour> ValueOfHour { get; set; }
 
         public async Task OnGetAsync()
         {
-             ValueOfHour = await _context.ValueOfHour
-                .OrderByDescending(v => v.EffectiveDate)
-                .ToListAsync();
+            ValueOfHour = await _context.ValueOfHour
+               .OrderByDescending(v => v.EffectiveDate)
+               .ToListAsync();
         }
     }
 }

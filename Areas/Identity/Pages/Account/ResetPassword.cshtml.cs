@@ -21,7 +21,7 @@ namespace CoHO.Areas.Identity.Pages.Account
             _userManager = userManager;
         }
 
-        public string VolunteerEmail ;
+        public string VolunteerEmail;
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -49,7 +49,7 @@ namespace CoHO.Areas.Identity.Pages.Account
             VolunteerEmail = Request.Query["email"];
             Input = new InputModel { };
             return Page();
-            
+
         }
 
         public async Task<IActionResult> OnPostAsync()

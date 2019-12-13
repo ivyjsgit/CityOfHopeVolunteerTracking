@@ -19,7 +19,7 @@ namespace CoHO.Pages.Skills
             _context = context;
         }
 
-        public IList<Skill> Skill { get;set; }
+        public IList<Skill> Skill { get; set; }
 
         public async Task OnGetAsync()
         {

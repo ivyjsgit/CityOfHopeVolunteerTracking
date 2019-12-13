@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="~/css/site.css" />
   <link href="https://fonts.googleapis.com/css?family=Raleway|Source+Sans+Pro&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
 
 
@@ -19,7 +19,7 @@
 <body class="body-font nomargins fill">
   <header>
     <nav class="navbar navbar-expand-md navbar-background">
-        <img class="navbar-brand logo" src="~/imgs/cohologo-white.png" alt="cohologo.png" />
+      <img class="navbar-brand logo" src="~/imgs/cohologo-white.png" alt="cohologo.png" />
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <div class="hamburger-icon"></div>
@@ -35,20 +35,21 @@
             <a class="nav-link text-white" href="/Volunteers/index">Volunteers</a>
           </li>
 
-        <li>
-            <a class="nav-link text-white" href ="/VolunteerActivities">All Hours</a>
-        </li>
-            
-        <li>
-            <a class="nav-link text-white" href ="/Initiatives">Initiatives</a>
-        </li>
-        <li>
-            <a class="nav-link text-white" href ="/ManageTables">Manage Tables</a>
-        </li>
+          <li>
+            <a class="nav-link text-white" href="/VolunteerActivities">All Hours</a>
+          </li>
+
+          <li>
+            <a class="nav-link text-white" href="/Initiatives">Initiatives</a>
+          </li>
+          <li>
+            <a class="nav-link text-white" href="/ManageTables">Manage Tables</a>
+          </li>
           <li class="active">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
-              <button  type="submit" class="nav-link btn btn-link text-white">Logout</button>
-           </form>
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/",
+              new { area="" })" method="post">
+              <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
+            </form>
           </li>
         </ul>
       </div>
@@ -58,9 +59,9 @@
   @RenderBody()
 
   <footer class="border-top footer text-muted copyright">
-        <div class="container">
-            &copy; 2019 - City Of Hope</a>
-        </div>
+    <div class="container">
+      &copy; 2019 - City Of Hope</a>
+    </div>
   </footer>
 
   <script src="~/lib/jquery/dist/jquery.min.js"></script>

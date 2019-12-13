@@ -25,7 +25,7 @@ namespace CoHO.Areas.Identity.Pages.Account
         private readonly CoHO.Data.ApplicationDbContext _context;
 
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager,
             IEmailSender emailSender, CoHO.Data.ApplicationDbContext context)

@@ -46,7 +46,7 @@ namespace CoHO
                     options.Conventions.AuthorizePage("/ButtonTest", "IsAdmin");
                     options.Conventions.AuthorizePage("/ManageTables", "IsAdmin");
                     options.Conventions.AuthorizePage("/AdminIndex", "IsAdmin");
-                    options.Conventions.AuthorizeAreaPage("Identity","/Account/ResetPassword", "IsAdmin");
+                    options.Conventions.AuthorizeAreaPage("Identity", "/Account/ResetPassword", "IsAdmin");
                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Register", "IsAdmin");
                     options.Conventions.AuthorizeFolder("/Disabilities", "IsAdmin");
                     options.Conventions.AuthorizeFolder("/EducationLevels", "IsAdmin");
@@ -59,7 +59,7 @@ namespace CoHO
                     options.Conventions.AuthorizeFolder("/VolunteerTypes", "IsAdmin");
 
                 });
-            
+
             services.AddMvc();
         }
 

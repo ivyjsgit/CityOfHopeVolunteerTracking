@@ -37,11 +37,11 @@ namespace CoHO.Pages.VolunteerActivities
             {
                 return NotFound();
             }
-           ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "FullName");
-           var ValidInitiatives = from i in _context.Initiative
-                                  where i.InActive == false
-                                  orderby i.Description // Sort by name.
-                                  select i;
+            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "FullName");
+            var ValidInitiatives = from i in _context.Initiative
+                                   where i.InActive == false
+                                   orderby i.Description // Sort by name.
+                                   select i;
             ViewData["InitiativeId"] = new SelectList(ValidInitiatives, "InitiativeID", "Description");
             return Page();
         }

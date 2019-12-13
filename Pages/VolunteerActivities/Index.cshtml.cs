@@ -19,14 +19,14 @@ namespace CoHO.Pages.VolunteerActivities
             _context = context;
         }
 
-        public IList<VolunteerActivity> VolunteerActivity { get;set; }
+        public IList<VolunteerActivity> VolunteerActivity { get; set; }
 
         public async Task OnGetAsync()
         {
             VolunteerActivity = await _context.VolunteerActivity
                 .OrderByDescending(v => v.StartTime)
                 .Include(v => v.Volunteer)
-                .Include(v=> v.Initiative).ToListAsync();
+                .Include(v => v.Initiative).ToListAsync();
         }
 
     }

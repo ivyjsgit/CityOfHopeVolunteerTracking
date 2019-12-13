@@ -18,14 +18,15 @@ namespace CoHO.Models
         public string First { get; set; }
         [Required]
         public string Last { get; set; }
-        public string FullName {
+        public string FullName
+        {
             get
             {
                 return First + " " + Last;
             }
         }
         [DataType(DataType.Date)]
-        public DateTime? Birthday{ get; set; }
+        public DateTime? Birthday { get; set; }
         [Required]
         [DisplayName("Email/UserName")]
         public string Email { get; set; }
@@ -47,7 +48,7 @@ namespace CoHO.Models
         public Boolean WorkersComp { get; set; }
         public Boolean Veteran { get; set; }
         public Boolean Admin { get; set; }
-        
+
         public Race Race { get; set; }
         public VolunteerType VolunteerType { get; set; }
         public EducationLevel EducationLevel { get; set; }

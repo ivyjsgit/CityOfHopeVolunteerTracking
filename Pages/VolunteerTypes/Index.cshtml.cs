@@ -19,7 +19,7 @@ namespace CoHO.Pages.VolunteerTypes
             _context = context;
         }
 
-        public IList<VolunteerType> VolunteerType { get;set; }
+        public IList<VolunteerType> VolunteerType { get; set; }
 
         public async Task OnGetAsync()
         {

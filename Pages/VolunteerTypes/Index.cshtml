@@ -2,8 +2,8 @@
 @model CoHO.Pages.VolunteerTypes.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+ViewData["Title"] = "Index";
+Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
 <h1 class="padding">Index</h1>
@@ -24,7 +24,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.VolunteerType) {
+        @foreach (var item in Model.VolunteerType) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
@@ -33,9 +33,9 @@
                 @Html.DisplayFor(modelItem => item.InActive)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.VolunteerTypeID">Edit</a> 
-             </td>
+                <a asp-page="./Edit" asp-route-id="@item.VolunteerTypeID">Edit</a>
+            </td>
         </tr>
-}
+        }
     </tbody>
 </table>

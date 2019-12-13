@@ -97,7 +97,8 @@ namespace CoHO.Pages.Volunteers
             if (Volunteer.Admin && !hasAdmin)
             {
                 await _userManager.AddClaimAsync(VolunteerIdentity, new Claim("super", "true"));
-            } else if (!Volunteer.Admin) 
+            }
+            else if (!Volunteer.Admin)
             {
                 foreach (Claim claim in claimList)
                 {
@@ -105,7 +106,7 @@ namespace CoHO.Pages.Volunteers
                     {
                         await _userManager.RemoveClaimAsync(VolunteerIdentity, claim);
                     }
-                }     
+                }
             }
 
             try
@@ -142,6 +143,6 @@ namespace CoHO.Pages.Volunteers
             }
             return false;
         }
-        
+
     }
 }

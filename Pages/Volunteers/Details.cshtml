@@ -2,8 +2,8 @@
 @model CoHO.Pages.Volunteers.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+ViewData["Title"] = "Details";
+Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
 <h1 class="padding">Volunteer Details</h1>
@@ -11,7 +11,7 @@
     <div class="row" style="padding-left:10px">
         <div class="col-4">
             <hr />
-            <dl class="row" >
+            <dl class="row">
                 <dt class="col-sm-6">
                     @Html.DisplayNameFor(model => model.Volunteer.First)
                 </dt>
@@ -130,29 +130,29 @@
                 <tbody>
                     @foreach (var item in Model.Activities)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Initiative.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.StartTime)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.EndTime)
-                            </td>
-                            <td>
-                                @Html.DisplayFor((modelItem => item.ElapsedTime))
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Volunteer.FullName)
-                            </td>
-                            <td>
-                                <a asp-page="/VolunteerActivities/Edit" asp-route-id="@item.VolunteerActivityID">Edit</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Initiative.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor((modelItem => item.ElapsedTime))
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Volunteer.FullName)
+                        </td>
+                        <td>
+                            <a asp-page="/VolunteerActivities/Edit" asp-route-id="@item.VolunteerActivityID">Edit</a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
-            </div>
         </div>
     </div>
+</div>

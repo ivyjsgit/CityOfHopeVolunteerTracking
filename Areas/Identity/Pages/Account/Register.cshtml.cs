@@ -20,7 +20,7 @@ using System.Security.Claims;
 
 namespace CoHO.Areas.Identity.Pages.Account
 {
- 
+
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -76,15 +76,15 @@ namespace CoHO.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             var ValidEducationLevels = from e in _context.EducationLevel
-                                   where e.InActive == false
-                                   orderby e.Description // Sort by name.
-                                   select e;
+                                       where e.InActive == false
+                                       orderby e.Description // Sort by name.
+                                       select e;
             ViewData["EducationLevelID"] = new SelectList(ValidEducationLevels, "EducationLevelID", "Description");
 
             var ValidRaces = from r in _context.Race
-                                   where r.InActive == false
-                                   orderby r.Description // Sort by name.
-                                   select r;
+                             where r.InActive == false
+                             orderby r.Description // Sort by name.
+                             select r;
             ViewData["RaceID"] = new SelectList(ValidRaces, "RaceID", "Description");
 
             var ValidInitiatives = from v in _context.VolunteerType
@@ -108,47 +108,50 @@ namespace CoHO.Areas.Identity.Pages.Account
             //Add the volunteer to the Volunteers table
             _context.Volunteer.Add(Volunteer);
             await _context.SaveChangesAsync();
-                //Set up the Identity user object
-                var user = new IdentityUser { UserName = Volunteer.Email.ToLower(), Email = Volunteer.Email.ToLower(),
-                    EmailConfirmed = true
-                };
-                       
-                //Put it in the Identity database
-                var result = await _userManager.CreateAsync(user, Input.Password);
-                //Make admin
-                if (Volunteer.Admin)
-                {
-                    await _userManager.AddClaimAsync(user, new Claim("super", "true"));
-                }
+            //Set up the Identity user object
+            var user = new IdentityUser
+            {
+                UserName = Volunteer.Email.ToLower(),
+                Email = Volunteer.Email.ToLower(),
+                EmailConfirmed = true
+            };
+
+            //Put it in the Identity database
+            var result = await _userManager.CreateAsync(user, Input.Password);
+            //Make admin
+            if (Volunteer.Admin)
+            {
+                await _userManager.AddClaimAsync(user, new Claim("super", "true"));
+            }
 
             if (result.Succeeded)
+            {
+                Console.WriteLine("It worked! " + user);
+
+
+                _logger.LogInformation("User created a new account with password.");
+
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Page(
+                    "/Account/ConfirmEmail",
+                    pageHandler: null,
+                    values: new { area = "Identity", userId = user.Id, code = code },
+                    protocol: Request.Scheme);
+
+                await _emailSender.SendEmailAsync(Volunteer.Email, "Confirm your email",
+                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                if (_userManager.Options.SignIn.RequireConfirmedAccount)
                 {
-                    Console.WriteLine("It worked! " + user);
-
-
-                    _logger.LogInformation("User created a new account with password.");
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Volunteer.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Volunteer.Email });
-                    }
-                    else
-                    {
-                        //await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    return RedirectToPage("RegisterConfirmation", new { email = Volunteer.Email });
+                }
+                else
+                {
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
+                }
+                return LocalRedirect(returnUrl);
 
                 //}
 

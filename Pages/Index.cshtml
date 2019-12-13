@@ -1,8 +1,8 @@
 ﻿@page
 @model CreateModel
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+ViewData["Title"] = "Index";
+Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 
@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label asp-for="Initiative.InitiativeID" class="control-label">Initiative</label>
                                 <select asp-for="Initiative.InitiativeID" class="form-control"
-                                        asp-items="ViewBag.InitiativeId"></select>
+                                    asp-items="ViewBag.InitiativeId"></select>
                             </div>
 
 
@@ -38,8 +38,10 @@
 
 
                             <div class="form-group">
-                                <input id="clockin" type="submit" asp-page-handler="ClockIn" value="Clock In" class="btn btn-primary" />
-                                <input id="clockout" type="submit" asp-page-handler="ClockOut" value="Clock Out" class="btn btn-primary" />
+                                <input id="clockin" type="submit" asp-page-handler="ClockIn" value="Clock In"
+                                    class="btn btn-primary" />
+                                <input id="clockout" type="submit" asp-page-handler="ClockOut" value="Clock Out"
+                                    class="btn btn-primary" />
 
 
                             </div>

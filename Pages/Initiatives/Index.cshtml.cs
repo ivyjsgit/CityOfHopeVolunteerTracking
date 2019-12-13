@@ -19,7 +19,7 @@ namespace CoHO.Pages.Initiatives
             _context = context;
         }
 
-        public IList<Initiative> Initiative { get;set; }
+        public IList<Initiative> Initiative { get; set; }
 
         public async Task OnGetAsync()
         {

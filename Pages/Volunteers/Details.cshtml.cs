@@ -12,12 +12,12 @@ namespace CoHO.Pages.Volunteers
 {
     public class DetailsModel : PageModel
     {
-       private readonly CoHO.Data.ApplicationDbContext _context;
+        private readonly CoHO.Data.ApplicationDbContext _context;
 
         public DetailsModel(CoHO.Data.ApplicationDbContext context)
         {
             _context = context;
-        } 
+        }
 
         public Volunteer Volunteer { get; set; }
         public IList<VolunteerActivity> Activities { get; set; }
