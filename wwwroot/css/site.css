@@ -32,7 +32,7 @@ a {
 -------------------------------------------------- */
 html {
     font-size: 14px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Nunito', sans-serif;
 }
 @media (min-width: 768px) {
   html {
@@ -129,7 +129,7 @@ body {
 }
 
 .body-font {
-    font-family: 'Raleway','Source Sans Pro', sans-serif;
+    font-family: 'Nunito', sans-serif;
 }
 
 .copyright {
