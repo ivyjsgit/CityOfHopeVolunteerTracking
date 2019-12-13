@@ -174,3 +174,9 @@ body {
     text-align:center;
     margin-top: 10px;
 }
+.less-margin-top{
+    margin-top:12%;
+}
+.text-in-div{
+    word-wrap: break-word;
+}
