@@ -6,83 +6,90 @@
 }
 
     <div class="createReportPage">
-        <label style="padding-top: 25px">
-            <p style="font-size: 40px">
-                Volunteer Reports
-            </p>
-        </label>
-        <div class="container">
+        <div class="container.fluid">
             <div class="row">
+                <div class="col-sm-8">
+                    <label style="padding-top: 25px">
+                        <p style="font-size: 40px">
+                            Volunteer Reports
+                        </p>
+                    </label>
+                </div>
                 <div class="col-sm-4">
                     <label style="padding-left: 120px; padding-top:20px">
                         <a href="/Identity/Account/Manage/ChangePassword">Change Password</a>
                     </label>
-                    <hr/>
-                    <div class="col-sm-4">
-                        <label style="padding-bottom: 20px; padding-top: 20px">
-                            Start Date: <input type="date" />
-                        </label>
-                        <label style="padding-bottom: 20px">
-                            End Date: <input type="date" />
-                        </label>
-                        <form asp-page-handler="view">
-                            <input type="submit" id="volReport" style="margin-left:70px">Generate Report</input>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="col-sm-8">
-                    <label style="padding-left: 120px; padding-top:20px">
-                        <button type="button" id="changeHours">Time Change Request</button>
-                    </label>
-                    <table class="table table-striped table-responsive padding">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Initiative
-                                </th>
-                                <th>
-                                    Start Time
-                                </th>
-                                <th>
-                                    End Time
-                                </th>
-                                <th>
-                                    Elapsed Time
-                                </th>
-                                <th>
-                                    Volunteer Name
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Activities)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Initiative.Description)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.StartTime)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.EndTime)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor((modelItem => item.ElapsedTime))
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Volunteer.FullName)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-
+                    <hr />
                 </div>
             </div>
         </div>
+            <div class="container.fluid">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="col-sm-4">
+                            <label style="padding-bottom: 20px; padding-top: 20px">
+                                Start Date: <input type="date" />
+                            </label>
+                            <label style="padding-bottom: 20px">
+                                End Date: <input type="date" />
+                            </label>
+                            <form asp-page-handler="view">
+                                <input type="submit" id="volReport" style="margin-left:70px"Generate Report>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <p style="text-align: center">Please contact the CoHO office to request a change in your recorded hours.</p>
+                        <hr />
+                        <table class="table table-striped table-responsive padding">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Initiative
+                                    </th>
+                                    <th>
+                                        Start Time
+                                    </th>
+                                    <th>
+                                        End Time
+                                    </th>
+                                    <th>
+                                        Elapsed Time
+                                    </th>
+                                    <th>
+                                        Volunteer Name
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Activities)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Initiative.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.StartTime)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EndTime)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor((modelItem => item.ElapsedTime))
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Volunteer.FullName)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
     </div>
+ 
 
