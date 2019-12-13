@@ -115,7 +115,7 @@ namespace CoHO.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Could not log in. Please check your username and password.");
                     return Page();
                 }
             }

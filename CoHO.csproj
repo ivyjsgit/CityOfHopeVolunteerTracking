@@ -40,4 +40,8 @@
   <ItemGroup>
     <Content Remove="wwwroot\dist\overhang.min.css" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="app.db" />
+    <None Remove="app.db.sqbpro" />
+  </ItemGroup>
 </Project>
