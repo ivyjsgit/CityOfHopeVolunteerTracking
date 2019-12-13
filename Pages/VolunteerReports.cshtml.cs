@@ -44,7 +44,7 @@ namespace CoHO.Pages
                 .Include(v => v.EducationLevel)
                 .Include(v => v.Race)
                 .Include(v => v.VolunteerType)
-                .FirstOrDefaultAsync(m => m.Email == user.Email);
+                .FirstOrDefaultAsync(m => m.UserName.ToLower() == user.UserName.ToLower());
 
             if (Volunteer == null)
             {

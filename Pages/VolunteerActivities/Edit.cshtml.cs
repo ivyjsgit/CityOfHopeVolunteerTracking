@@ -72,7 +72,6 @@ namespace CoHO.Pages.VolunteerActivities
                     throw;
                 }
             }
-
             return RedirectToPage("./Index");
         }
 

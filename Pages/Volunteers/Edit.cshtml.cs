@@ -88,7 +88,7 @@ namespace CoHO.Pages.Volunteers
             Volunteer.UserName = Volunteer.Email;
             VolunteerIdentity.Email = Volunteer.Email;
             VolunteerIdentity.NormalizedEmail = Volunteer.Email.ToUpper();
-            VolunteerIdentity.UserName = Volunteer.Email;
+            VolunteerIdentity.UserName = Volunteer.Email.ToLower();
             VolunteerIdentity.NormalizedUserName = Volunteer.Email.ToUpper();
             IList<Claim> claimList = await _userManager.GetClaimsAsync(VolunteerIdentity);
             bool hasAdmin = HasAdminClaim(VolunteerIdentity, claimList);
