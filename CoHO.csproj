@@ -14,6 +14,7 @@
     <Compile Remove="Migrations\20191121203229_CreateSchema.Designer.cs" />
     <Compile Remove="Migrations\20191122045136_Update.cs" />
     <Compile Remove="Migrations\20191122045136_Update.Designer.cs" />
+    <Compile Remove="Pages\Template.cs" />
   </ItemGroup>
 
   <ItemGroup>
