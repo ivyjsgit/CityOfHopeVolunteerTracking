@@ -99,30 +99,23 @@ namespace CoHO.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            //Console.WriteLine(Volunteer.First);
             returnUrl = Url.Content("/Volunteers/index");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
 
             Volunteer.UserName = Volunteer.Email.ToLower();
 
-            //Volunteer.Password = "Please";
-            //Volunteer.Email= Input.
-
-
+            //Add the volunteer to the Volunteers table
             _context.Volunteer.Add(Volunteer);
             await _context.SaveChangesAsync();
-            //if (ModelState.IsValid)
-            //{
-                
+                //Set up the Identity user object
                 var user = new IdentityUser { UserName = Volunteer.Email.ToLower(), Email = Volunteer.Email.ToLower(),
                     EmailConfirmed = true
                 };
-                Console.WriteLine(user);
                        
-
+                //Put it in the Identity database
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
+                //Make admin
                 if (Volunteer.Admin)
                 {
                     await _userManager.AddClaimAsync(user, new Claim("super", "true"));

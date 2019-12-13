@@ -124,13 +124,15 @@ namespace CoHO.Pages
                             DoClockout(ourVolunteer, true);
                         }
                         TempData["message"] = "CO";
-                        System.Threading.Thread.Sleep(500);
                     }
                     else
                     {
                         TempData["message"] = "NCI";
-                        System.Threading.Thread.Sleep(500);
                     }
+                }
+                else
+                {
+                    TempData["message"] = "NCI";
                 }
             }
             catch
@@ -149,16 +151,20 @@ namespace CoHO.Pages
         {
             try
             {
+                //Find our volunteer and their last activity
                 Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
                 VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+
                 if (LastActivity != null && !LastActivity.ClockedIn)
                 {
                     Clockin(ourVolunteer);
+                    //Send a toast to the user saying Clocked in
                     TempData["message"] = "CI";
                     System.Threading.Thread.Sleep(500);
                 }
                 else if (LastActivity != null && LastActivity.ClockedIn)
                 {
+                    //Send a toast to the user saying Not clocked out
                     TempData["message"] = "NCO";
                     System.Threading.Thread.Sleep(500);
 
