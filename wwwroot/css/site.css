@@ -169,3 +169,8 @@ body {
 .admin-input {
     padding: 10px;
 }
+.center-in-div{
+    margin:auto;
+    text-align:center;
+    margin-top: 10px;
+}
