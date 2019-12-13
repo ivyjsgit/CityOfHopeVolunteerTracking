@@ -26,22 +26,25 @@
                   </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                       <ul class="nav navbar-nav navbar-right">
+                        @if(!User.Identity.IsAuthenticated)
+                        {
+
+                        
                         <li class="active">
                           <a class="nav-link text-white" href="/">Clock in/Clock out<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="">
-                            @if(!User.Identity.IsAuthenticated) 
-                            {
                                 <a class="nav-link text-white" href="/Identity/Account/Login">Login</a>
-                            }
-                            else
-                            {
-                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
-                                        <button  type="submit" class="nav-link btn btn-link text-white">Logout</button>
-                                     </form>
-
-                            }
+                          
                         </li>
+                        }
+                        else
+                        {
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
+                                        <button  type="submit" class="nav-link btn btn-link text-white">Logout</button>
+                            </form>
+                        }
+
                       </ul>
                 </div>
              </nav>
