@@ -162,6 +162,10 @@ body {
     padding-bottom: 20px;
 }
 
+.marginBot{
+    margin-bottom: 10px;
+}
+
 .admin-input {
     padding: 10px;
 }

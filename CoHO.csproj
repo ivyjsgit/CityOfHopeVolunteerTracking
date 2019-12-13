@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-CoHO-1C6DD7EA-40F0-4EDC-AC31-7F0DB069BFB0</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+    <WarningLevel>0</WarningLevel>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Migrations\20191121024152_InitialSchema.cs" />
     <Compile Remove="Migrations\20191121024152_InitialSchema.Designer.cs" />
