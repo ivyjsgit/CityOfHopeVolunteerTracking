@@ -23,10 +23,8 @@ namespace CoHO.Pages.VolunteerActivities
 
         public async Task OnGetAsync()
         {
-            IQueryable<VolunteerActivity> ActivitiesIQueryable = from v in _context.VolunteerActivity select v;
-            ActivitiesIQueryable = ActivitiesIQueryable.OrderByDescending(v => v.StartTime);
-
-            VolunteerActivity = await ActivitiesIQueryable
+            VolunteerActivity = await _context.VolunteerActivity
+                .OrderByDescending(v => v.StartTime)
                 .Include(v => v.Volunteer)
                 .Include(v=> v.Initiative).ToListAsync();
         }

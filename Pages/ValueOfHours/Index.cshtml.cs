@@ -23,9 +23,9 @@ namespace CoHO.Pages.ValueOfHours
 
         public async Task OnGetAsync()
         {
-            IQueryable<ValueOfHour> ValueIQueryable = from v in _context.ValueOfHour select v;
-            ValueIQueryable = ValueIQueryable.OrderByDescending(v => v.EffectiveDate);
-            ValueOfHour = await ValueIQueryable.ToListAsync();
+             ValueOfHour = await _context.ValueOfHour
+                .OrderByDescending(v => v.EffectiveDate)
+                .ToListAsync();
         }
     }
 }

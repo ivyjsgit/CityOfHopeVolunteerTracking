@@ -39,12 +39,10 @@ namespace CoHO.Pages.Volunteers
             {
                 return NotFound();
             }
-
-            IQueryable<VolunteerActivity> ActivitiesIQueryable = from v in _context.VolunteerActivity select v;
-            ActivitiesIQueryable = ActivitiesIQueryable.OrderByDescending(v => v.StartTime);
-            Activities = await ActivitiesIQueryable.Where(a => a.VolunteerId == Volunteer.VolunteerID)
+            Activities = await _context.VolunteerActivity
+                .Where(a => a.VolunteerId == Volunteer.VolunteerID)
+                .OrderByDescending(v => v.StartTime)
                 .Include(a => a.Initiative).ToListAsync();
-
 
             return Page();
         }

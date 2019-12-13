@@ -23,9 +23,9 @@ namespace CoHO.Pages.Initiatives
 
         public async Task OnGetAsync()
         {
-            IQueryable<Initiative> InitiativeIQueryable = from i in _context.Initiative select i;
-            InitiativeIQueryable = InitiativeIQueryable.OrderBy(i => i.Description);
-            Initiative = await InitiativeIQueryable.ToListAsync();
+            Initiative = await _context.Initiative
+                .OrderBy(i => i.Description)
+                .ToListAsync();
         }
     }
 }

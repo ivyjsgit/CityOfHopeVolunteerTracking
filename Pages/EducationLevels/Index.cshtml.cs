@@ -23,9 +23,9 @@ namespace CoHO.Pages.EducationLevels
 
         public async Task OnGetAsync()
         {
-            IQueryable<EducationLevel> EducationIQueryable = from e in _context.EducationLevel select e;
-            EducationIQueryable = EducationIQueryable.OrderBy(e => e.Description);
-            EducationLevel = await EducationIQueryable.ToListAsync();
+             EducationLevel = await _context.EducationLevel
+                .OrderBy(e => e.Description)
+                .ToListAsync();
         }
     }
 }

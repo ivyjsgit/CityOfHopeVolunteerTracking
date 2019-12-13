@@ -23,9 +23,9 @@ namespace CoHO.Pages.VolunteerTypes
 
         public async Task OnGetAsync()
         {
-            IQueryable<VolunteerType> TypeIQueryable = from t in _context.VolunteerType select t;
-            TypeIQueryable = TypeIQueryable.OrderBy(t => t.Description);
-            VolunteerType = await TypeIQueryable.ToListAsync();
+            VolunteerType = await _context.VolunteerType
+                .OrderBy(t => t.Description)
+                .ToListAsync();
         }
     }
 }
