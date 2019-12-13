@@ -41,6 +41,7 @@ namespace CoHO.Models
         [DisplayName("Education")]
         public int? EducationLevelID { get; set; }
         public Boolean ClockedIn { get; set; }
+        [DisplayName("Inactive")]
         public Boolean InActive { get; set; }
         public Boolean CommunityService { get; set; }
         public Boolean WorkersComp { get; set; }

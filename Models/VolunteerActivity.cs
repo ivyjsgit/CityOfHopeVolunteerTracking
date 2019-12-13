@@ -12,8 +12,11 @@ namespace CoHO.Models
         public int VolunteerActivityID { get; set; }
         public int VolunteerId { get; set; }
         public int InitiativeId { get; set; }
+        [DisplayFormat(DataFormatString = "{0:g}")]
         public DateTime StartTime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:g}")]
         public DateTime EndTime { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:h\\:mm}")]
         public TimeSpan ElapsedTime
         {
             get
