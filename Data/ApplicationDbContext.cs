@@ -50,7 +50,74 @@ namespace CoHO.Data
                     InActive = false
                 });
 
+            builder.Entity<Race>().HasData(
+                new Race
+                {
+                    RaceID = 1,
+                    Description = "American Indian",
+                },
+                new Race
+                {
+                    RaceID = 2,
+                    Description = "Asian",
+                },
+                new Race
+                {
+                    RaceID = 3,
+                    Description = "White",
+                },
+                new Race
+                {
+                    RaceID = 4,
+                    Description = "Back or African American",
+                });
 
+            builder.Entity<Initiative>().HasData(
+                new Initiative
+                {
+                    InitiativeID = 1,
+                    Description = "Academy",
+                },
+                new Initiative
+                {
+                    InitiativeID = 2,
+                    Description = "Community Garden",
+                },
+                new Initiative
+                {
+                    InitiativeID = 3,
+                    Description = "Office",
+                },
+                new Initiative
+                {
+                    InitiativeID = 4,
+                    Description = "Housing",
+                });
+
+            builder.Entity<EducationLevel>().HasData(
+                new EducationLevel
+                {
+                    EducationLevelID = 1,
+                    Description = "GED",
+                },
+                new EducationLevel
+                {
+                    EducationLevelID = 2,
+                    Description = "High School Degree",
+                });
+            builder.Entity<Volunteer>().HasData(
+                new Volunteer
+                {
+                    VolunteerID = 1,
+                    UserName = "admin",
+                    Email = "admin",
+                    InActive = true,
+                    Admin = true,
+                    First = "Zadmin",
+                    Last = "Zadmin",
+                    VolunteerTypeID = 2
+                  
+                });
         }
 
 
