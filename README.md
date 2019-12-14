@@ -17,5 +17,5 @@ This software is designed to be used by the Conway, AR non-profit City Of Hope. 
 ---
 
 1. Clone the project.
-2. docker build -t localreponame
-3. docker run -p 5000:5000 5001:5001 localreponame                                          
+2. ```docker build -t localreponame .```
+3. ```docker run -p 5000:5000 -p 5001:5001 localreponame```                                     
