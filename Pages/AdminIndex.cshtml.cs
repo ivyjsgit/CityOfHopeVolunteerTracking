@@ -1,4 +1,4 @@
-﻿
+
 
 using System;
 using System.Collections.Generic;
@@ -58,12 +58,48 @@ namespace CoHO.Pages
         }
 
 
-        public FileStreamResult OnPostRange()
+        public async Task<IActionResult> OnPostRangeAsync()
         {
-            String startDate = Request.Form["start"];
-            String endDate = Request.Form["end"];
 
-            
+
+            // month dictionary to convert the string input into the corresponding int for the month.
+            Dictionary<String, Int32> months = new Dictionary<String, Int32>
+            {
+                { "January", 1 },
+                { "February", 2 },
+                { "March", 3 },
+                { "April", 4 },
+                { "May", 5 },
+                { "June", 6 },
+                { "July", 7 },
+                { "August", 8 },
+                { "September", 9 },
+                { "October", 10 }, 
+                { "November", 11 }, 
+                { "December", 12 }
+            };
+
+            // Assigning input dates to their corresponding varialbles
+            int startDay = Int32.Parse(Request.Form["start-day"]);
+            int startMonth = months.GetValueOrDefault(Request.Form["start-month"]);
+            int startYear = Int32.Parse(Request.Form["start-year"]);
+            int endDay = Int32.Parse(Request.Form["end-day"]);
+            int endMonth = months.GetValueOrDefault(Request.Form["end-month"]);
+            int endYear = Int32.Parse(Request.Form["end-year"]);
+
+            // Converting info to datetime objects.
+            DateTime start = new DateTime(startYear, startMonth, startDay);
+            DateTime end = new DateTime(endYear, endMonth, endDay);
+
+            // Checking if the datetime is valid.
+            if (start > end)
+            {
+                //Send a toast to the user saying that the selection is invalid.
+                TempData["message"] = "NO";
+                System.Threading.Thread.Sleep(500);
+                return RedirectToPage("./adminindex");
+
+            } 
 
             //Initialize database variables.
             var volunteers = _context.Volunteer;
@@ -85,8 +121,27 @@ namespace CoHO.Pages
             IWorksheet worksheet = workbook.Worksheets[0];
             worksheet.EnableSheetCalculations();
 
-            worksheet.Range[1, 1].Text = startDate;
-            worksheet.Range[1, 2].Text = endDate;
+            //worksheet.Range[1, 1].Text = startDate;
+            //worksheet.Range[1, 2].Text = endDate;
+            int i = 2;
+            foreach (var volunteer in volunteers)
+            {
+                worksheet.Range[i, 1].Text = volunteer.FullName;
+                foreach (var month in months)
+                {
+                    int j = month.Value;
+                    var work = volunteerActivities.Where(m => m.Volunteer == volunteer && m.StartTime >= start && m.EndTime <= end && m.StartTime.Month == j);
+                    double sum = 0.0;
+                    foreach (var item in work)
+                    {
+                        sum += item.ElapsedTime.Hours;
+                        sum += (item.ElapsedTime.Minutes / 60.0);
+                    }
+                    worksheet.Range[i, j + 1].Number = Math.Round(sum, 2);
+                    j++;
+                }
+                i++;
+            }
 
 
 
@@ -104,9 +159,14 @@ namespace CoHO.Pages
             {
                 FileDownloadName = "Hours/Values.xlsx"
             };
-
+            
+            RedirectToPage("./adminindex");
             return fileStreamResult;
         }
+
+        
+
+         
 
 
         public FileStreamResult OnPostView()
