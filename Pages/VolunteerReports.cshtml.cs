@@ -66,6 +66,7 @@ namespace CoHO.Pages
             Console.WriteLine('H');
             var volunteers = _context.Volunteer;
             var volunteerActivities = _context.VolunteerActivity;
+            var initiatives = _context.Initiative;
             int activitiesCount = volunteerActivities.Count();
             WordDocument report = new WordDocument();
             IWSection section = report.AddSection();
@@ -78,16 +79,19 @@ namespace CoHO.Pages
             info.Rows[0].Cells[2].AddParagraph().AppendText("Start Time");
             info.Rows[0].Cells[3].AddParagraph().AppendText("End Time");
             info.Rows[0].Cells[4].AddParagraph().AppendText("Elapsed Time");
-            IWTextRange nameText = name.AppendText("Jack Frey");
+            IWTextRange nameText = name.AppendText("Volunteer Name");
             foreach(CoHO.Models.VolunteerActivity activity in volunteerActivities.ToArray())
             {
                 info.AddRow();
                 row += 1;
-                info.Rows[row].Cells[0].AddParagraph().AppendText(activity.EndTime.ToString());
-                info.Rows[row].Cells[1].AddParagraph().AppendText(activity.EndTime.ToString());
-                info.Rows[row].Cells[2].AddParagraph().AppendText(activity.StartTime.ToString());
-                info.Rows[row].Cells[3].AddParagraph().AppendText(activity.EndTime.ToString());
-                info.Rows[row].Cells[4].AddParagraph().AppendText(activity.ElapsedTime.ToString());
+                string Start = activity.StartTime.ToString();
+                string End = activity.EndTime.ToString();
+                int id = activity.InitiativeId;
+                info.Rows[row].Cells[0].AddParagraph().AppendText(Start.Split(' ')[0]);
+                info.Rows[row].Cells[1].AddParagraph().AppendText(initiatives.Single(m => m.InitiativeID == id).Description);
+                info.Rows[row].Cells[2].AddParagraph().AppendText(Start.Split(' ')[1]);
+                info.Rows[row].Cells[3].AddParagraph().AppendText(End.Split(' ')[1]);
+                info.Rows[row].Cells[4].AddParagraph().AppendText(activity.ElapsedTime.ToString().Split('.')[0]);
             }
             nameText.CharacterFormat.FontName = "Times New Roman";
             nameText.CharacterFormat.FontSize = 14;
@@ -95,7 +99,7 @@ namespace CoHO.Pages
             report.Save(stream, FormatType.Docx);
             report.Close();
             stream.Position = 0;
-            return File(stream, "application/msword", "JackFreyReport.docx");
+            return File(stream, "application/msword", "UserReport.docx");
 
         }
     }
