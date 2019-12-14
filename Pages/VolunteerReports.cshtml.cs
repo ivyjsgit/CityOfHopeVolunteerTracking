@@ -60,16 +60,19 @@ namespace CoHO.Pages
         }
 
 
-        public FileStreamResult OnPostView()
+        public async FileStreamResult OnPostView()
         {
             int row = 0;
             Console.WriteLine('H');
             var volunteers = _context.Volunteer;
             var volunteerActivities = _context.VolunteerActivity;
             var initiatives = _context.Initiative;
-            CoHO.Models.Volunteer user = volunteers.Single(k => k.First == "Jane");
+            var user = await _userManager.GetUserAsync(User);
+            Volunteer loggedin = await _context.Volunteer
+                .FirstOrDefaultAsync(m => m.UserName.ToLower() == user.UserName.ToLower());
             WordDocument report = new WordDocument();
             IWSection section = report.AddSection();
+            section.PageSetup.Margins.All = 50f;
             IWParagraph name = section.AddParagraph();
             name.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
             name.ParagraphFormat.AfterSpacing = 18f;
@@ -80,10 +83,10 @@ namespace CoHO.Pages
             info.Rows[0].Cells[2].AddParagraph().AppendText("Start Time");
             info.Rows[0].Cells[3].AddParagraph().AppendText("End Time");
             info.Rows[0].Cells[4].AddParagraph().AppendText("Elapsed Time");
-            IWTextRange nameText = name.AppendText(user.FullName);
+            IWTextRange nameText = name.AppendText(loggedin.FullName);
             foreach(CoHO.Models.VolunteerActivity activity in volunteerActivities.ToArray())
             {
-                if (activity.VolunteerId == user.VolunteerID)
+                if (activity.VolunteerId == loggedin.VolunteerID)
                 {
                     info.AddRow();
                     row += 1;
