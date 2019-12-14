@@ -260,7 +260,7 @@ namespace CoHO.Migrations
                     First = table.Column<string>(nullable: false),
                     Last = table.Column<string>(nullable: false),
                     Birthday = table.Column<DateTime>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: false),
                     Home = table.Column<string>(nullable: true),
                     Cell = table.Column<string>(nullable: true),
                     RaceID = table.Column<int>(nullable: true),
@@ -376,6 +376,76 @@ namespace CoHO.Migrations
                         principalColumn: "VolunteerID",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "EducationLevel",
+                columns: new[] { "EducationLevelID", "Description", "InActive" },
+                values: new object[] { 1, "GED", false });
+
+            migrationBuilder.InsertData(
+                table: "EducationLevel",
+                columns: new[] { "EducationLevelID", "Description", "InActive" },
+                values: new object[] { 2, "High School Degree", false });
+
+            migrationBuilder.InsertData(
+                table: "Initiative",
+                columns: new[] { "InitiativeID", "Description", "InActive" },
+                values: new object[] { 1, "Academy", false });
+
+            migrationBuilder.InsertData(
+                table: "Initiative",
+                columns: new[] { "InitiativeID", "Description", "InActive" },
+                values: new object[] { 2, "Community Garden", false });
+
+            migrationBuilder.InsertData(
+                table: "Initiative",
+                columns: new[] { "InitiativeID", "Description", "InActive" },
+                values: new object[] { 3, "Office", false });
+
+            migrationBuilder.InsertData(
+                table: "Initiative",
+                columns: new[] { "InitiativeID", "Description", "InActive" },
+                values: new object[] { 4, "Housing", false });
+
+            migrationBuilder.InsertData(
+                table: "Race",
+                columns: new[] { "RaceID", "Description", "InActive" },
+                values: new object[] { 1, "American Indian", false });
+
+            migrationBuilder.InsertData(
+                table: "Race",
+                columns: new[] { "RaceID", "Description", "InActive" },
+                values: new object[] { 2, "Asian", false });
+
+            migrationBuilder.InsertData(
+                table: "Race",
+                columns: new[] { "RaceID", "Description", "InActive" },
+                values: new object[] { 3, "White", false });
+
+            migrationBuilder.InsertData(
+                table: "Race",
+                columns: new[] { "RaceID", "Description", "InActive" },
+                values: new object[] { 4, "Back or African American", false });
+
+            migrationBuilder.InsertData(
+                table: "VolunteerType",
+                columns: new[] { "VolunteerTypeID", "Description", "InActive" },
+                values: new object[] { 1, "Volunteer", false });
+
+            migrationBuilder.InsertData(
+                table: "VolunteerType",
+                columns: new[] { "VolunteerTypeID", "Description", "InActive" },
+                values: new object[] { 2, "Staff", false });
+
+            migrationBuilder.InsertData(
+                table: "VolunteerType",
+                columns: new[] { "VolunteerTypeID", "Description", "InActive" },
+                values: new object[] { 3, "Board", false });
+
+            migrationBuilder.InsertData(
+                table: "Volunteer",
+                columns: new[] { "VolunteerID", "Admin", "Birthday", "Cell", "ClockedIn", "CommunityService", "EducationLevelID", "Email", "First", "Home", "InActive", "Last", "RaceID", "UserName", "Veteran", "VolunteerTypeID", "WorkersComp" },
+                values: new object[] { 1, true, null, null, false, false, null, "admin", "Zadmin", null, true, "Zadmin", null, "admin", false, 2, false });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

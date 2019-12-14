@@ -13,6 +13,8 @@ namespace CoHO.Data
             : base(options)
         {
         }
+
+
         public DbSet<Models.Volunteer> Volunteer { get; set; }
         public DbSet<Models.ValueOfHour> ValueOfHour { get; set; }
         public DbSet<Models.Initiative> Initiative { get; set; }
@@ -22,6 +24,107 @@ namespace CoHO.Data
         public DbSet<CoHO.Models.VolunteerType> VolunteerType { get; set; }
         public DbSet<CoHO.Models.Skill> Skill { get; set; }
         public DbSet<CoHO.Models.EducationLevel> EducationLevel { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<VolunteerType>().HasData(
+                new VolunteerType
+                {
+                    VolunteerTypeID = 1,
+                    Description = "Volunteer",
+                    InActive = false
+                },
+                new VolunteerType
+                {
+                    VolunteerTypeID = 2,
+                    Description = "Staff",
+                    InActive = false
+                },
+                new VolunteerType
+                {
+                    VolunteerTypeID = 3,
+                    Description = "Board",
+                    InActive = false
+                });
+
+            builder.Entity<Race>().HasData(
+                new Race
+                {
+                    RaceID = 1,
+                    Description = "American Indian",
+                },
+                new Race
+                {
+                    RaceID = 2,
+                    Description = "Asian",
+                },
+                new Race
+                {
+                    RaceID = 3,
+                    Description = "White",
+                },
+                new Race
+                {
+                    RaceID = 4,
+                    Description = "Back or African American",
+                });
+
+            builder.Entity<Initiative>().HasData(
+                new Initiative
+                {
+                    InitiativeID = 1,
+                    Description = "Academy",
+                },
+                new Initiative
+                {
+                    InitiativeID = 2,
+                    Description = "Community Garden",
+                },
+                new Initiative
+                {
+                    InitiativeID = 3,
+                    Description = "Office",
+                },
+                new Initiative
+                {
+                    InitiativeID = 4,
+                    Description = "Housing",
+                });
+
+            builder.Entity<EducationLevel>().HasData(
+                new EducationLevel
+                {
+                    EducationLevelID = 1,
+                    Description = "GED",
+                },
+                new EducationLevel
+                {
+                    EducationLevelID = 2,
+                    Description = "High School Degree",
+                });
+            builder.Entity<Volunteer>().HasData(
+                new Volunteer
+                {
+                    VolunteerID = 1,
+                    UserName = "admin",
+                    Email = "admin",
+                    InActive = true,
+                    Admin = true,
+                    First = "Zadmin",
+                    Last = "Zadmin",
+                    VolunteerTypeID = 2
+                  
+                });
+        }
+
+
+
+
+
+
 
         /*
                 protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoHO.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191122045303_InitialSchema")]
+    [Migration("20191214182208_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0");
+                .HasAnnotation("ProductVersion", "3.0.1");
 
             modelBuilder.Entity("CoHO.Models.Disability", b =>
                 {
@@ -73,6 +73,20 @@ namespace CoHO.Migrations
                     b.HasKey("EducationLevelID");
 
                     b.ToTable("EducationLevel");
+
+                    b.HasData(
+                        new
+                        {
+                            EducationLevelID = 1,
+                            Description = "GED",
+                            InActive = false
+                        },
+                        new
+                        {
+                            EducationLevelID = 2,
+                            Description = "High School Degree",
+                            InActive = false
+                        });
                 });
 
             modelBuilder.Entity("CoHO.Models.Initiative", b =>
@@ -91,6 +105,32 @@ namespace CoHO.Migrations
                     b.HasKey("InitiativeID");
 
                     b.ToTable("Initiative");
+
+                    b.HasData(
+                        new
+                        {
+                            InitiativeID = 1,
+                            Description = "Academy",
+                            InActive = false
+                        },
+                        new
+                        {
+                            InitiativeID = 2,
+                            Description = "Community Garden",
+                            InActive = false
+                        },
+                        new
+                        {
+                            InitiativeID = 3,
+                            Description = "Office",
+                            InActive = false
+                        },
+                        new
+                        {
+                            InitiativeID = 4,
+                            Description = "Housing",
+                            InActive = false
+                        });
                 });
 
             modelBuilder.Entity("CoHO.Models.Race", b =>
@@ -109,6 +149,32 @@ namespace CoHO.Migrations
                     b.HasKey("RaceID");
 
                     b.ToTable("Race");
+
+                    b.HasData(
+                        new
+                        {
+                            RaceID = 1,
+                            Description = "American Indian",
+                            InActive = false
+                        },
+                        new
+                        {
+                            RaceID = 2,
+                            Description = "Asian",
+                            InActive = false
+                        },
+                        new
+                        {
+                            RaceID = 3,
+                            Description = "White",
+                            InActive = false
+                        },
+                        new
+                        {
+                            RaceID = 4,
+                            Description = "Back or African American",
+                            InActive = false
+                        });
                 });
 
             modelBuilder.Entity("CoHO.Models.Skill", b =>
@@ -192,6 +258,7 @@ namespace CoHO.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("First")
@@ -234,6 +301,23 @@ namespace CoHO.Migrations
                     b.HasIndex("VolunteerTypeID");
 
                     b.ToTable("Volunteer");
+
+                    b.HasData(
+                        new
+                        {
+                            VolunteerID = 1,
+                            Admin = true,
+                            ClockedIn = false,
+                            CommunityService = false,
+                            Email = "admin",
+                            First = "Zadmin",
+                            InActive = true,
+                            Last = "Zadmin",
+                            UserName = "admin",
+                            Veteran = false,
+                            VolunteerTypeID = 2,
+                            WorkersComp = false
+                        });
                 });
 
             modelBuilder.Entity("CoHO.Models.VolunteerActivity", b =>
@@ -282,6 +366,26 @@ namespace CoHO.Migrations
                     b.HasKey("VolunteerTypeID");
 
                     b.ToTable("VolunteerType");
+
+                    b.HasData(
+                        new
+                        {
+                            VolunteerTypeID = 1,
+                            Description = "Volunteer",
+                            InActive = false
+                        },
+                        new
+                        {
+                            VolunteerTypeID = 2,
+                            Description = "Staff",
+                            InActive = false
+                        },
+                        new
+                        {
+                            VolunteerTypeID = 3,
+                            Description = "Board",
+                            InActive = false
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
