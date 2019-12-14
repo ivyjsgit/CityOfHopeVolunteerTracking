@@ -11,7 +11,7 @@ This software is designed to be used by the Conway, AR non-profit City Of Hope. 
 ### Using Docker pull
 ---
 1. Run ```docker pull ivyjshdx/cohovolunteertracking```
-2. Run ```docker run -p 5000:5000 5001:5001 ivyjshdx/cohovolunteertracking```
+2. Run ```docker run -p 5000:5000 -p 5001:5001 ivyjshdx/cohovolunteertracking```
 
 ### Building Locally
 ---
