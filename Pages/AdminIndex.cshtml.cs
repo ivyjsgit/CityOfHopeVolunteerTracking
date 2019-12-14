@@ -29,7 +29,30 @@ namespace CoHO.Pages
 
         public IActionResult OnGet()
         {
+            //Initializing months, years, and days for date selector.
+            String[] months = { "January", "February", "March", "April", "May",
+                "June", "July", "August", "September", "October", "November",
+                "December" };
+            int[] years = new int[DateTime.Now.Year - 2010 + 1];
+            for (int i = 2010; i <= DateTime.Now.Year; i++)
+            {
+                years[i - 2010] = i;
+            }
+
+            int[] days = new int[31];
+
+            for (int i = 1; i <= 31; i++)
+            {
+                days[i - 1] = i;
+            }
+
+            ViewData["Months"] = new SelectList(months);
+            ViewData["Years"] = new SelectList(years);
+            ViewData["Days"] = new SelectList(days);
+
+            //Querying the volunteers emails for the volunteer selector. 
             ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "Email");
+
 
             return Page();
         }
@@ -39,6 +62,8 @@ namespace CoHO.Pages
         {
             String startDate = Request.Form["start"];
             String endDate = Request.Form["end"];
+
+            
 
             //Initialize database variables.
             var volunteers = _context.Volunteer;
