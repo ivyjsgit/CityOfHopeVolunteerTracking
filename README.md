@@ -15,6 +15,7 @@ This software is designed to be used by the Conway, AR non-profit City Of Hope. 
 
 ### Building Locally
 ---
+This is what should be used for development.
 
 1. Clone the project.
 2. ```docker build -t localreponame .```
