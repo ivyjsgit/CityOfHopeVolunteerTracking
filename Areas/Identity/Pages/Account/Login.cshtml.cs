@@ -91,14 +91,20 @@ namespace CoHO.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User logged in.");
                     Console.WriteLine(Input.Email);
-                    Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.UserName.ToLower() == Input.Email.ToLower() select volunteer).ToList()[0];
-                    if (ourVolunteer.Admin)
+                    try 
                     {
-                        return LocalRedirect("~/AdminIndex");
-                    }
-                    else
+                        Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.UserName.ToLower() == Input.Email.ToLower() select volunteer).ToList()[0];
+                        if (ourVolunteer.Admin)
+                        {
+                            return LocalRedirect("~/AdminIndex");
+                        }
+                        else
+                        {
+                            return LocalRedirect(returnUrl);
+                        }
+                    } catch
                     {
-                        return LocalRedirect(returnUrl);
+                        return LocalRedirect("~/Volunteers/Index");
                     }
 
 

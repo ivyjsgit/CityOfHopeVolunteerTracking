@@ -13,6 +13,8 @@ namespace CoHO.Data
             : base(options)
         {
         }
+
+
         public DbSet<Models.Volunteer> Volunteer { get; set; }
         public DbSet<Models.ValueOfHour> ValueOfHour { get; set; }
         public DbSet<Models.Initiative> Initiative { get; set; }
@@ -22,6 +24,40 @@ namespace CoHO.Data
         public DbSet<CoHO.Models.VolunteerType> VolunteerType { get; set; }
         public DbSet<CoHO.Models.Skill> Skill { get; set; }
         public DbSet<CoHO.Models.EducationLevel> EducationLevel { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<VolunteerType>().HasData(
+                new VolunteerType
+                {
+                    VolunteerTypeID = 1,
+                    Description = "Volunteer",
+                    InActive = false
+                },
+                new VolunteerType
+                {
+                    VolunteerTypeID = 2,
+                    Description = "Staff",
+                    InActive = false
+                },
+                new VolunteerType
+                {
+                    VolunteerTypeID = 3,
+                    Description = "Board",
+                    InActive = false
+                });
+
+
+        }
+
+
+
+
+
+
 
         /*
                 protected override void OnModelCreating(ModelBuilder modelBuilder)
