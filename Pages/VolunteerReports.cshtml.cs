@@ -60,16 +60,19 @@ namespace CoHO.Pages
         }
 
 
-        public async FileStreamResult OnPostView()
+        public async Task<IActionResult> OnPostView()
         {
             int row = 0;
             Console.WriteLine('H');
             var volunteers = _context.Volunteer;
             var volunteerActivities = _context.VolunteerActivity;
             var initiatives = _context.Initiative;
+
             var user = await _userManager.GetUserAsync(User);
             Volunteer loggedin = await _context.Volunteer
                 .FirstOrDefaultAsync(m => m.UserName.ToLower() == user.UserName.ToLower());
+
+
             WordDocument report = new WordDocument();
             IWSection section = report.AddSection();
             section.PageSetup.Margins.All = 50f;
