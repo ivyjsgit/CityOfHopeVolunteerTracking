@@ -20,7 +20,8 @@ namespace CoHO
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>().UseKestrel()
+              .UseUrls("http://0.0.0.0:5001").UseUrls("http://0.0.0.0:5000");
                 });
     }
 }
