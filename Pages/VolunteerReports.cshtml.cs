@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using 
 using Syncfusion.DocIO;
 using Syncfusion.DocIO.DLS;
 using Syncfusion.XlsIO;
@@ -62,23 +63,26 @@ namespace CoHO.Pages
 
         public async Task<IActionResult> OnPostView()
         {
-            int row = 0;
-            Console.WriteLine('H');
+            //Initializing database variables
             var volunteers = _context.Volunteer;
             var volunteerActivities = _context.VolunteerActivity;
             var initiatives = _context.Initiative;
 
+            //Pulling currently logged in user
             var user = await _userManager.GetUserAsync(User);
             Volunteer loggedin = await _context.Volunteer
                 .FirstOrDefaultAsync(m => m.UserName.ToLower() == user.UserName.ToLower());
 
-
+            //Creating and formatting document
             WordDocument report = new WordDocument();
             IWSection section = report.AddSection();
             section.PageSetup.Margins.All = 50f;
             IWParagraph name = section.AddParagraph();
             name.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
             name.ParagraphFormat.AfterSpacing = 18f;
+            IWTextRange nameText = name.AppendText(loggedin.FullName);
+
+            //Creating and formatting table
             IWTable info = section.AddTable();
             info.ResetCells(1, 5);
             info.Rows[0].Cells[0].AddParagraph().AppendText("Date");
@@ -86,13 +90,17 @@ namespace CoHO.Pages
             info.Rows[0].Cells[2].AddParagraph().AppendText("Start Time");
             info.Rows[0].Cells[3].AddParagraph().AppendText("End Time");
             info.Rows[0].Cells[4].AddParagraph().AppendText("Elapsed Time");
-            IWTextRange nameText = name.AppendText(loggedin.FullName);
-            foreach(CoHO.Models.VolunteerActivity activity in volunteerActivities.ToArray())
+            info.Rows[0].Height = 20;
+            
+            //Looping through initiatives and filling the table
+            int row = 0;
+            foreach (CoHO.Models.VolunteerActivity activity in volunteerActivities.ToArray())
             {
                 if (activity.VolunteerId == loggedin.VolunteerID)
                 {
                     info.AddRow();
                     row += 1;
+                    info.Rows[row].Height = 20;
                     string Start = activity.StartTime.ToString();
                     string End = activity.EndTime.ToString();
                     int id = activity.InitiativeId;
@@ -103,8 +111,12 @@ namespace CoHO.Pages
                     info.Rows[row].Cells[4].AddParagraph().AppendText(activity.ElapsedTime.ToString().Split('.')[0]);
                 }
             }
+
+            //Assigning font
             nameText.CharacterFormat.FontName = "Times New Roman";
             nameText.CharacterFormat.FontSize = 14;
+
+            //Saving document and downloading to user's computer
             MemoryStream stream = new MemoryStream();
             report.Save(stream, FormatType.Docx);
             report.Close();
