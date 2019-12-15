@@ -26,6 +26,7 @@ namespace CoHO.Pages
         public VolunteerActivity VolunteerActivity { get; set; }
         public Volunteer Volunteer { get; set; }
         public Initiative Initiative { get; set; }
+        public VolunteerType VolunteerTypes { get; set; }
 
         public IActionResult OnGet()
         {
@@ -110,6 +111,7 @@ namespace CoHO.Pages
             var volunteerActivities = _context.VolunteerActivity;
             var valuesOfHours = _context.ValueOfHour;
             var initiatives = _context.Initiative;
+            var volunteerTypes = _context.VolunteerType;
 
             using ExcelEngine excelEngine = new ExcelEngine();
             //Initialize Application.
@@ -125,27 +127,30 @@ namespace CoHO.Pages
             IWorksheet worksheet = workbook.Worksheets[0];
             worksheet.EnableSheetCalculations();
 
-            //worksheet.Range[1, 1].Text = startDate;
-            //worksheet.Range[1, 2].Text = endDate;
-            int i = 2;
-            foreach (var volunteer in volunteers)
+
+            // Here we separately check through each of the three volunteer types.
+            int i = 1;
+            
+            foreach (var volunteerType in volunteerTypes)
             {
-                worksheet.Range[i, 1].Text = volunteer.FullName;
-                foreach (var month in months)
-                {
-                    int j = month.Value;
-                    var work = volunteerActivities.Where(m => m.Volunteer == volunteer && m.StartTime >= start && m.EndTime <= end && m.StartTime.Month == j);
-                    double sum = 0.0;
-                    foreach (var item in work)
-                    {
-                        sum += item.ElapsedTime.Hours;
-                        sum += (item.ElapsedTime.Minutes / 60.0);
-                    }
-                    worksheet.Range[i, j + 1].Number = Math.Round(sum, 2);
-                    j++;
-                }
+                worksheet.Range[i, 1].Text = volunteerType.Description;
                 i++;
+                foreach (var volunteer in volunteers.Where(m => m.VolunteerType.Description == volunteerType.Description))
+                {
+                    double hours = 0.0;
+                    worksheet.Range[i, 1].Text = volunteer.FullName;
+                    var activitiesRange = volunteerActivities.Where(m => m.Volunteer == volunteer && m.StartTime >= start && m.StartTime <= end);
+                    foreach (var activity in activitiesRange)
+                    {
+                        hours += activity.ElapsedTime.Hours;
+                        hours += (activity.ElapsedTime.Minutes / 60.0);
+                    }
+                    worksheet.Range[i, 2].Number = hours;
+                    i++;
+                }
             }
+            
+           
 
 
 
@@ -250,7 +255,7 @@ namespace CoHO.Pages
                     foreach (var activity in activities)
                     {
                         // time for this one activity
-                        double time = activity.ElapsedTime.Hours + activity.ElapsedTime.Minutes / 60;
+                        double time = activity.ElapsedTime.Hours + (activity.ElapsedTime.Minutes / 60.0);
 
                         //adding the current activities hours and values to their respective variables
                         if (volunteers.Single(m => m.VolunteerID == activity.VolunteerId).VolunteerTypeID == 1 && i != 0)
