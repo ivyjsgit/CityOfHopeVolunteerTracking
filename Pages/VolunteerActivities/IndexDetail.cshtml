@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model CoHO.Pages.VolunteerActivities.IndexDetailModel
 @{
     ViewData["Title"] = "IndexDetail";
@@ -128,5 +128,5 @@
         }
     </tbody>
 </table>
-<p>@totalTime</p>
-<p>@totalValue.ToString("c")</p>
+<p class="padding">Total Time: @totalTime hours</p>
+<p class="padding">Total Value: @totalValue.ToString("c")</p>
