@@ -90,14 +90,14 @@
                             }
                         }
                     }
-                    @current.Value.ToString("c")
+                    @Math.Round(current.Value, 2)
                 </td>
                 <td>
                     @{
                         var value = item.ElapsedTime.TotalMinutes / 60 * current.Value;
                         totalValue += value;
 
-                        @value.ToString("c")
+                        @Math.Round(value, 2)
                     }
                 </td>
                 <td>
