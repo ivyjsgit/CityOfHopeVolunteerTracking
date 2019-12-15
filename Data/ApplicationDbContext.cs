@@ -34,20 +34,17 @@ namespace CoHO.Data
                 new VolunteerType
                 {
                     VolunteerTypeID = 1,
-                    Description = "Volunteer",
-                    InActive = false
+                    Description = "Volunteer"
                 },
                 new VolunteerType
                 {
                     VolunteerTypeID = 2,
-                    Description = "Staff",
-                    InActive = false
+                    Description = "Staff"
                 },
                 new VolunteerType
                 {
                     VolunteerTypeID = 3,
-                    Description = "Board",
-                    InActive = false
+                    Description = "Board"
                 });
 
             builder.Entity<Race>().HasData(

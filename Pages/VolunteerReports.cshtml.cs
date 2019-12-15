@@ -30,6 +30,7 @@ namespace CoHO.Pages
         }
 
         public Volunteer Volunteer { get; set; }
+        public VolunteerActivity VolunteerActivity { get; set; }
         public IList<VolunteerActivity> Activities { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
@@ -59,23 +60,57 @@ namespace CoHO.Pages
         }
 
 
-        public FileStreamResult OnPostView()
+        public async Task<IActionResult> OnPostView()
         {
+            int row = 0;
             Console.WriteLine('H');
+            var volunteers = _context.Volunteer;
+            var volunteerActivities = _context.VolunteerActivity;
+            var initiatives = _context.Initiative;
+
+            var user = await _userManager.GetUserAsync(User);
+            Volunteer loggedin = await _context.Volunteer
+                .FirstOrDefaultAsync(m => m.UserName.ToLower() == user.UserName.ToLower());
+
+
             WordDocument report = new WordDocument();
             IWSection section = report.AddSection();
+            section.PageSetup.Margins.All = 50f;
             IWParagraph name = section.AddParagraph();
             name.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+            name.ParagraphFormat.AfterSpacing = 18f;
             IWTable info = section.AddTable();
-            info.ResetCells(2, 2);
-            IWTextRange nameText = name.AppendText("Jack Frey");
+            info.ResetCells(1, 5);
+            info.Rows[0].Cells[0].AddParagraph().AppendText("Date");
+            info.Rows[0].Cells[1].AddParagraph().AppendText("Initiative");
+            info.Rows[0].Cells[2].AddParagraph().AppendText("Start Time");
+            info.Rows[0].Cells[3].AddParagraph().AppendText("End Time");
+            info.Rows[0].Cells[4].AddParagraph().AppendText("Elapsed Time");
+            IWTextRange nameText = name.AppendText(loggedin.FullName);
+            foreach(CoHO.Models.VolunteerActivity activity in volunteerActivities.ToArray())
+            {
+                if (activity.VolunteerId == loggedin.VolunteerID)
+                {
+                    info.AddRow();
+                    row += 1;
+                    string Start = activity.StartTime.ToString();
+                    string End = activity.EndTime.ToString();
+                    int id = activity.InitiativeId;
+                    info.Rows[row].Cells[0].AddParagraph().AppendText(Start.Split(' ')[0]);
+                    info.Rows[row].Cells[1].AddParagraph().AppendText(initiatives.Single(m => m.InitiativeID == id).Description);
+                    info.Rows[row].Cells[2].AddParagraph().AppendText(Start.Split(' ')[1]);
+                    info.Rows[row].Cells[3].AddParagraph().AppendText(End.Split(' ')[1]);
+                    info.Rows[row].Cells[4].AddParagraph().AppendText(activity.ElapsedTime.ToString().Split('.')[0]);
+                }
+            }
             nameText.CharacterFormat.FontName = "Times New Roman";
             nameText.CharacterFormat.FontSize = 14;
             MemoryStream stream = new MemoryStream();
             report.Save(stream, FormatType.Docx);
             report.Close();
             stream.Position = 0;
-            return File(stream, "application/msword", "JackFreyReport.docx");
+            return File(stream, "application/msword", "UserReport.docx");
+
         }
     }
 }

@@ -51,7 +51,11 @@ namespace CoHO.Pages
             ViewData["Days"] = new SelectList(days);
 
             //Querying the volunteers emails for the volunteer selector. 
-            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "Email");
+            var ValidVolunteers = from v in _context.Volunteer
+                                  where v.InActive == false
+                                  orderby v.UserName // Sort by name.
+                                  select v;
+            ViewData["VolunteerId"] = new SelectList(ValidVolunteers, "VolunteerID", "UserName");
 
 
             return Page();
