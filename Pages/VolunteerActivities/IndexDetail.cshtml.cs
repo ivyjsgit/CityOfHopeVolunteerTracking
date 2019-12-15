@@ -20,6 +20,7 @@ namespace CoHO.Pages.VolunteerActivities
         }
 
         public IList<VolunteerActivity> VolunteerActivity { get; set; }
+        public IList<ValueOfHour> ValueOfHour { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -31,8 +32,9 @@ namespace CoHO.Pages.VolunteerActivities
                 .Include(v => v.Volunteer.VolunteerType)
                 .Include(v => v.Initiative).ToListAsync();
 
-
-
+            ValueOfHour = await _context.ValueOfHour
+                .OrderBy(v => v.EffectiveDate)
+                .ToListAsync();
         }
 
     }

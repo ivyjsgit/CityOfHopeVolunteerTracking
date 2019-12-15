@@ -7,6 +7,12 @@
 }
 
 <h1 class="padding">All Hours</h1>
+<form method="get">
+    <button type="submit" style="margin-left:30px; margin-bottom:20px"
+            asp-page="/VolunteerActivities/IndexDetail">
+        Show Detail View
+    </button>
+</form>
 <table class="table table-striped table-responsive padding">
     <thead>
         <tr>
@@ -21,9 +27,6 @@
             </th>
             <th>
                 Elapsed Time
-            </th>
-            <th>
-                Clocked In
             </th>
             <th>
                 Volunteer Name
@@ -45,9 +48,6 @@
             </td>
             <td>
                 @Html.DisplayFor((modelItem => item.ElapsedTime))
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClockedIn)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Volunteer.FullName)

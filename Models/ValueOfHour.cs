@@ -12,6 +12,7 @@ namespace CoHO.Models
         public int ID { get; set; }
         [DataType(DataType.Date)]
         public DateTime EffectiveDate { get; set; }
+        [DataType(DataType.Currency)]
         public float Value { get; set; }
     }
 

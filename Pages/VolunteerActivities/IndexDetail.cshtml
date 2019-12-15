@@ -3,9 +3,18 @@
 @{
     ViewData["Title"] = "IndexDetail";
     Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    double totalTime = 0;
+    double totalValue = 0;
 }
 
 <h1 class="padding">All Hours Detail</h1>
+<form method="get">
+    <button type="submit" style="margin-left:30px; margin-bottom:20px" 
+            asp-page="/VolunteerActivities/Index">
+        Return to Summary
+    </button>
+</form>
+
 <table class="table table-striped table-responsive padding">
     <thead>
         <tr>
@@ -20,6 +29,12 @@
             </th>
             <th>
                 Elapsed Time
+            </th>
+            <th>
+                Value of Hour
+            </th>
+            <th>
+                Value of Time
             </th>
             <th>
                 Volunteer Name
@@ -45,46 +60,73 @@
         </tr>
     </thead>
     <tbody>
+
         @foreach (var item in Model.VolunteerActivity)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Initiative.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
-            </td>
-            <td>
-                @Html.DisplayFor((modelItem => item.ElapsedTime))
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Volunteer.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Volunteer.VolunteerType.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Volunteer.Race.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Volunteer.EducationLevel.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Volunteer.CommunityService)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Volunteer.WorkersComp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Volunteer.Veteran)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.VolunteerActivityID">Edit</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Initiative.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor((modelItem => item.ElapsedTime))
+                    @{
+                        totalTime += item.ElapsedTime.TotalMinutes / 60;
+                    }
+
+                </td>
+                <td>
+                    @{var current = @Model.ValueOfHour[0];
+                        foreach (var v in @Model.ValueOfHour)
+                        {
+                            if (v.EffectiveDate <= item.StartTime)
+                            {
+                                current = v;
+                            }
+                        }
+                    }
+                    @current.Value.ToString("c")
+                </td>
+                <td>
+                    @{
+                        var value = item.ElapsedTime.TotalMinutes / 60 * current.Value;
+                        totalValue += value;
+
+                        @value.ToString("c")
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Volunteer.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Volunteer.VolunteerType.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Volunteer.Race.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Volunteer.EducationLevel.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Volunteer.CommunityService)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Volunteer.WorkersComp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Volunteer.Veteran)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.VolunteerActivityID">Edit</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+<p>@totalTime</p>
+<p>@totalValue.ToString("c")</p>
