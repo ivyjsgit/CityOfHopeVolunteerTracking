@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using 
 using Syncfusion.DocIO;
 using Syncfusion.DocIO.DLS;
 using Syncfusion.XlsIO;
@@ -89,6 +90,7 @@ namespace CoHO.Pages
             info.Rows[0].Cells[2].AddParagraph().AppendText("Start Time");
             info.Rows[0].Cells[3].AddParagraph().AppendText("End Time");
             info.Rows[0].Cells[4].AddParagraph().AppendText("Elapsed Time");
+            info.Rows[0].Height = 20;
             
             //Looping through initiatives and filling the table
             int row = 0;
@@ -98,6 +100,7 @@ namespace CoHO.Pages
                 {
                     info.AddRow();
                     row += 1;
+                    info.Rows[row].Height = 20;
                     string Start = activity.StartTime.ToString();
                     string End = activity.EndTime.ToString();
                     int id = activity.InitiativeId;
