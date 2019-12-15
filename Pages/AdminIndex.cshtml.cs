@@ -34,10 +34,10 @@ namespace CoHO.Pages
             String[] months = { "January", "February", "March", "April", "May",
                 "June", "July", "August", "September", "October", "November",
                 "December" };
-            int[] years = new int[DateTime.Now.Year - 2010 + 1];
-            for (int i = 2010; i <= DateTime.Now.Year; i++)
+            int[] years = new int[DateTime.Now.Year - 2019 + 1];
+            for (int i = 2019; i <= DateTime.Now.Year; i++)
             {
-                years[i - 2010] = i;
+                years[i - 2019] = i;
             }
 
             int[] days = new int[31];
@@ -191,6 +191,9 @@ namespace CoHO.Pages
             var volunteerActivities = _context.VolunteerActivity;
             var valuesOfHours = _context.ValueOfHour;
             var initiatives = _context.Initiative;
+            var volunteerTypes = _context.VolunteerType;
+            int numTypes = volunteerTypes.Count();
+            int year = Int32.Parse(Request.Form["report-year"]);
 
 
             //Number of initiatives currently.
@@ -204,31 +207,38 @@ namespace CoHO.Pages
             application.DefaultVersion = ExcelVersion.Excel2013;
 
             //Create a new workbook.
-            IWorkbook workbook = application.Workbooks.Create(1);
+            IWorkbook workbook = application.Workbooks.Create(numTypes + 1);
 
             //Accessing first worksheet in the workbook.
             IWorksheet worksheet = workbook.Worksheets[0];
+            worksheet.Name = "Totals";
+
+            
+            
+
             worksheet.EnableSheetCalculations();
+
+
 
             //Setting first column width to 25.
             worksheet.SetColumnWidth(1, 35);
 
             //Setting all other column widths to 15.
-            for (int i = 2; i < 20; i++)
+            for (int j = 2; j < 20; j++)
             {
-                worksheet.SetColumnWidth(i, 15);
+                worksheet.SetColumnWidth(j, 15);
             }
 
             int rows = 0;
             //looping through initiatives
-            for (int i = 0; i < numInitiatives + 1; i++)
+            for (int l = 0; l < numInitiatives + 1; l++)
             {
-                rows = 2 * (i + 1) + 1;
-                if (i > 0)
+                rows = 2 * (l + 1) + 1;
+                if (l > 0)
                 {
                     // non-staff values and hours.
-                    worksheet.Range[2 * (i + 1), 1].Text = initiatives.Single(m => m.InitiativeID == i).Description + " (non-staff) hours";
-                    worksheet.Range[2 * (i + 1) + 1, 1].Text = initiatives.Single(m => m.InitiativeID == i).Description + " (non-staff) value";
+                    worksheet.Range[2 * (l + 1), 1].Text = initiatives.Single(m => m.InitiativeID == l).Description + " (non-staff) hours";
+                    worksheet.Range[2 * (l + 1) + 1, 1].Text = initiatives.Single(m => m.InitiativeID == l).Description + " (non-staff) value";
                 }
                 else
                 {
@@ -248,13 +258,13 @@ namespace CoHO.Pages
                     //querying the activities of the current month (j) and initiative id (i).
                     System.Linq.IQueryable<CoHO.Models.VolunteerActivity> activities;
 
-                    if (i == 0)
+                    if (l == 0)
                     {
                         activities = volunteerActivities.Where(m => m.StartTime.Month == j);
                     }
                     else
                     {
-                        activities = volunteerActivities.Where(m => m.StartTime.Month == j && m.InitiativeId == i);
+                        activities = volunteerActivities.Where(m => m.StartTime.Month == j && m.InitiativeId == l);
 
                     }
 
@@ -264,12 +274,12 @@ namespace CoHO.Pages
                         double time = activity.ElapsedTime.Hours + (activity.ElapsedTime.Minutes / 60.0);
 
                         //adding the current activities hours and values to their respective variables
-                        if (volunteers.Single(m => m.VolunteerID == activity.VolunteerId).VolunteerTypeID == 1 && i != 0)
+                        if (volunteers.Single(m => m.VolunteerID == activity.VolunteerId).VolunteerTypeID == 1 && l != 0)
                         {
                             hours += time;
                             value += time * valuesOfHours.OrderBy(m => m.EffectiveDate).Last(m => m.EffectiveDate <= activity.StartTime).Value;
                         }
-                        else if (volunteers.Single(m => m.VolunteerID == activity.VolunteerId).VolunteerTypeID == 2 && i == 0)
+                        else if (volunteers.Single(m => m.VolunteerID == activity.VolunteerId).VolunteerTypeID == 2 && l == 0)
                         {
                             hours += time;
                             value += time * valuesOfHours.OrderBy(m => m.EffectiveDate).Last(m => m.EffectiveDate <= activity.StartTime).Value;
@@ -279,10 +289,10 @@ namespace CoHO.Pages
                     //initiativeMonth[i - 1, j - 1] = hours;
 
                     //adding the hours and values to the table.
-                    worksheet.Range[2 * (i + 1), j + 1].Number = Math.Round(hours, 2);
-                    worksheet.Range[2 * (i + 1) + 1, j + 1].Number = Math.Round(value, 2);
+                    worksheet.Range[2 * (l + 1), j + 1].Number = Math.Round(hours, 2);
+                    worksheet.Range[2 * (l + 1) + 1, j + 1].Number = Math.Round(value, 2);
                 }
-                int row = 2 * (i + 1);
+                int row = 2 * (l + 1);
                 worksheet.Range[row, 14].Formula = "=SUM(A" + row + ":M" + row + ")";
                 worksheet.Range[row + 1, 14].Formula = "=SUM(A" + (row + 1) + ":M" + (row + 1) + ")";
 
@@ -294,15 +304,15 @@ namespace CoHO.Pages
             worksheet.Range[rows + 2, 1].Text = "Total Value";
             String hoursFormula = "=SUM(N2";
             String valueFormula = "=SUM(N3";
-            for (int i = 4; i <= rows; i++)
+            for (int m = 4; m <= rows; m++)
             {
-                if (i % 2 == 0)
+                if (m % 2 == 0)
                 {
-                    hoursFormula += ",N" + i;
+                    hoursFormula += ",N" + m;
                 }
                 else
                 {
-                    valueFormula += ",N" + i;
+                    valueFormula += ",N" + m;
                 }
             }
             worksheet.Range[rows + 1, 14].Formula = hoursFormula + ")";
@@ -319,6 +329,15 @@ namespace CoHO.Pages
             worksheet.Range[1, 14].Text = DateTime.Now.Year + " Totals";
 
             SecondMainGraph(worksheet, rows + 5, months);
+
+            int o = 1;
+            foreach (var type in volunteerTypes)
+            {
+                VolunteerTypeWorksheet(workbook.Worksheets[o], type.Description, year, months);
+                workbook.Worksheets[o].Name = type.Description;
+                o++;
+            }
+            
 
 
             //Saving the Excel to the MemoryStream 
@@ -374,6 +393,74 @@ namespace CoHO.Pages
                 worksheet.Range[startRow + i, 6].Formula = "=SUM(B" + (startRow + i) + "+D" + (startRow + i) + ")";
                 worksheet.Range[startRow + i, 7].Formula = "=SUM(C" + (startRow + i) + "+E" + (startRow + i) + ")";
 
+            }
+        }
+
+        public void VolunteerTypeWorksheet(IWorksheet worksheet, String volunteerType, int year, String[] months)
+        {
+            worksheet.SetColumnWidth(1, 25);
+            worksheet.SetColumnWidth(6, 20);
+            worksheet.SetColumnWidth(11, 20);
+            worksheet.SetColumnWidth(16, 20);
+            worksheet.SetColumnWidth(17, 20);
+
+
+            var volunteersOfType = _context.Volunteer.Where(m => m.VolunteerType.Description == volunteerType);
+            var volunteerActivities = _context.VolunteerActivity;
+            worksheet.Range[1, 1].Text = "Name";
+            for (int j = 0; j < 12; j++)
+            {
+                if (j >= 0 && j <= 3)
+                {
+                    worksheet.Range[1, j + 2].Text = months[j];
+                }
+                else if (j <= 7)
+                {
+                    worksheet.Range[1, j + 3].Text = months[j];
+                } else
+                {
+                    worksheet.Range[1, j + 4].Text = months[j];
+                }
+                
+            }
+            worksheet.Range[1, 6].Text = "Total Spring Hours";
+            worksheet.Range[1, 11].Text = "Total Summer Hours";
+            worksheet.Range[1, 16].Text = "Total Fall Hours";
+            worksheet.Range[1, 17].Text = "Total for year";
+
+            int i = 2;
+            foreach (var volunteer in volunteersOfType)
+            {
+                var hoursForYear = volunteerActivities.Where(m => m.Volunteer == volunteer && m.StartTime.Year == year);
+                worksheet.Range[i, 1].Text = volunteer.FullName;
+                
+                for (int j = 1; j < 13; j++)
+                {
+                    double hours = 0.0;
+                    var allHours = hoursForYear.Where(m => m.StartTime.Month == j);
+                    foreach (var activity in allHours)
+                    {
+                        hours += activity.ElapsedTime.Hours;
+                        hours += (activity.ElapsedTime.Minutes / 60.0);
+                    }
+                    if (j >= 1 && j <= 4)
+                    {
+                        worksheet.Range[i, j + 1].Number = Math.Round(hours, 2);
+                    }
+                    else if (j <= 8)
+                    {
+                        worksheet.Range[i, j + 2].Number = Math.Round(hours, 2);
+                    } else
+                    {
+                        worksheet.Range[i, j + 3].Number = Math.Round(hours, 2);
+                    }
+                }
+                
+                worksheet.Range[i, 6].Formula = "=SUM(B" + i + ":E" + i + ")";
+                worksheet.Range[i, 11].Formula = "=SUM(G" + i + ":J" + i + ")";
+                worksheet.Range[i, 16].Formula = "=SUM(L" + i + ":O" + i + ")";
+                worksheet.Range[i, 17].Formula = "=SUM(F" + i + ",K" + i + ",P" + i + ")";
+                i++;
             }
         }
     }
