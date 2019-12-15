@@ -30,7 +30,7 @@
                 @Html.DisplayFor(modelItem => item.EffectiveDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Value)
+                @String.Concat("$", Html.DisplayFor(modelItem => item.Value));
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> 
