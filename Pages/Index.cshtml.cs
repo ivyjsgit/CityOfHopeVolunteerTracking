@@ -26,8 +26,13 @@ namespace CoHO.Pages
                                    where i.InActive == false
                                    orderby i.Description // Sort by name.
                                    select i;
-            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "UserName");
             ViewData["InitiativeId"] = new SelectList(ValidInitiatives.AsNoTracking(), "InitiativeID", "Description");
+
+            var ValidVolunteers = from v in _context.Volunteer
+                                   where v.InActive == false
+                                   orderby v.UserName // Sort by name.
+                                   select v;
+            ViewData["VolunteerId"] = new SelectList(ValidVolunteers, "VolunteerID", "UserName");
 
             return Page();
         }
