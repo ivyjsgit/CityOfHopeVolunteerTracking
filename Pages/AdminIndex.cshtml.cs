@@ -127,6 +127,7 @@ namespace CoHO.Pages
             IWorksheet worksheet = workbook.Worksheets[0];
             worksheet.EnableSheetCalculations();
 
+            worksheet.SetColumnWidth(1, 20);
 
             // Here we separately check through each of the three volunteer types.
             int i = 1;
@@ -134,8 +135,9 @@ namespace CoHO.Pages
             foreach (var volunteerType in volunteerTypes)
             {
                 worksheet.Range[i, 1].Text = volunteerType.Description;
+                var volunteersOfType = volunteers.Where(m => m.VolunteerType.Description == volunteerType.Description);
                 i++;
-                foreach (var volunteer in volunteers.Where(m => m.VolunteerType.Description == volunteerType.Description))
+                foreach (var volunteer in volunteersOfType)
                 {
                     double hours = 0.0;
                     worksheet.Range[i, 1].Text = volunteer.FullName;
@@ -145,9 +147,13 @@ namespace CoHO.Pages
                         hours += activity.ElapsedTime.Hours;
                         hours += (activity.ElapsedTime.Minutes / 60.0);
                     }
-                    worksheet.Range[i, 2].Number = hours;
+                    worksheet.Range[i, 2].Number = Math.Round(hours, 2);
                     i++;
                 }
+                
+                worksheet.Range[i, 1].Text = volunteerType.Description + " Hours Total";
+                worksheet.Range[i, 2].Formula = "=SUM(B" + (i - volunteersOfType.Count() + ":B" + (i - 1) + ")");
+                i += 2;
             }
             
            
