@@ -28,11 +28,7 @@ namespace CoHO.Pages
                                    select i;
             ViewData["InitiativeId"] = new SelectList(ValidInitiatives.AsNoTracking(), "InitiativeID", "Description");
 
-            var ValidVolunteers = from v in _context.Volunteer
-                                   where v.InActive == false
-                                   orderby v.UserName // Sort by name.
-                                   select v;
-            ViewData["VolunteerId"] = new SelectList(ValidVolunteers, "VolunteerID", "UserName");
+            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerID", "UserName");
 
             return Page();
         }
@@ -58,7 +54,6 @@ namespace CoHO.Pages
             try
             {
                 return VolunteerActivities[0];
-
             }
             catch
             {
@@ -96,8 +91,6 @@ namespace CoHO.Pages
             VolunteerActivity.Volunteer = ourVolunteer;
             VolunteerActivity.Initiative = (from activity in _context.Initiative where activity.InitiativeID == Initiative.InitiativeID select activity).ToList()[0];
 
-
-
             _context.VolunteerActivity.Add(VolunteerActivity);
             await _context.SaveChangesAsync();
         }
@@ -112,7 +105,7 @@ namespace CoHO.Pages
             VolunteerActivity LastActivity = null;
             try
             {
-                ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
+                ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower().Trim() == Volunteers.Email.ToLower().Trim() select volunteer).ToList()[0];
                 LastActivity = GetLastActivity(ourVolunteer);
 
 
@@ -157,7 +150,8 @@ namespace CoHO.Pages
             try
             {
                 //Find our volunteer and their last activity
-                Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower() == Volunteers.Email.ToLower() select volunteer).ToList()[0];
+                Volunteer ourVolunteer = (from volunteer in _context.Volunteer where 
+                                          volunteer.Email.ToLower().Trim() == Volunteers.Email.ToLower().Trim() select volunteer).ToList()[0];
                 VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
 
                 if (LastActivity != null && !LastActivity.ClockedIn)
@@ -172,27 +166,21 @@ namespace CoHO.Pages
                     //Send a toast to the user saying Not clocked out
                     TempData["message"] = "NCO";
                     System.Threading.Thread.Sleep(500);
-
                 }
                 else
                 {
                     Clockin(ourVolunteer);
                     TempData["message"] = "CI";
                     System.Threading.Thread.Sleep(500);
-
                 }
             }
             catch
             {
                 TempData["message"] = "UNF";
             }
-
             return RedirectToPage("./Index");
             //Put the clockout code here.
-
         }
-
-
     }
 }
 
