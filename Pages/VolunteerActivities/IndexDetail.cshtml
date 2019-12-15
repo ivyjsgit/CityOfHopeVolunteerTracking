@@ -97,7 +97,7 @@
                         var value = item.ElapsedTime.TotalMinutes / 60 * current.Value;
                         totalValue += value;
 
-                        @Math.Round(value, 2)
+                        @String.Concat("$", Math.Round(value, 2));
                     }
                 </td>
                 <td>

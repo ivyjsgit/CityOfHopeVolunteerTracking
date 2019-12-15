@@ -1,6 +1,5 @@
 # This is the base image which determines from which Docker image the container should derive.
-FROM microsoft/dotnet:latest
-FROM mcr.microsoft.com/dotnet/core/sdk
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine
 # Copy the files and folders from current directory to "app" directory
 COPY . /app
  
