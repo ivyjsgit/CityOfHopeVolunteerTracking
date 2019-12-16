@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -28,6 +29,7 @@ namespace CoHO.Models
         [DataType(DataType.Date)]
         public DateTime? Birthday { get; set; }
         [Required]
+        [Remote(action: "IsEmailValid", controller: "Validation")]
         [DisplayName("Email/UserName")]
         public string Email { get; set; }
         [Phone]
