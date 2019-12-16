@@ -163,9 +163,19 @@ namespace CoHO.Pages
                 }
                 else if (LastActivity != null && LastActivity.ClockedIn)
                 {
-                    //Send a toast to the user saying Not clocked out
-                    TempData["message"] = "NCO";
-                    System.Threading.Thread.Sleep(500);
+                    if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+                    {
+                        //Send a toast to the user saying Not clocked out
+                        TempData["message"] = "NCO";
+                        System.Threading.Thread.Sleep(500);
+                    }
+                    else
+                    {
+                        DoClockout(ourVolunteer, true);
+                        Clockin(ourVolunteer);
+                        TempData["message"] = "CI";
+                        System.Threading.Thread.Sleep(500);
+                    }
                 }
                 else
                 {

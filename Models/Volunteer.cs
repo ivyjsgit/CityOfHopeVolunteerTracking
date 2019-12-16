@@ -31,6 +31,7 @@ namespace CoHO.Models
         [Required]
         [Remote(action: "IsEmailValid", controller: "Validation")]
         [DisplayName("Email/UserName")]
+        [BindProperty]
         public string Email { get; set; }
         [Phone]
         public string Home { get; set; }

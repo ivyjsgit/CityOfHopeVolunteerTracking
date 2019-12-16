@@ -76,7 +76,7 @@
                 <td>
                     @Html.DisplayFor((modelItem => item.ElapsedTime))
                     @{
-                        totalTime += item.ElapsedTime.TotalMinutes / 60;
+                        totalTime += Math.Round(item.ElapsedTime.TotalMinutes/60,2);
                     }
 
                 </td>
@@ -94,7 +94,7 @@
                 </td>
                 <td>
                     @{
-                        var value = item.ElapsedTime.TotalMinutes / 60 * current.Value;
+                        var value = Math.Round(item.ElapsedTime.TotalMinutes / 60,2) * current.Value;
                         totalValue += value;
 
                         @String.Concat("$", Math.Round(value, 2));
@@ -128,5 +128,5 @@
         }
     </tbody>
 </table>
-<p class="padding">Total Time: @totalTime hours</p>
+<p class="padding">Total Time: @Math.Round(totalTime,2) hours</p>
 <p class="padding">Total Value: @totalValue.ToString("c")</p>

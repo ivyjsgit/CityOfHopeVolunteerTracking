@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoHO.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoHO.Controllers
 {
@@ -19,21 +22,22 @@ namespace CoHO.Controllers
             _userManager = userManager;
             _context = context;
         }
+
         [AllowAnonymous]
         [AcceptVerbs("Get","Post")]
-        public async Task<IActionResult> IsEmailValid(string email)
+        public async Task<IActionResult> IsEmailValid(Volunteer Volunteer)
         {
-          var user = await _userManager.FindByEmailAsync(email);
-         if (user == null)
-            {
-                var i = 1;
-                return Json(true);
-            } else
-            {
-                var i = 2;
-                //return Json(false);
-                return Json($"{email} is already in use.");
+             var user = await _userManager.FindByEmailAsync(Volunteer.Email);
+             if (user == null)
+                {
+                    var i = 1;
+                    return Json(true);
+                } else
+                {
+                    var i = 2;
+                    //return Json(false);
+                    return Json($"{Volunteer.Email} is already in use.");
+                }
             }
-        }
     }
 }
