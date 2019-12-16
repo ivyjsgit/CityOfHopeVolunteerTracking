@@ -24,20 +24,18 @@ namespace CoHO.Controllers
         }
 
         [AllowAnonymous]
-        [AcceptVerbs("Get","Post")]
+        [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> IsEmailValid(Volunteer Volunteer)
         {
-             var user = await _userManager.FindByEmailAsync(Volunteer.Email);
-             if (user == null)
-                {
-                    var i = 1;
-                    return Json(true);
-                } else
-                {
-                    var i = 2;
-                    //return Json(false);
-                    return Json($"{Volunteer.Email} is already in use.");
-                }
+            var user = await _userManager.FindByEmailAsync(Volunteer.Email);
+            if (user == null)
+            {
+                return Json(true);
             }
+            else
+            {
+                return Json($"{Volunteer.Email} is already in use.");
+            }
+        }
     }
 }
