@@ -43,7 +43,6 @@ namespace CoHO
             services.AddRazorPages()
                 .AddRazorPagesOptions(options =>
                 {
-                    options.Conventions.AuthorizePage("/ButtonTest", "IsAdmin");
                     options.Conventions.AuthorizePage("/ManageTables", "IsAdmin");
                     options.Conventions.AuthorizePage("/AdminIndex", "IsAdmin");
                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/ResetPassword", "IsAdmin");

@@ -11,6 +11,8 @@ using Syncfusion.XlsIO;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Syncfusion.DocIO.DLS;
+using Syncfusion.DocIO;
 
 namespace CoHO.Pages
 {
@@ -28,6 +30,8 @@ namespace CoHO.Pages
         public Initiative Initiative { get; set; }
         public VolunteerType VolunteerTypes { get; set; }
 
+        public string value { get; set; }
+        
         public IActionResult OnGet()
         {
             //Initializing months, years, and days for date selector.
@@ -79,8 +83,8 @@ namespace CoHO.Pages
                 { "July", 7 },
                 { "August", 8 },
                 { "September", 9 },
-                { "October", 10 }, 
-                { "November", 11 }, 
+                { "October", 10 },
+                { "November", 11 },
                 { "December", 12 }
             };
 
@@ -104,7 +108,7 @@ namespace CoHO.Pages
                 System.Threading.Thread.Sleep(500);
                 return RedirectToPage("./adminindex");
 
-            } 
+            }
 
             //Initialize database variables.
             var volunteers = _context.Volunteer;
@@ -131,7 +135,7 @@ namespace CoHO.Pages
 
             // Here we separately check through each of the three volunteer types.
             int i = 1;
-            
+
             foreach (var volunteerType in volunteerTypes)
             {
                 worksheet.Range[i, 1].Text = volunteerType.Description;
@@ -150,13 +154,13 @@ namespace CoHO.Pages
                     worksheet.Range[i, 2].Number = Math.Round(hours, 2);
                     i++;
                 }
-                
+
                 worksheet.Range[i, 1].Text = volunteerType.Description + " Hours Total";
                 worksheet.Range[i, 2].Formula = "=SUM(B" + (i - volunteersOfType.Count() + ":B" + (i - 1) + ")");
                 i += 2;
             }
-            
-           
+
+
 
 
 
@@ -174,14 +178,14 @@ namespace CoHO.Pages
             {
                 FileDownloadName = "Hours/Values.xlsx"
             };
-            
+
             RedirectToPage("./adminindex");
             return fileStreamResult;
         }
 
-        
 
-         
+
+
 
 
         public FileStreamResult OnPostView()
@@ -213,8 +217,8 @@ namespace CoHO.Pages
             IWorksheet worksheet = workbook.Worksheets[0];
             worksheet.Name = "Totals";
 
-            
-            
+
+
 
             worksheet.EnableSheetCalculations();
 
@@ -337,7 +341,7 @@ namespace CoHO.Pages
                 workbook.Worksheets[o].Name = type.Description;
                 o++;
             }
-            
+
 
 
             //Saving the Excel to the MemoryStream 
@@ -421,7 +425,7 @@ namespace CoHO.Pages
                 {
                     worksheet.Range[1, j + 4].Text = months[j];
                 }
-                
+
             }
             worksheet.Range[1, 6].Text = "Total Spring Hours";
             worksheet.Range[1, 11].Text = "Total Summer Hours";
@@ -433,7 +437,7 @@ namespace CoHO.Pages
             {
                 var hoursForYear = volunteerActivities.Where(m => m.Volunteer == volunteer && m.StartTime.Year == year);
                 worksheet.Range[i, 1].Text = volunteer.FullName;
-                
+
                 for (int j = 1; j < 13; j++)
                 {
                     double hours = 0.0;
@@ -455,7 +459,7 @@ namespace CoHO.Pages
                         worksheet.Range[i, j + 3].Number = Math.Round(hours, 2);
                     }
                 }
-                
+
                 worksheet.Range[i, 6].Formula = "=SUM(B" + i + ":E" + i + ")";
                 worksheet.Range[i, 11].Formula = "=SUM(G" + i + ":J" + i + ")";
                 worksheet.Range[i, 16].Formula = "=SUM(L" + i + ":O" + i + ")";
@@ -463,5 +467,73 @@ namespace CoHO.Pages
                 i++;
             }
         }
+
+
+        public async Task<IActionResult> OnPostVolunteer()
+        {
+            //Initializing database variables
+            var volunteers = _context.Volunteer;
+            var volunteerActivities = _context.VolunteerActivity;
+            var initiatives = _context.Initiative;
+
+            //Pulling currently logged in user
+            value = Request.Form["stuff"];
+
+            Volunteer ourVolunteer = await _context.Volunteer
+                .FirstOrDefaultAsync(m => m.VolunteerID == Convert.ToInt32(value));
+   
+
+        //Creating and formatting document
+        WordDocument report = new WordDocument();
+        IWSection section = report.AddSection();
+        section.PageSetup.Margins.All = 50f;
+        IWParagraph name = section.AddParagraph();
+        name.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+        name.ParagraphFormat.AfterSpacing = 18f;
+        IWTextRange nameText = name.AppendText(ourVolunteer.FullName);
+
+        //Creating and formatting table
+        IWTable info = section.AddTable();
+        info.ResetCells(1, 5);
+        info.Rows[0].Cells[0].AddParagraph().AppendText("Date");
+        info.Rows[0].Cells[1].AddParagraph().AppendText("Initiative");
+        info.Rows[0].Cells[2].AddParagraph().AppendText("Start Time");
+        info.Rows[0].Cells[3].AddParagraph().AppendText("End Time");
+        info.Rows[0].Cells[4].AddParagraph().AppendText("Elapsed Time");
+        info.Rows[0].Height = 20;
+
+        //Looping through initiatives and filling the table
+        int row = 0;
+        foreach (CoHO.Models.VolunteerActivity activity in volunteerActivities.ToArray())
+        {
+            if (activity.VolunteerId == ourVolunteer.VolunteerID)
+            {
+                info.AddRow();
+                row += 1;
+                info.Rows[row].Height = 20;
+                string Start = activity.StartTime.ToString();
+                string End = activity.EndTime.ToString();
+                int id = activity.InitiativeId;
+                info.Rows[row].Cells[0].AddParagraph().AppendText(Start.Split(' ')[0]);
+                info.Rows[row].Cells[1].AddParagraph().AppendText(initiatives.Single(m => m.InitiativeID == id).Description);
+                info.Rows[row].Cells[2].AddParagraph().AppendText(Start.Split(' ')[1]);
+                info.Rows[row].Cells[3].AddParagraph().AppendText(End.Split(' ')[1]);
+                info.Rows[row].Cells[4].AddParagraph().AppendText(activity.ElapsedTime.ToString().Split('.')[0]);
+            }
+        }
+
+        //Assigning font
+        nameText.CharacterFormat.FontName = "Times New Roman";
+        nameText.CharacterFormat.FontSize = 14;
+
+        //Saving document and downloading to user's computer
+        MemoryStream stream = new MemoryStream();
+        report.Save(stream, FormatType.Docx);
+        report.Close();
+        stream.Position = 0;
+        return File(stream, "application/msword", "UserReport.docx");
+
+        } 
     }
+
 }
