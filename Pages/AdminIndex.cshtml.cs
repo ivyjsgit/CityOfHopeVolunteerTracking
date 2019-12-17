@@ -155,6 +155,7 @@ namespace CoHO.Pages
                     i++;
                 }
 
+                // Setting totals of current volunteer type
                 worksheet.Range[i, 1].Text = volunteerType.Description + " Hours Total";
                 worksheet.Range[i, 2].Formula = "=SUM(B" + (i - volunteersOfType.Count() + ":B" + (i - 1) + ")");
                 i += 2;
@@ -176,7 +177,7 @@ namespace CoHO.Pages
             //Download the Excel file in the browser
             FileStreamResult fileStreamResult = new FileStreamResult(stream, "application/excel")
             {
-                FileDownloadName = "Hours/Values.xlsx"
+                FileDownloadName = "Hours.xlsx"
             };
 
             RedirectToPage("./adminindex");
@@ -217,14 +218,10 @@ namespace CoHO.Pages
             IWorksheet worksheet = workbook.Worksheets[0];
             worksheet.Name = "Totals";
 
-
-
-
+            // Enable use of Excel Formulas.
             worksheet.EnableSheetCalculations();
 
-
-
-            //Setting first column width to 25.
+            //Setting first column width to 35.
             worksheet.SetColumnWidth(1, 35);
 
             //Setting all other column widths to 15.
@@ -240,7 +237,7 @@ namespace CoHO.Pages
                 rows = 2 * (l + 1) + 1;
                 if (l > 0)
                 {
-                    // non-staff values and hours.
+                    // non-staff values and hours. 
                     worksheet.Range[2 * (l + 1), 1].Text = initiatives.Single(m => m.InitiativeID == l).Description + " (non-staff) hours";
                     worksheet.Range[2 * (l + 1) + 1, 1].Text = initiatives.Single(m => m.InitiativeID == l).Description + " (non-staff) value";
                 }
@@ -262,10 +259,12 @@ namespace CoHO.Pages
                     //querying the activities of the current month (j) and initiative id (i).
                     System.Linq.IQueryable<CoHO.Models.VolunteerActivity> activities;
 
+                    // If l == 0 then we are in the first two rows that correspond to the staff hours/values.
                     if (l == 0)
                     {
                         activities = volunteerActivities.Where(m => m.StartTime.Month == j);
                     }
+                    // If we are looking at hours for initiatives and non-staff.
                     else
                     {
                         activities = volunteerActivities.Where(m => m.StartTime.Month == j && m.InitiativeId == l);
@@ -278,6 +277,7 @@ namespace CoHO.Pages
                         double time = activity.ElapsedTime.Hours + (activity.ElapsedTime.Minutes / 60.0);
 
                         //adding the current activities hours and values to their respective variables
+                        // First check if they're staff.
                         if (volunteers.Single(m => m.VolunteerID == activity.VolunteerId).VolunteerTypeID != 2 && l != 0)
                         {
                             hours += time;
@@ -296,6 +296,8 @@ namespace CoHO.Pages
                     worksheet.Range[2 * (l + 1), j + 1].Number = Math.Round(hours, 2);
                     worksheet.Range[2 * (l + 1) + 1, j + 1].Number = Math.Round(value, 2);
                 }
+
+                // Formulas for summing the data from the rows.
                 int row = 2 * (l + 1);
                 worksheet.Range[row, 14].Formula = "=SUM(A" + row + ":M" + row + ")";
                 worksheet.Range[row + 1, 14].Formula = "=SUM(A" + (row + 1) + ":M" + (row + 1) + ")";
@@ -304,6 +306,7 @@ namespace CoHO.Pages
 
             }
 
+            // Formulas for summing the totals of all hours/values.
             worksheet.Range[rows + 1, 1].Text = "Total Hours";
             worksheet.Range[rows + 2, 1].Text = "Total Value";
             String hoursFormula = "=SUM(N2";
@@ -332,8 +335,10 @@ namespace CoHO.Pages
             }
             worksheet.Range[1, 14].Text = year + " Totals";
 
+            // Call function to generate second table on first worksheet.
             SecondMainGraph(worksheet, rows + 5, months);
 
+            // Creating distinct worksheets for each volunteer type.
             int o = 1;
             foreach (var type in volunteerTypes)
             {
@@ -367,6 +372,7 @@ namespace CoHO.Pages
 
         public void SecondMainGraph(IWorksheet worksheet, int startRow, String[] months)
         {
+            // Column Labels.
             worksheet.Range[startRow - 1, 2].Text = "Staff Hours";
             worksheet.Range[startRow - 1, 3].Text = "Staff Value";
             worksheet.Range[startRow - 1, 4].Text = "Volunteer Hours";
@@ -376,6 +382,7 @@ namespace CoHO.Pages
 
             for (int i = 0; i < 12; i++)
             {
+                // This table is Made up of functions that rely on info from the main table.
                 worksheet.Range[startRow + i, 1].Text = months[i];
                 worksheet.Range[startRow + i, 2].Formula = "=SUM(" + (char)(66 + i) + "2)";
                 worksheet.Range[startRow + i, 3].Formula = "=SUM(" + (char)(66 + i) + "3)";
