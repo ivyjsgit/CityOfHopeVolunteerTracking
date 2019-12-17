@@ -272,13 +272,13 @@ namespace CoHO.Pages
 
                     }
 
-                    foreach (var activity in activities)
+                    foreach (var activity in activities.Where(m => m.StartTime.Year == year))
                     {
                         // time for this one activity
                         double time = activity.ElapsedTime.Hours + (activity.ElapsedTime.Minutes / 60.0);
 
                         //adding the current activities hours and values to their respective variables
-                        if (volunteers.Single(m => m.VolunteerID == activity.VolunteerId).VolunteerTypeID == 1 && l != 0)
+                        if (volunteers.Single(m => m.VolunteerID == activity.VolunteerId).VolunteerTypeID != 2 && l != 0)
                         {
                             hours += time;
                             value += time * valuesOfHours.OrderBy(m => m.EffectiveDate).Last(m => m.EffectiveDate <= activity.StartTime).Value;
@@ -330,7 +330,7 @@ namespace CoHO.Pages
             {
                 worksheet.Range[1, i + 1].Text = months[i - 1];
             }
-            worksheet.Range[1, 14].Text = DateTime.Now.Year + " Totals";
+            worksheet.Range[1, 14].Text = year + " Totals";
 
             SecondMainGraph(worksheet, rows + 5, months);
 

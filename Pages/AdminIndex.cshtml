@@ -16,7 +16,7 @@ Layout = "~/Pages/Shared/_AdminLayout.cshtml";
                         <div class="form-group">
                             <div class="form-group">
                                 <form asp-page-handler="range" method="post">
-                                    <label>Start Month</label>
+                                    <label>Start Date</label>
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <select class="custom-select custom-select-sm"
@@ -31,7 +31,7 @@ Layout = "~/Pages/Shared/_AdminLayout.cshtml";
                                                     asp-items="ViewBag.Years" name="start-year"></select>
                                         </div>
                                     </div>
-                                    <label>End Month</label>
+                                    <label>End Date</label>
                                     <div class="row">
                                         <div class="col-sm-4"><select class="custom-select custom-select-sm" asp-items="ViewBag.Months" name="end-month"></select></div>
                                         <div class="col-sm-4"><select class="custom-select custom-select-sm" asp-items="ViewBag.Days" name="end-day"></select></div>
