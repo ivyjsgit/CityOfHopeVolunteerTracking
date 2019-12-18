@@ -29,7 +29,7 @@ namespace CoHO.Models
         [DataType(DataType.Date)]
         public DateTime? Birthday { get; set; }
         [Required]
-        [Remote(action: "IsEmailValid", controller: "Validation")]
+        [Remote(action: "IsEmailValid", controller: "Validation", AdditionalFields ="VolunteerID" )]
         [DisplayName("Email/UserName")]
         [BindProperty]
         public string Email { get; set; }

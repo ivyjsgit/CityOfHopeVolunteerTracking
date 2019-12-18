@@ -34,6 +34,13 @@ namespace CoHO.Controllers
             }
             else
             {
+                Volunteer FoundVolunteer = await _context.Volunteer
+                    .FirstOrDefaultAsync(v => v.Email.ToLower() == Volunteer.Email.ToLower());
+
+                  if (FoundVolunteer.VolunteerID == Volunteer.VolunteerID)
+                {
+                    return Json(true);
+                }
                 return Json($"{Volunteer.Email} is already in use.");
             }
         }
