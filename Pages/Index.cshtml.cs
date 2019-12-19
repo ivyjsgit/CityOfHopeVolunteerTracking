@@ -8,16 +8,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CoHO.Data;
 using CoHO.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CoHO.Pages
 {
     public class CreateModel : PageModel
     {
         private readonly CoHO.Data.ApplicationDbContext _context;
+        readonly ILogger<CreateModel> _log;
 
-        public CreateModel(CoHO.Data.ApplicationDbContext context)
+        public CreateModel(CoHO.Data.ApplicationDbContext context, ILogger<CreateModel> log)
         {
             _context = context;
+            _log = log;
+
         }
 
         public IActionResult OnGet()
@@ -70,10 +74,11 @@ namespace CoHO.Pages
                 LastActivity.EndTime = DateTime.Now;
 
             }
+
             LastActivity.ClockedIn = false;
 
             _context.Attach(LastActivity).State = EntityState.Modified;
-
+            
             await _context.SaveChangesAsync();
         }
 
@@ -90,6 +95,7 @@ namespace CoHO.Pages
             VolunteerActivity.ClockedIn = true;
             VolunteerActivity.Volunteer = ourVolunteer;
             VolunteerActivity.Initiative = (from activity in _context.Initiative where activity.InitiativeID == Initiative.InitiativeID select activity).ToList()[0];
+            _log.LogInformation($"{ourVolunteer.Email} clocked in");
 
             _context.VolunteerActivity.Add(VolunteerActivity);
             await _context.SaveChangesAsync();
@@ -99,7 +105,6 @@ namespace CoHO.Pages
 
         public IActionResult OnPostClockOut()
         {
-            Console.WriteLine("Clocking in");
             //Move over the clock in code here
             Volunteer ourVolunteer = null;
             VolunteerActivity LastActivity = null;
@@ -116,10 +121,14 @@ namespace CoHO.Pages
                         if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
                         {
                             DoClockout(ourVolunteer, false);
+                            _log.LogInformation($"{ourVolunteer.Email} clocked out");
+
                         }
                         else
                         {
                             DoClockout(ourVolunteer, true);
+                            _log.LogInformation($"{ourVolunteer.Email} clocked out");
+
                         }
                         TempData["message"] = "CO";
                     }

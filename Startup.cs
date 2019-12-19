@@ -12,6 +12,7 @@ using CoHO.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace CoHO
 {
@@ -63,7 +64,7 @@ namespace CoHO
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<IdentityUser> userManager)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<IdentityUser> userManager,ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -76,7 +77,7 @@ namespace CoHO
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            loggerFactory.AddFile("Logs/CoHo-{Date}.txt");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoHO.Data;
 using CoHO.Models;
+using Microsoft.Extensions.Logging;
 
 namespace CoHO.Pages.VolunteerActivities
 {
     public class EditModel : PageModel
     {
         private readonly CoHO.Data.ApplicationDbContext _context;
+        private readonly ILogger<EditModel> _logger;
 
-        public EditModel(CoHO.Data.ApplicationDbContext context)
+        public EditModel(CoHO.Data.ApplicationDbContext context, ILogger<EditModel> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [BindProperty]
@@ -49,7 +52,7 @@ namespace CoHO.Pages.VolunteerActivities
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
-        {
+        {    
             if (!ModelState.IsValid)
             {
                 return Page();

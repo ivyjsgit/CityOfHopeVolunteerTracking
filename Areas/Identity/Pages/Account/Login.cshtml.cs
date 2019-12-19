@@ -95,12 +95,15 @@ namespace CoHO.Areas.Identity.Pages.Account
                     {
                         Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.UserName.ToLower() == Input.Email.ToLower() select volunteer).ToList()[0];
                         if (ourVolunteer.Admin)
-                        {
+                        { 
+                            _logger.LogInformation($"{ourVolunteer.Email} logged in as admin");
                             return LocalRedirect("~/AdminIndex");
                         }
                         else
                         {
+                            _logger.LogInformation($"{ourVolunteer.Email} logged in as admin");
                             return LocalRedirect(returnUrl);
+                            
                         }
                     } catch
                     {
@@ -109,6 +112,12 @@ namespace CoHO.Areas.Identity.Pages.Account
 
 
 
+                }
+
+                else
+                {
+                    _logger.LogInformation($"{Input.Email} failed to log in");
+   
                 }
                 if (result.RequiresTwoFactor)
                 {
