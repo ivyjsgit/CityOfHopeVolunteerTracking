@@ -192,7 +192,7 @@ namespace CoHO.Pages
 
 
 
-        public FileStreamResult OnPostView()
+        public FileStreamResult OnPostYear()
         {
             //Initialize database variables.
             var volunteers = _context.Volunteer;
