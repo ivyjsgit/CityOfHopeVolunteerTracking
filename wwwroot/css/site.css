@@ -138,6 +138,8 @@ body {
 
 .navbar-background {
     background-color: #0000d8;
+    box-shadow: 0 3px 2px -2px rgba(0,0,0,.2);
+
     min-height: 75px;
 }
 
