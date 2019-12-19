@@ -7,6 +7,7 @@ This software is designed to be used by the Conway, AR non-profit City Of Hope. 
 
 ## Using Docker (Recommended)
 ---
+#### Note: You MUST create a Docker Volume if you do not wish to lose all data once restarting a container.
 
 ### Using Docker pull
 ---
