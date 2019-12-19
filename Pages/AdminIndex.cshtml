@@ -45,7 +45,7 @@
                             
 
                             <form asp-page-handler="volunteer" method="post">
-                                <input asp-for="OurVolunteer.Email" class="form-control" />
+                                <input asp-for="OurVolunteer.Email" class="form-control" placeholder="User's Email"/>
                                 <button class="btn btn-primary">Generate Selected User's Report</button>
                             </form>
                         </div>
@@ -79,6 +79,8 @@
                 toastr.error("Invalid Date Range.")
             } else if (r == "YE") {
                 toastr.success("Excel File Downloading...")
+            }else if(r=="VNF"){
+                toastr.error("Volunteer not found")
             }
              else {
                 toastr.error("You shouldn't be seeing this. If you are seeing this, contact the website team.");

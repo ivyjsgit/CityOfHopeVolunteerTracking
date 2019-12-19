@@ -489,71 +489,88 @@ namespace CoHO.Pages
             //Pulling currently logged in user
             // value = Request.Form["stuff"];
             Console.WriteLine($"Our volunteers email is {OurVolunteer.Email}");
-            Volunteer ourVolunteer = await _context.Volunteer
-                .FirstOrDefaultAsync(m => m.Email.ToLower() == OurVolunteer.Email.ToLower());
-   
-
-        //Creating and formatting document
-        WordDocument report = new WordDocument();
-        IWSection section = report.AddSection();
-        section.PageSetup.Margins.All = 50f;
-        IWParagraph name = section.AddParagraph();
-        name.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
-        name.ParagraphFormat.AfterSpacing = 18f;
-        IWTextRange nameText = name.AppendText(ourVolunteer.FullName);
-
-        //Creating and formatting table
-        IWTable info = section.AddTable();
-        info.ResetCells(1, 5);
-        info.Rows[0].Cells[0].AddParagraph().AppendText("Date");
-        info.Rows[0].Cells[1].AddParagraph().AppendText("Initiative");
-        info.Rows[0].Cells[2].AddParagraph().AppendText("Start Time");
-        info.Rows[0].Cells[3].AddParagraph().AppendText("End Time");
-        info.Rows[0].Cells[4].AddParagraph().AppendText("Elapsed Time");
-        info.Rows[0].Height = 20;
-
-        //Looping through initiatives and filling the table
-        int row = 0;
-        foreach (CoHO.Models.VolunteerActivity activity in volunteerActivities.ToArray())
-        {
-            if (activity.VolunteerId == ourVolunteer.VolunteerID)
+            try
             {
-                info.AddRow();
-                row += 1;
-                info.Rows[row].Height = 20;
-                string Start = activity.StartTime.ToString();
-                string End = activity.EndTime.ToString();
-                
-                var StartAMPM = activity.StartTime.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
-                var EndAMPM = activity.EndTime.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
-
-
-
+                Volunteer ourVolunteer =
+                    (from volunteer in _context.Volunteer
+                        where volunteer.Email.ToLower().Trim() == OurVolunteer.Email.ToLower().Trim()
+                        select volunteer).ToList()[0];
+                // Volunteer ourVolunteer = await _context.Volunteer
+                //     .FirstOrDefaultAsync(m => m.Email.ToLower() == OurVolunteer.Email.ToLower());
+           
+                    return GenerateVolunteerWordDoc(ourVolunteer, volunteerActivities, initiatives);
 
                 
-                
-                
-                int id = activity.InitiativeId;
-                info.Rows[row].Cells[0].AddParagraph().AppendText(Start.Split(' ')[0]);
-                info.Rows[row].Cells[1].AddParagraph().AppendText(initiatives.Single(m => m.InitiativeID == id).Description);
-                info.Rows[row].Cells[2].AddParagraph().AppendText(StartAMPM);
-                info.Rows[row].Cells[3].AddParagraph().AppendText(EndAMPM);
-                info.Rows[row].Cells[4].AddParagraph().AppendText(activity.ElapsedTime.ToString().Split('.')[0]);
             }
+            catch
+            {
+                Console.WriteLine("Bad Volunteer");
+                TempData["message"] = "VNF";
+
+                return Redirect("./AdminIndex");
+            }
+   
+          
         }
 
-        //Assigning font
-        nameText.CharacterFormat.FontName = "Times New Roman";
-        nameText.CharacterFormat.FontSize = 14;
+        private IActionResult GenerateVolunteerWordDoc(Volunteer ourVolunteer, DbSet<VolunteerActivity> volunteerActivities, DbSet<Initiative> initiatives)
+        {
+            //Creating and formatting document
+            WordDocument report = new WordDocument();
+            IWSection section = report.AddSection();
+            section.PageSetup.Margins.All = 50f;
+            IWParagraph name = section.AddParagraph();
+            name.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+            name.ParagraphFormat.AfterSpacing = 18f;
+            IWTextRange nameText = name.AppendText(ourVolunteer.FullName);
 
-        //Saving document and downloading to user's computer
-        MemoryStream stream = new MemoryStream();
-        report.Save(stream, FormatType.Docx);
-        report.Close();
-        stream.Position = 0;
-        return File(stream, "application/msword", "UserReport.docx");
+            //Creating and formatting table
+            IWTable info = section.AddTable();
+            info.ResetCells(1, 5);
+            info.Rows[0].Cells[0].AddParagraph().AppendText("Date");
+            info.Rows[0].Cells[1].AddParagraph().AppendText("Initiative");
+            info.Rows[0].Cells[2].AddParagraph().AppendText("Start Time");
+            info.Rows[0].Cells[3].AddParagraph().AppendText("End Time");
+            info.Rows[0].Cells[4].AddParagraph().AppendText("Elapsed Time");
+            info.Rows[0].Height = 20;
 
-        } 
+            //Looping through initiatives and filling the table
+            int row = 0;
+            foreach (CoHO.Models.VolunteerActivity activity in volunteerActivities.ToArray())
+            {
+                if (activity.VolunteerId == ourVolunteer.VolunteerID)
+                {
+                    info.AddRow();
+                    row += 1;
+                    info.Rows[row].Height = 20;
+                    string Start = activity.StartTime.ToString();
+                    string End = activity.EndTime.ToString();
+
+                    var StartAMPM = activity.StartTime.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
+                    var EndAMPM = activity.EndTime.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
+
+
+                    int id = activity.InitiativeId;
+                    info.Rows[row].Cells[0].AddParagraph().AppendText(Start.Split(' ')[0]);
+                    info.Rows[row].Cells[1].AddParagraph()
+                        .AppendText(initiatives.Single(m => m.InitiativeID == id).Description);
+                    info.Rows[row].Cells[2].AddParagraph().AppendText(StartAMPM);
+                    info.Rows[row].Cells[3].AddParagraph().AppendText(EndAMPM);
+                    info.Rows[row].Cells[4].AddParagraph().AppendText(activity.ElapsedTime.ToString().Split('.')[0]);
+                }
+            }
+
+            //Assigning font
+            nameText.CharacterFormat.FontName = "Times New Roman";
+            nameText.CharacterFormat.FontSize = 14;
+
+            //Saving document and downloading to user's computer
+            MemoryStream stream = new MemoryStream();
+            report.Save(stream, FormatType.Docx);
+            report.Close();
+            stream.Position = 0;
+            return File(stream, "application/msword", "UserReport.docx");
+        }
     }
 
 }
