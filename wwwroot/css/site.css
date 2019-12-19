@@ -116,8 +116,7 @@ body {
     text-align: left;
     padding: 10px;
     width: 25%;
-    margin: 0 auto;
-    margin-top: 25%;
+    margin:200px auto 0px;
     min-width: 40%;
     min-height: 30%;
     border-radius: 10px;
@@ -127,7 +126,6 @@ body {
 .centered {
     justify-content: center;
     text-align: center;
-    margin-top: 5%;
 }
 
 .body-font {
@@ -186,8 +184,10 @@ body {
 .centered {
   margin: 0;
   position: absolute;
-  top: 50%;
+  /* top: 50%; */
   left: 50%;
+  justify-content: center;
+  text-align: center;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }

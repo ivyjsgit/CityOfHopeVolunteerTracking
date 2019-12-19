@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using CoHO.Models;
@@ -26,11 +27,12 @@ namespace CoHO.Pages
         }
 
         public VolunteerActivity VolunteerActivity { get; set; }
-        public Volunteer Volunteer { get; set; }
+        [BindProperty]
+        public Volunteer OurVolunteer { get; set; }
         public Initiative Initiative { get; set; }
         public VolunteerType VolunteerTypes { get; set; }
 
-        public string value { get; set; }
+        public string Email { get; set; }
         
         public IActionResult OnGet()
         {
@@ -54,6 +56,7 @@ namespace CoHO.Pages
             ViewData["Months"] = new SelectList(months);
             ViewData["Years"] = new SelectList(years);
             ViewData["Days"] = new SelectList(days);
+            ViewData["Email"] = "";
 
             //Querying the volunteers emails for the volunteer selector. 
             var ValidVolunteers = from v in _context.Volunteer
@@ -61,7 +64,7 @@ namespace CoHO.Pages
                                   orderby v.UserName // Sort by name.
                                   select v;
             ViewData["VolunteerId"] = new SelectList(ValidVolunteers, "VolunteerID", "UserName");
-
+            
 
             return Page();
         }
@@ -484,10 +487,10 @@ namespace CoHO.Pages
             var initiatives = _context.Initiative;
 
             //Pulling currently logged in user
-            value = Request.Form["stuff"];
-
+            // value = Request.Form["stuff"];
+            Console.WriteLine($"Our volunteers email is {OurVolunteer.Email}");
             Volunteer ourVolunteer = await _context.Volunteer
-                .FirstOrDefaultAsync(m => m.VolunteerID == Convert.ToInt32(value));
+                .FirstOrDefaultAsync(m => m.Email.ToLower() == OurVolunteer.Email.ToLower());
    
 
         //Creating and formatting document
@@ -520,11 +523,21 @@ namespace CoHO.Pages
                 info.Rows[row].Height = 20;
                 string Start = activity.StartTime.ToString();
                 string End = activity.EndTime.ToString();
+                
+                var StartAMPM = activity.StartTime.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
+                var EndAMPM = activity.EndTime.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
+
+
+
+
+                
+                
+                
                 int id = activity.InitiativeId;
                 info.Rows[row].Cells[0].AddParagraph().AppendText(Start.Split(' ')[0]);
                 info.Rows[row].Cells[1].AddParagraph().AppendText(initiatives.Single(m => m.InitiativeID == id).Description);
-                info.Rows[row].Cells[2].AddParagraph().AppendText(Start.Split(' ')[1]);
-                info.Rows[row].Cells[3].AddParagraph().AppendText(End.Split(' ')[1]);
+                info.Rows[row].Cells[2].AddParagraph().AppendText(StartAMPM);
+                info.Rows[row].Cells[3].AddParagraph().AppendText(EndAMPM);
                 info.Rows[row].Cells[4].AddParagraph().AppendText(activity.ElapsedTime.ToString().Split('.')[0]);
             }
         }

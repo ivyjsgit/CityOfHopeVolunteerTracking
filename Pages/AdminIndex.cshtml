@@ -1,66 +1,68 @@
 ﻿@page
+@using CoHO.Models
 @model CoHO.Pages.AdminIndexModel
 @{
-ViewData["Title"] = "Reports Viewer";
-Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Reports Viewer";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
 
 
 <div class="login-background nopadding splash nomargins">
     <div class="container">
-        <div class="centered">
+        <div class="row">
             
-                <div class="full-width vertical center login-box pagination-lg">
-                    <h2 class="text-center">Report Generator</h2>
+            <div class="full-width vertical center pagination-lg login-box">
+                <h2 class="text-center">Report Generator</h2>
+                <div class="form-group">
                     <div class="form-group">
                         <div class="form-group">
-                            <div class="form-group">
-                                <form asp-page-handler="range" method="post">
-                                    <label>Start Date</label>
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <select class="custom-select custom-select-sm"
-                                                    asp-items="ViewBag.Months" name="start-month"></select>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <select class="custom-select custom-select-sm"
-                                                    asp-items="ViewBag.Days" name="start-day"></select>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <select class="custom-select custom-select-sm"
-                                                    asp-items="ViewBag.Years" name="start-year"></select>
-                                        </div>
+                            <form asp-page-handler="range" method="post">
+                                <label>Start Date</label>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <select class="custom-select custom-select-sm"
+                                                asp-items="ViewBag.Months" name="start-month"></select>
                                     </div>
-                                    <label>End Date</label>
-                                    <div class="row">
-                                        <div class="col-sm-4"><select class="custom-select custom-select-sm" asp-items="ViewBag.Months" name="end-month"></select></div>
-                                        <div class="col-sm-4"><select class="custom-select custom-select-sm" asp-items="ViewBag.Days" name="end-day"></select></div>
-                                        <div class="col-sm-4"><select class="custom-select custom-select-sm" asp-items="ViewBag.Years" name="end-year"></select></div>
+                                    <div class="col-sm-4">
+                                        <select class="custom-select custom-select-sm"
+                                                asp-items="ViewBag.Days" name="start-day"></select>
                                     </div>
-                                    <button id="daterange" class="btn btn-primary">Generate Report from Selected Date Range</button>
-                                </form>
-                            </div>
-                            <div class="form-group">
-                                <form asp-page-handler="volunteer" method="post">
-                                       <select name="stuff" class="form-control"
-                                            asp-items="ViewBag.VolunteerId"></select>
-                                    <button class="btn btn-primary">Generate Selected User's Report</button>
-                                </form>
-                            </div>
-                            <div class="form-group">
-                                <form asp-page-handler="view" method="post">
-                                    <select class="form-control form-control-sm"
-                                            asp-items="ViewBag.Years" name="report-year"></select>
-                                    <button class="btn btn-primary">
-                                        Generate Full Year Report
-                                    </button>
-                                </form>
-                            </div>
-
+                                    <div class="col-sm-4">
+                                        <select class="custom-select custom-select-sm"
+                                                asp-items="ViewBag.Years" name="start-year"></select>
+                                    </div>
+                                </div>
+                                <label>End Date</label>
+                                <div class="row">
+                                    <div class="col-sm-4"><select class="custom-select custom-select-sm" asp-items="ViewBag.Months" name="end-month"></select></div>
+                                    <div class="col-sm-4"><select class="custom-select custom-select-sm" asp-items="ViewBag.Days" name="end-day"></select></div>
+                                    <div class="col-sm-4"><select class="custom-select custom-select-sm" asp-items="ViewBag.Years" name="end-year"></select></div>
+                                </div>
+                                <button id="daterange" class="btn btn-primary">Generate Report from Selected Date Range</button>
+                            </form>
                         </div>
+                        <div class="form-group">
+                            
+
+                            <form asp-page-handler="volunteer" method="post">
+                                <input asp-for="OurVolunteer.Email" class="form-control" />
+                                <button class="btn btn-primary">Generate Selected User's Report</button>
+                            </form>
+                        </div>
+                        <div class="form-group">
+                            <form asp-page-handler="view" method="post">
+                                <select class="form-control form-control-sm"
+                                        asp-items="ViewBag.Years" name="report-year"></select>
+                                <button class="btn btn-primary">
+                                    Generate Full Year Report
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
-         </div>
+            </div>
+        </div>
     </div>
 </div>
 
