@@ -32,7 +32,6 @@ namespace CoHO.Areas.Identity.Pages.Account
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             System.Threading.Thread.Sleep(1000);
-            //return RedirectToPage("/index");
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);

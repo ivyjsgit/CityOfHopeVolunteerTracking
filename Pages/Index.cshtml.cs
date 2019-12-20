@@ -52,9 +52,6 @@ namespace CoHO.Pages
 
             List<VolunteerActivity> VolunteerActivities = (from volunteeractivity in _context.VolunteerActivity where volunteeractivity.VolunteerId == volunteer.VolunteerID orderby volunteeractivity.EndTime select volunteeractivity).ToList();
             VolunteerActivities.Reverse();
-            //Console.WriteLine("Our good one");
-
-            //Console.WriteLine(VolunteerActivities[0]);
             try
             {
                 return VolunteerActivities[0];

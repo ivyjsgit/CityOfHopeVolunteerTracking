@@ -108,7 +108,7 @@ namespace CoHO.Data
                     VolunteerID = 1,
                     UserName = "admin",
                     Email = "admin",
-                    InActive = true,
+                    InActive = false,
                     Admin = true,
                     First = "Zadmin",
                     Last = "Zadmin",
@@ -123,23 +123,5 @@ namespace CoHO.Data
 
 
 
-        /*
-                protected override void OnModelCreating(ModelBuilder modelBuilder)
-                {
-                    base.OnModelCreating(modelBuilder);
-                    modelBuilder.Entity<Disability>().ToTable("Disability");
-                    modelBuilder.Entity<EducationLevel>().ToTable("EducationLevel");
-                    modelBuilder.Entity<Initiative>().ToTable("Initiative");
-                    modelBuilder.Entity<InitiativeSelection>().ToTable("InitiativeSelection");
-                    modelBuilder.Entity<Race>().ToTable("Race");
-                    modelBuilder.Entity<Skill>().ToTable("Skill");
-                    modelBuilder.Entity<ValueOfHour>().ToTable("ValueOfHour");
-                    modelBuilder.Entity<Volunteer>().ToTable("Volunteer");
-                    modelBuilder.Entity<VolunteerActivity>().ToTable("VolunteerActivity");
-                    modelBuilder.Entity<VolunteerType>().ToTable("VolunteerType");
-
-                    modelBuilder.Entity<InitiativeSelection>()
-                        .HasKey(c => new { c.InitiativeID, c.VolunteerActivityID });
-                }*/
     }
 }

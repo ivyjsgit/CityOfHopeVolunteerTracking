@@ -54,10 +54,6 @@ namespace CoHO.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            //[Required]
-            //[EmailAddress]
-            //[Display(Name = "Email")]
-            //public string Email { get; set; }
 
             [Required]
             [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[#$^+=!()@%&]).{8,}$", ErrorMessage = "The password must be at least 8 characters long and include upper case, lowercase, numerical, and special characters.")]
@@ -170,12 +166,10 @@ namespace CoHO.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    //await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
                 return LocalRedirect(returnUrl);
 
-                //}
 
                 string messages = string.Join(";", ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
                 Console.WriteLine(messages);

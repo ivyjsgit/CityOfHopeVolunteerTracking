@@ -293,7 +293,6 @@ namespace CoHO.Pages
                         }
 
                     }
-                    //initiativeMonth[i - 1, j - 1] = hours;
 
                     //adding the hours and values to the table.
                     worksheet.Range[2 * (l + 1), j + 1].Number = Math.Round(hours, 2);
