@@ -69,7 +69,21 @@ namespace CoHO.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [RegularExpression(@"^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$", ErrorMessage = "Invalid Phone Number")]
+            [DataType(DataType.PhoneNumber)]
+            [Display(Name = "Cell Phone")]
+            public string Cell { get; set; }
+
+            [RegularExpression(@"^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$", ErrorMessage = "Invalid Phone Number")]
+            [DataType(DataType.PhoneNumber)]
+            [Display(Name = "Home Phone")]
+            public string Home { get; set; }
+       
+
+
         }
+
 
 
 
@@ -104,6 +118,13 @@ namespace CoHO.Areas.Identity.Pages.Account
 
 
             Volunteer.UserName = Volunteer.Email.ToLower();
+            Volunteer.Cell = Input.Cell;
+            Volunteer.Home = Input.Home;
+
+            var Cell = new string(Volunteer.Cell.Where(c => char.IsDigit(c)).ToArray());
+            var Home = new string(Volunteer.Home.Where(c => char.IsDigit(c)).ToArray());
+
+            Console.WriteLine($"Volunteers cell is {Volunteer.Cell}");
 
             //Add the volunteer to the Volunteers table
             _context.Volunteer.Add(Volunteer);
@@ -119,6 +140,7 @@ namespace CoHO.Areas.Identity.Pages.Account
             //Put it in the Identity database
             var result = await _userManager.CreateAsync(user, Input.Password);
             //Make admin
+
             if (Volunteer.Admin)
             {
                 await _userManager.AddClaimAsync(user, new Claim("super", "true"));

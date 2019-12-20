@@ -14,6 +14,10 @@ Layout = "~/Pages/Shared/_AdminLayout.cshtml";
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <hr />
+
+
+
+
             <div class="form-group">
                 <label asp-for="Volunteer.First" class="control-label"></label>
                 <input asp-for="Volunteer.First" class="form-control" />
@@ -35,14 +39,14 @@ Layout = "~/Pages/Shared/_AdminLayout.cshtml";
                 <span asp-validation-for="Volunteer.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Volunteer.Home" class="control-label"></label>
-                <input asp-for="Volunteer.Home" class="form-control" />
-                <span asp-validation-for="Volunteer.Home" class="text-danger"></span>
+                <label asp-for="Input.Home" class="control-label"></label>
+                <input asp-for="Input.Home" class="form-control" />
+                <span asp-validation-for="Input.Home" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Volunteer.Cell" class="control-label"></label>
-                <input asp-for="Volunteer.Cell" class="form-control" />
-                <span asp-validation-for="Volunteer.Cell" class="text-danger"></span>
+                <label asp-for="Input.Cell" class="control-label"></label>
+                <input asp-for="Input.Cell" class="form-control" />
+                <span asp-validation-for="Input.Cell" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Volunteer.RaceID" class="control-label"></label>
