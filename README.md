@@ -1,4 +1,4 @@
-# CityOfHopeVolunteerTracking
+# CityOfHopeVolunteerTracking [![BCH compliance](https://bettercodehub.com/edge/badge/ivyjsgit/CityOfHopeVolunteerTracking?branch=master)](https://bettercodehub.com/)
 ## What is this software?
 ------
 
