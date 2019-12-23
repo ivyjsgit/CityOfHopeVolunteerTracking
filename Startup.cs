@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Certes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -9,10 +10,20 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using CoHO.Data;
+using FluffySpoon.AspNet.LetsEncrypt;
+using FluffySpoon.AspNet.LetsEncrypt.Certes;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+
 
 namespace CoHO
 {
@@ -28,6 +39,28 @@ namespace CoHO
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddFluffySpoonLetsEncryptRenewalService(new LetsEncryptOptions()
+            {
+                Email = "ivyjshdx@gmail.com", //LetsEncrypt will send you an e-mail here when the certificate is about to expire
+                UseStaging = false, //switch to true for testing
+                Domains = new[] { "" },//Enter your Domain Here
+                TimeUntilExpiryBeforeRenewal = TimeSpan.FromDays(30), //renew automatically 30 days before expiry
+                TimeAfterIssueDateBeforeRenewal = TimeSpan.FromDays(7), //renew automatically 7 days after the last certificate was issued
+                CertificateSigningRequest = new CsrInfo() //these are your certificate details
+                {
+                    CountryName = "United States",
+                    Locality = "US",
+                    Organization = "City of Hope"
+                }
+            });
+
+            //the following line tells the library to persist the certificate to a file, so that if the server restarts, the certificate can be re-used without generating a new one.
+            services.AddFluffySpoonLetsEncryptFileCertificatePersistence();
+
+//the following line tells the library to persist challenges in-memory. challenges are the "/.well-known" URL codes that LetsEncrypt will call.
+            services.AddFluffySpoonLetsEncryptMemoryChallengePersistence();
+            
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -66,6 +99,7 @@ namespace CoHO
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<IdentityUser> userManager,ILoggerFactory loggerFactory)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -78,7 +112,7 @@ namespace CoHO
                 app.UseHsts();
             }
             loggerFactory.AddFile("Logs/CoHo-{Date}.txt");
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -92,6 +126,7 @@ namespace CoHO
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
+		app.UseFluffySpoonLetsEncryptChallengeApprovalMiddleware();
 
 
             ApplicationDbInitializer.SeedUsers(userManager);
