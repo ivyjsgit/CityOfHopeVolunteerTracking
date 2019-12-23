@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -103,11 +104,20 @@ namespace CoHO.Pages
                     info.Rows[row].Height = 20;
                     string Start = activity.StartTime.ToString();
                     string End = activity.EndTime.ToString();
+       
+
+                    var StartAMPM = activity.StartTime.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
+                    var EndAMPM = activity.EndTime.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
+                    
+                    
+                    
                     int id = activity.InitiativeId;
                     info.Rows[row].Cells[0].AddParagraph().AppendText(Start.Split(' ')[0]);
                     info.Rows[row].Cells[1].AddParagraph().AppendText(initiatives.Single(m => m.InitiativeID == id).Description);
-                    info.Rows[row].Cells[2].AddParagraph().AppendText(Start.Split(' ')[1]);
-                    info.Rows[row].Cells[3].AddParagraph().AppendText(End.Split(' ')[1]);
+                    // info.Rows[row].Cells[2].AddParagraph().AppendText(Start.Split(' ')[1]);
+                    info.Rows[row].Cells[2].AddParagraph().AppendText(StartAMPM);
+                    info.Rows[row].Cells[3].AddParagraph().AppendText(EndAMPM);
+                    // info.Rows[row].Cells[3].AddParagraph().AppendText(End.Split(' ')[1]);
                     info.Rows[row].Cells[4].AddParagraph().AppendText(activity.ElapsedTime.ToString().Split('.')[0]);
                 }
             }
