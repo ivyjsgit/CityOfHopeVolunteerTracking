@@ -17,8 +17,8 @@ namespace CoHO
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                   webBuilder.UseStartup<Startup>().UseKestrel().UseUrls("http://+:5000;https://+:5001");
-                //    webBuilder.UseStartup<Startup>().UseKestrel().UseUrls("http://+:80;https://+:443");
+                 //  webBuilder.UseStartup<Startup>().UseKestrel().UseUrls("http://+:5000;https://+:5001");
+                    webBuilder.UseStartup<Startup>().UseKestrel().UseUrls("http://+:80;https://+:443");
                 	var DomainToUse=""; //Your domain
 			// webBuilder.UseKestrel(kestrelOptions => kestrelOptions.ConfigureHttpsDefaults(httpsOptions => httpsOptions.ServerCertificateSelector = (c, s) => LetsEncryptRenewalService.Certificate)).UseUrls("http://" + DomainToUse, "https://" + DomainToUse).UseStartup<Startup>();			
 

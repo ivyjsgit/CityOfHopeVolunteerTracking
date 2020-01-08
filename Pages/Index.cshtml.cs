@@ -88,7 +88,7 @@ namespace CoHO.Pages
             Console.WriteLine(ourVolunteer.Email);
             VolunteerActivity.InitiativeId = Initiative.InitiativeID;
             VolunteerActivity.StartTime = DateTime.Now;
-            VolunteerActivity.EndTime = VolunteerActivity.StartTime.AddHours(2.0);
+            VolunteerActivity.EndTime = VolunteerActivity.StartTime.AddHours(12.0);
             VolunteerActivity.ClockedIn = true;
             VolunteerActivity.Volunteer = ourVolunteer;
             VolunteerActivity.Initiative = (from activity in _context.Initiative where activity.InitiativeID == Initiative.InitiativeID select activity).ToList()[0];
@@ -115,7 +115,8 @@ namespace CoHO.Pages
                 {
                     if (LastActivity.ClockedIn)
                     {
-                        if (DateTime.Compare(LastActivity.EndTime, DateTime.Now) > 0)
+                        DoClockout(ourVolunteer, false);
+                        if (DateTime.Compare(LastActivity.StartTime, DateTime.Now) > 0)
                         {
                             DoClockout(ourVolunteer, false);
                             _log.LogInformation($"{ourVolunteer.Email} clocked out");
