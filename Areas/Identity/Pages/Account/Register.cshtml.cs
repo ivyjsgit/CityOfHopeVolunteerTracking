@@ -168,21 +168,6 @@ namespace CoHO.Areas.Identity.Pages.Account
                 {
                     return LocalRedirect(returnUrl);
                 }
-                return LocalRedirect(returnUrl);
-
-
-                string messages = string.Join(";", ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
-                Console.WriteLine(messages);
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-
-
-                return RedirectToPage("/Volunteers/index");
-
-
 
 
             }
