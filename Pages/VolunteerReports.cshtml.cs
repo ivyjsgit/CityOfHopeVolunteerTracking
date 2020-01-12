@@ -62,7 +62,7 @@ namespace CoHO.Pages
         }
 
 
-        public async Task<IActionResult> OnPostView()
+        public async Task<IActionResult> OnPostGenerateVolunteerReport()
         {
             //Initializing database variables
             var volunteers = _context.Volunteer;
@@ -86,11 +86,7 @@ namespace CoHO.Pages
             //Creating and formatting table
             IWTable info = section.AddTable();
             info.ResetCells(1, 5);
-            info.Rows[0].Cells[0].AddParagraph().AppendText("Date");
-            info.Rows[0].Cells[1].AddParagraph().AppendText("Initiative");
-            info.Rows[0].Cells[2].AddParagraph().AppendText("Start Time");
-            info.Rows[0].Cells[3].AddParagraph().AppendText("End Time");
-            info.Rows[0].Cells[4].AddParagraph().AppendText("Elapsed Time");
+            AddTitlesToTable(info);
             info.Rows[0].Height = 20;
             
             //Looping through initiatives and filling the table
@@ -99,26 +95,7 @@ namespace CoHO.Pages
             {
                 if (activity.VolunteerId == loggedin.VolunteerID)
                 {
-                    info.AddRow();
-                    row += 1;
-                    info.Rows[row].Height = 20;
-                    string Start = activity.StartTime.ToString();
-                    string End = activity.EndTime.ToString();
-       
-
-                    var StartAMPM = activity.StartTime.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
-                    var EndAMPM = activity.EndTime.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
-                    
-                    
-                    
-                    int id = activity.InitiativeId;
-                    info.Rows[row].Cells[0].AddParagraph().AppendText(Start.Split(' ')[0]);
-                    info.Rows[row].Cells[1].AddParagraph().AppendText(initiatives.Single(m => m.InitiativeID == id).Description);
-                    // info.Rows[row].Cells[2].AddParagraph().AppendText(Start.Split(' ')[1]);
-                    info.Rows[row].Cells[2].AddParagraph().AppendText(StartAMPM);
-                    info.Rows[row].Cells[3].AddParagraph().AppendText(EndAMPM);
-                    // info.Rows[row].Cells[3].AddParagraph().AppendText(End.Split(' ')[1]);
-                    info.Rows[row].Cells[4].AddParagraph().AppendText(activity.ElapsedTime.ToString().Split('.')[0]);
+                    row = AddDataToTable(info, row, activity, initiatives);
                 }
             }
 
@@ -133,6 +110,39 @@ namespace CoHO.Pages
             stream.Position = 0;
             return File(stream, "application/msword", "UserReport.docx");
 
+        }
+
+        private static int AddDataToTable(IWTable info, int row, VolunteerActivity activity, DbSet<Initiative> initiatives)
+        {
+            info.AddRow();
+            row += 1;
+            info.Rows[row].Height = 20;
+            string Start = activity.StartTime.ToString();
+            string End = activity.EndTime.ToString();
+
+
+            var StartAMPM = activity.StartTime.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
+            var EndAMPM = activity.EndTime.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
+
+
+            int id = activity.InitiativeId;
+            info.Rows[row].Cells[0].AddParagraph().AppendText(Start.Split(' ')[0]);
+            info.Rows[row].Cells[1].AddParagraph().AppendText(initiatives.Single(m => m.InitiativeID == id).Description);
+            // info.Rows[row].Cells[2].AddParagraph().AppendText(Start.Split(' ')[1]);
+            info.Rows[row].Cells[2].AddParagraph().AppendText(StartAMPM);
+            info.Rows[row].Cells[3].AddParagraph().AppendText(EndAMPM);
+            // info.Rows[row].Cells[3].AddParagraph().AppendText(End.Split(' ')[1]);
+            info.Rows[row].Cells[4].AddParagraph().AppendText(activity.ElapsedTime.ToString().Split('.')[0]);
+            return row;
+        }
+
+        private static void AddTitlesToTable(IWTable info)
+        {
+            info.Rows[0].Cells[0].AddParagraph().AppendText("Date");
+            info.Rows[0].Cells[1].AddParagraph().AppendText("Initiative");
+            info.Rows[0].Cells[2].AddParagraph().AppendText("Start Time");
+            info.Rows[0].Cells[3].AddParagraph().AppendText("End Time");
+            info.Rows[0].Cells[4].AddParagraph().AppendText("Elapsed Time");
         }
     }
 }

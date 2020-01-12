@@ -192,7 +192,7 @@ namespace CoHO.Pages
 
 
 
-        public FileStreamResult OnPostYear()
+        public FileStreamResult OnPostYearReport()
         {
             //Initialize database variables.
             var volunteers = _context.Volunteer;
@@ -241,8 +241,7 @@ namespace CoHO.Pages
                 if (l > 0)
                 {
                     // non-staff values and hours. 
-                    worksheet.Range[2 * (l + 1), 1].Text = initiatives.Single(m => m.InitiativeID == l).Description + " (non-staff) hours";
-                    worksheet.Range[2 * (l + 1) + 1, 1].Text = initiatives.Single(m => m.InitiativeID == l).Description + " (non-staff) value";
+                    GenerateStaffNonStaffHours(worksheet, l, initiatives);
                 }
                 else
                 {
@@ -371,42 +370,60 @@ namespace CoHO.Pages
 
         }
 
+        private static void GenerateStaffNonStaffHours(IWorksheet worksheet, int l, DbSet<Initiative> initiatives)
+        {
+            worksheet.Range[2 * (l + 1), 1].Text =
+                initiatives.Single(m => m.InitiativeID == l).Description + " (non-staff) hours";
+            worksheet.Range[2 * (l + 1) + 1, 1].Text =
+                initiatives.Single(m => m.InitiativeID == l).Description + " (non-staff) value";
+        }
+
 
         public void SecondMainGraph(IWorksheet worksheet, int startRow, String[] months)
         {
             // Column Labels.
+            AddColumnTitlesOverall(worksheet, startRow);
+
+            for (int i = 0; i < 12; i++)
+            {
+                // This table is Made up of functions that rely on info from the main table.
+                SumMainTable(worksheet, startRow, months, i);
+            }
+        }
+
+        private static void SumMainTable(IWorksheet worksheet, int startRow, string[] months, int i)
+        {
+            worksheet.Range[startRow + i, 1].Text = months[i];
+            worksheet.Range[startRow + i, 2].Formula = "=SUM(" + (char) (66 + i) + "2)";
+            worksheet.Range[startRow + i, 3].Formula = "=SUM(" + (char) (66 + i) + "3)";
+            String volunteerHours = "=SUM(";
+            String volunteerValue = "=SUM(";
+            for (int j = 4; j < startRow - 5; j++)
+            {
+                if (j % 2 == 0)
+                {
+                    volunteerHours += "," + (char) (66 + i) + j;
+                }
+                else
+                {
+                    volunteerValue += "," + (char) (66 + i) + j;
+                }
+            }
+
+            worksheet.Range[startRow + i, 4].Formula = volunteerHours + ")";
+            worksheet.Range[startRow + i, 5].Formula = volunteerValue + ")";
+            worksheet.Range[startRow + i, 6].Formula = "=SUM(B" + (startRow + i) + "+D" + (startRow + i) + ")";
+            worksheet.Range[startRow + i, 7].Formula = "=SUM(C" + (startRow + i) + "+E" + (startRow + i) + ")";
+        }
+
+        private static void AddColumnTitlesOverall(IWorksheet worksheet, int startRow)
+        {
             worksheet.Range[startRow - 1, 2].Text = "Staff Hours";
             worksheet.Range[startRow - 1, 3].Text = "Staff Value";
             worksheet.Range[startRow - 1, 4].Text = "Volunteer Hours";
             worksheet.Range[startRow - 1, 5].Text = "Volunteer Value";
             worksheet.Range[startRow - 1, 6].Text = "Total Hours";
             worksheet.Range[startRow - 1, 7].Text = "Total Value";
-
-            for (int i = 0; i < 12; i++)
-            {
-                // This table is Made up of functions that rely on info from the main table.
-                worksheet.Range[startRow + i, 1].Text = months[i];
-                worksheet.Range[startRow + i, 2].Formula = "=SUM(" + (char)(66 + i) + "2)";
-                worksheet.Range[startRow + i, 3].Formula = "=SUM(" + (char)(66 + i) + "3)";
-                String volunteerHours = "=SUM(";
-                String volunteerValue = "=SUM(";
-                for (int j = 4; j < startRow - 5; j++)
-                {
-                    if (j % 2 == 0)
-                    {
-                        volunteerHours += "," + (char)(66 + i) + j;
-                    }
-                    else
-                    {
-                        volunteerValue += "," + (char)(66 + i) + j;
-                    }
-                }
-                worksheet.Range[startRow + i, 4].Formula = volunteerHours + ")";
-                worksheet.Range[startRow + i, 5].Formula = volunteerValue + ")";
-                worksheet.Range[startRow + i, 6].Formula = "=SUM(B" + (startRow + i) + "+D" + (startRow + i) + ")";
-                worksheet.Range[startRow + i, 7].Formula = "=SUM(C" + (startRow + i) + "+E" + (startRow + i) + ")";
-
-            }
         }
 
         public void VolunteerTypeWorksheet(IWorksheet worksheet, String volunteerType, int year, String[] months)

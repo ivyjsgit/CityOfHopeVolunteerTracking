@@ -10,6 +10,16 @@ using CoHO.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+/*
+ *     Because the JS  was being funky, we have to use abbreviations to send toasts
+      * CI = Clocked In
+      * CO = Clocked Out
+      * NCO = Not Clocked In
+      * NCI = Not Clocked Out
+      * UNF = User Not Found
+ */
+
+
 namespace CoHO.Pages
 {
     public class CreateModel : PageModel
@@ -84,7 +94,6 @@ namespace CoHO.Pages
         public async void Clockin(Volunteer ourVolunteer)
         {
 
-            Console.WriteLine("Our volunteer still is ");
             Console.WriteLine(ourVolunteer.Email);
             VolunteerActivity.InitiativeId = Initiative.InitiativeID;
             VolunteerActivity.StartTime = DateTime.Now;
@@ -154,6 +163,8 @@ namespace CoHO.Pages
         }
         public IActionResult OnPostClockIn()
         {
+     
+            
             try
             {
                 //Find our volunteer and their last activity
@@ -195,8 +206,7 @@ namespace CoHO.Pages
             {
                 TempData["message"] = "UNF";
             }
-            return RedirectToPage("./Index");
-            //Put the clockout code here.
+            return RedirectToPage("./Index"); 
         }
     }
 }
