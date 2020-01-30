@@ -6,6 +6,7 @@
     double totalTime = 0;
     double totalValue = 0;
 }
+@using System.Globalization;
 
 <h1 class="padding">All Hours Detail</h1>
 <form method="get">
@@ -129,4 +130,4 @@
     </tbody>
 </table>
 <p class="padding">Total Time: @Math.Round(totalTime,2) hours</p>
-<p class="padding">Total Value: @totalValue.ToString("c")</p>
+<p class="padding">Total Value: @totalValue.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</p>
