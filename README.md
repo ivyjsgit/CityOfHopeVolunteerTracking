@@ -4,6 +4,11 @@
 
 This software is designed to be used by the Conway, AR non-profit City Of Hope. It is used to track volunteer hours, create reports containing total hours over timespans, calculate value of hours, and allow volunteers to view and print reports.
 
+## Setting up encryption 
+
+---
+
+In order to set up encryption, you must enter your domain in Startup.cs and Program.cs. It will automatically get a SSL certificate using the Let's Encrypt service.
 
 ## Using Docker (Recommended)
 ---
