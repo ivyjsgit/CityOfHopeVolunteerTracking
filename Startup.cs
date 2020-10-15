@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using CoHO.Data;
-using FluffySpoon.AspNet.LetsEncrypt;
-using FluffySpoon.AspNet.LetsEncrypt.Certes;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,28 +24,7 @@ namespace CoHO
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddFluffySpoonLetsEncryptRenewalService(new LetsEncryptOptions()
-            {
-                Email = "ivyjshdx@gmail.com", //LetsEncrypt will send you an e-mail here when the certificate is about to expire
-                UseStaging = false, //switch to true for testing
-                Domains = new[] { "" },//Enter your Domain Here
-                TimeUntilExpiryBeforeRenewal = TimeSpan.FromDays(30), //renew automatically 30 days before expiry
-                TimeAfterIssueDateBeforeRenewal = TimeSpan.FromDays(7), //renew automatically 7 days after the last certificate was issued
-                CertificateSigningRequest = new CsrInfo() //these are your certificate details
-                {
-                    CountryName = "United States",
-                    Locality = "US",
-                    Organization = "City of Hope"
-                }
-            });
-
-            //the following line tells the library to persist the certificate to a file, so that if the server restarts, the certificate can be re-used without generating a new one.
-            services.AddFluffySpoonLetsEncryptFileCertificatePersistence();
-
-//the following line tells the library to persist challenges in-memory. challenges are the "/.well-known" URL codes that LetsEncrypt will call.
-            services.AddFluffySpoonLetsEncryptMemoryChallengePersistence();
-            
+        {            
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(
@@ -114,8 +91,6 @@ namespace CoHO
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
-		app.UseFluffySpoonLetsEncryptChallengeApprovalMiddleware();
-
 
             ApplicationDbInitializer.SeedUsers(userManager);
         }
