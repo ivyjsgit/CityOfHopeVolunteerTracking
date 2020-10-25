@@ -44,7 +44,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
     <PackageReference Include="Syncfusion.DocIO.Net.Core" Version="17.3.0.30" />
     <PackageReference Include="Syncfusion.XlsIO.Net.Core" Version="17.3.0.30" />
-    <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>

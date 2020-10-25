@@ -10,7 +10,6 @@ using CoHO.Data;
 using CoHO.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using Microsoft.Extensions.Logging;
 
 namespace CoHO.Pages.Volunteers
 {
@@ -18,19 +17,16 @@ namespace CoHO.Pages.Volunteers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly CoHO.Data.ApplicationDbContext _context; 
-
-        private readonly ILogger<EditModel> _logger;
+        private readonly CoHO.Data.ApplicationDbContext _context;
 
         public EditModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            CoHO.Data.ApplicationDbContext context, ILogger<EditModel> log)
+            CoHO.Data.ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
-            _logger = log;
         }
 
         [BindProperty]
@@ -82,22 +78,13 @@ namespace CoHO.Pages.Volunteers
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-       
-            var user = await _userManager.GetUserAsync(User);
-
-            _logger.LogWarning($"{user.Email} is editing {Volunteer.UserName}");
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-
-            
-            
             _context.Attach(Volunteer).State = EntityState.Modified;
-            
             VolunteerIdentity = await _userManager.FindByNameAsync(Volunteer.UserName);
-            _logger.LogWarning($"Changing username {Volunteer.UserName} -> {Volunteer.Email}");
             Volunteer.UserName = Volunteer.Email;
             VolunteerIdentity.Email = Volunteer.Email;
             VolunteerIdentity.NormalizedEmail = Volunteer.Email.ToUpper();

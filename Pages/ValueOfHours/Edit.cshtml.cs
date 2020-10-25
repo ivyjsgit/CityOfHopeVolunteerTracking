@@ -48,8 +48,6 @@ namespace CoHO.Pages.ValueOfHours
                 return Page();
             }
 
-            
-            
             _context.Attach(ValueOfHour).State = EntityState.Modified;
 
             try
