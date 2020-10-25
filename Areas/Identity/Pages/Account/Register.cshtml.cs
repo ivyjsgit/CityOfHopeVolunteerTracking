@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 using CoHO.Data;
 using CoHO.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,20 +24,17 @@ namespace CoHO.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly CoHO.Data.ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger,
             IEmailSender emailSender, CoHO.Data.ApplicationDbContext context)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
-            _logger = logger;
             _emailSender = emailSender;
         }
 
@@ -147,7 +143,7 @@ namespace CoHO.Areas.Identity.Pages.Account
                 Console.WriteLine("It worked! " + user);
 
 
-                _logger.LogInformation("User created a new account with password.");
+                Console.WriteLine("User created a new account with password.");
 
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
