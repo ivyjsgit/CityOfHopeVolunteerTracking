@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CoHO.Migrations
 {
-    public partial class InitialSchema : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,7 +51,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     DisabilityID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(nullable: false),
                     InActive = table.Column<bool>(nullable: false)
                 },
@@ -65,7 +65,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     EducationLevelID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(nullable: false),
                     InActive = table.Column<bool>(nullable: false)
                 },
@@ -79,7 +79,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     InitiativeID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(nullable: false),
                     InActive = table.Column<bool>(nullable: false)
                 },
@@ -93,7 +93,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     RaceID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(nullable: false),
                     InActive = table.Column<bool>(nullable: false)
                 },
@@ -107,7 +107,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     SkillID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(nullable: false),
                     InActive = table.Column<bool>(nullable: false)
                 },
@@ -121,7 +121,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EffectiveDate = table.Column<DateTime>(nullable: false),
                     Value = table.Column<float>(nullable: false)
                 },
@@ -135,7 +135,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     VolunteerTypeID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(nullable: false),
                     InActive = table.Column<bool>(nullable: false)
                 },
@@ -149,7 +149,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -170,7 +170,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -255,7 +255,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     VolunteerID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(maxLength: 50, nullable: false),
                     First = table.Column<string>(nullable: false),
                     Last = table.Column<string>(nullable: false),
@@ -301,7 +301,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     DisabilitySelectionID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     DisabilityID = table.Column<int>(nullable: false),
                     VolunteerID = table.Column<int>(nullable: false)
                 },
@@ -327,7 +327,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     SkillSelectionID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SKillID = table.Column<int>(nullable: false),
                     VolunteerID = table.Column<int>(nullable: false)
                 },
@@ -353,7 +353,7 @@ namespace CoHO.Migrations
                 columns: table => new
                 {
                     VolunteerActivityID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     VolunteerId = table.Column<int>(nullable: false),
                     InitiativeId = table.Column<int>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
@@ -380,72 +380,48 @@ namespace CoHO.Migrations
             migrationBuilder.InsertData(
                 table: "EducationLevel",
                 columns: new[] { "EducationLevelID", "Description", "InActive" },
-                values: new object[] { 1, "GED", false });
-
-            migrationBuilder.InsertData(
-                table: "EducationLevel",
-                columns: new[] { "EducationLevelID", "Description", "InActive" },
-                values: new object[] { 2, "High School Degree", false });
-
-            migrationBuilder.InsertData(
-                table: "Initiative",
-                columns: new[] { "InitiativeID", "Description", "InActive" },
-                values: new object[] { 1, "Academy", false });
+                values: new object[,]
+                {
+                    { 1, "GED", false },
+                    { 2, "High School Degree", false }
+                });
 
             migrationBuilder.InsertData(
                 table: "Initiative",
                 columns: new[] { "InitiativeID", "Description", "InActive" },
-                values: new object[] { 2, "Community Garden", false });
-
-            migrationBuilder.InsertData(
-                table: "Initiative",
-                columns: new[] { "InitiativeID", "Description", "InActive" },
-                values: new object[] { 3, "Office", false });
-
-            migrationBuilder.InsertData(
-                table: "Initiative",
-                columns: new[] { "InitiativeID", "Description", "InActive" },
-                values: new object[] { 4, "Housing", false });
+                values: new object[,]
+                {
+                    { 1, "Academy", false },
+                    { 2, "Community Garden", false },
+                    { 3, "Office", false },
+                    { 4, "Housing", false }
+                });
 
             migrationBuilder.InsertData(
                 table: "Race",
                 columns: new[] { "RaceID", "Description", "InActive" },
-                values: new object[] { 1, "American Indian", false });
-
-            migrationBuilder.InsertData(
-                table: "Race",
-                columns: new[] { "RaceID", "Description", "InActive" },
-                values: new object[] { 2, "Asian", false });
-
-            migrationBuilder.InsertData(
-                table: "Race",
-                columns: new[] { "RaceID", "Description", "InActive" },
-                values: new object[] { 3, "White", false });
-
-            migrationBuilder.InsertData(
-                table: "Race",
-                columns: new[] { "RaceID", "Description", "InActive" },
-                values: new object[] { 4, "Back or African American", false });
+                values: new object[,]
+                {
+                    { 1, "American Indian", false },
+                    { 2, "Asian", false },
+                    { 3, "White", false },
+                    { 4, "Back or African American", false }
+                });
 
             migrationBuilder.InsertData(
                 table: "VolunteerType",
                 columns: new[] { "VolunteerTypeID", "Description", "InActive" },
-                values: new object[] { 1, "Volunteer", false });
-
-            migrationBuilder.InsertData(
-                table: "VolunteerType",
-                columns: new[] { "VolunteerTypeID", "Description", "InActive" },
-                values: new object[] { 2, "Staff", false });
-
-            migrationBuilder.InsertData(
-                table: "VolunteerType",
-                columns: new[] { "VolunteerTypeID", "Description", "InActive" },
-                values: new object[] { 3, "Board", false });
+                values: new object[,]
+                {
+                    { 1, "Volunteer", false },
+                    { 2, "Staff", false },
+                    { 3, "Board", false }
+                });
 
             migrationBuilder.InsertData(
                 table: "Volunteer",
                 columns: new[] { "VolunteerID", "Admin", "Birthday", "Cell", "ClockedIn", "CommunityService", "EducationLevelID", "Email", "First", "Home", "InActive", "Last", "RaceID", "UserName", "Veteran", "VolunteerTypeID", "WorkersComp" },
-                values: new object[] { 1, true, null, null, false, false, null, "admin", "Zadmin", null, true, "Zadmin", null, "admin", false, 2, false });
+                values: new object[] { 1, true, null, null, false, false, null, "admin", "Zadmin", null, false, "Zadmin", null, "admin", false, 2, false });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -456,7 +432,8 @@ namespace CoHO.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -482,7 +459,8 @@ namespace CoHO.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DisabilitySelection_DisabilityID",
