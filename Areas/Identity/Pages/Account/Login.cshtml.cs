@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using CoHO.Models;
 
 namespace CoHO.Areas.Identity.Pages.Account
@@ -20,20 +19,17 @@ namespace CoHO.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<LoginModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly CoHO.Data.ApplicationDbContext _context;
 
 
         public LoginModel(SignInManager<IdentityUser> signInManager,
-            ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager,
             IEmailSender emailSender, CoHO.Data.ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
-            _logger = logger;
             _context = context;
 
         }
@@ -89,21 +85,18 @@ namespace CoHO.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    Console.WriteLine("User logged in.");
                     Console.WriteLine(Input.Email);
                     try 
                     {
                         Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.UserName.ToLower() == Input.Email.ToLower() select volunteer).ToList()[0];
                         if (ourVolunteer.Admin)
-                        { 
-                            _logger.LogInformation($"{ourVolunteer.Email} logged in as admin");
+                        {
                             return LocalRedirect("~/AdminIndex");
                         }
                         else
                         {
-                            _logger.LogInformation($"{ourVolunteer.Email} logged in as admin");
                             return LocalRedirect(returnUrl);
-                            
                         }
                     } catch
                     {
@@ -113,19 +106,13 @@ namespace CoHO.Areas.Identity.Pages.Account
 
 
                 }
-
-                else
-                {
-                    _logger.LogInformation($"{Input.Email} failed to log in");
-   
-                }
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    Console.WriteLine("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
                 else

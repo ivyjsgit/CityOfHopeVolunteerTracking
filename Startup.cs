@@ -8,7 +8,6 @@ using CoHO.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 
 namespace CoHO
@@ -26,9 +25,12 @@ namespace CoHO
         public void ConfigureServices(IServiceCollection services)
         {            
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            // services.AddDbContext<ApplicationDbContext>(options =>
+            //     options.UseSqlite(
+            //         Configuration.GetConnectionString("DefaultConnection")));
+
+       services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(Configuration.GetConnectionString("MyDbConnection")));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -62,7 +64,7 @@ namespace CoHO
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<IdentityUser> userManager,ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<IdentityUser> userManager)
         {
 
             if (env.IsDevelopment())
@@ -76,8 +78,7 @@ namespace CoHO
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            loggerFactory.AddFile("Logs/CoHo-{Date}.txt");
-            // app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
