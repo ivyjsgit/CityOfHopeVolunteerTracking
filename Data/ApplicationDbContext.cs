@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using CoHO.Models;
 
 namespace CoHO.Data
@@ -114,6 +115,12 @@ namespace CoHO.Data
                     Last = "Zadmin",
                     VolunteerTypeID = 2
                   
+                });
+            builder.Entity<ValueOfHour>().HasData(
+                new ValueOfHour
+                {
+                EffectiveDate = DateTime.Now,
+                Value = 8.50F
                 });
         }
 
