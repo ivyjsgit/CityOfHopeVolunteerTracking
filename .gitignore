@@ -367,3 +367,5 @@ FluffySpoonAspNetLetsEncryptCertificate_Account
 FluffySpoonAspNetLetsEncryptCertificate_Site
 
 Logs/
+
+Docker.env
