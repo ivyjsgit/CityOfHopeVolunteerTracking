@@ -119,8 +119,9 @@ namespace CoHO.Data
             builder.Entity<ValueOfHour>().HasData(
                 new ValueOfHour
                 {
-                EffectiveDate = DateTime.Now,
-                Value = 8.50F
+                    ID = 1,
+                    EffectiveDate = DateTime.Now,
+                    Value = 8.50F
                 });
         }
 

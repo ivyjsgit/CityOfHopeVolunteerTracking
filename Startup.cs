@@ -25,6 +25,8 @@ namespace CoHO
         public void ConfigureServices(IServiceCollection services)
         {            
 
+            //The first section is for SQLite. The second section is for Azure SQL.
+
             // services.AddDbContext<ApplicationDbContext>(options =>
             //     options.UseSqlite(
             //         Configuration.GetConnectionString("DefaultConnection")));
