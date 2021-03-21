@@ -53,10 +53,10 @@ namespace CoHO.Pages
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
 
-        public VolunteerActivity GetLastActivity(Volunteer volunteer)
+        public async Task<VolunteerActivity> GetLastActivity(Volunteer volunteer)
         {
 
-            List<VolunteerActivity> VolunteerActivities = (from volunteeractivity in _context.VolunteerActivity where volunteeractivity.VolunteerId == volunteer.VolunteerID orderby volunteeractivity.EndTime select volunteeractivity).ToList();
+            List<VolunteerActivity> VolunteerActivities = await (from volunteeractivity in _context.VolunteerActivity where volunteeractivity.VolunteerId == volunteer.VolunteerID orderby volunteeractivity.EndTime select volunteeractivity).ToListAsync();
             VolunteerActivities.Reverse();
             try
             {
@@ -71,7 +71,7 @@ namespace CoHO.Pages
 
         public async void DoClockout(Volunteer ourVolunteer, Boolean after)
         {
-            VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+            VolunteerActivity LastActivity = await GetLastActivity(ourVolunteer);
             if (!after)
             {
                 LastActivity.EndTime = DateTime.Now;
@@ -103,7 +103,7 @@ namespace CoHO.Pages
 
 
 
-        public IActionResult OnPostClockOut()
+        public async Task<IActionResult> OnPostClockOutAsync()
         {
             Console.WriteLine("Clocking in");
             //Move over the clock in code here
@@ -112,7 +112,7 @@ namespace CoHO.Pages
             try
             {
                 ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower().Trim() == Volunteers.Email.ToLower().Trim() select volunteer).ToList()[0];
-                LastActivity = GetLastActivity(ourVolunteer);
+                LastActivity = await GetLastActivity(ourVolunteer);
 
 
                 if (LastActivity != null)
@@ -152,7 +152,7 @@ namespace CoHO.Pages
 
 
         }
-        public IActionResult OnPostClockIn()
+        public async Task<IActionResult> OnPostClockInAsync()
         {
      
             
@@ -161,7 +161,7 @@ namespace CoHO.Pages
                 //Find our volunteer and their last activity
                 Volunteer ourVolunteer = (from volunteer in _context.Volunteer where 
                                           volunteer.Email.ToLower().Trim() == Volunteers.Email.ToLower().Trim() select volunteer).ToList()[0];
-                VolunteerActivity LastActivity = GetLastActivity(ourVolunteer);
+                VolunteerActivity LastActivity = await GetLastActivity(ourVolunteer);
 
                 if (LastActivity != null && !LastActivity.ClockedIn)
                 {
