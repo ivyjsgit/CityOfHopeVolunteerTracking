@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using CoHO.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoHO.Areas.Identity.Pages.Account
 {
@@ -89,7 +90,7 @@ namespace CoHO.Areas.Identity.Pages.Account
                     Console.WriteLine(Input.Email);
                     try 
                     {
-                        Volunteer ourVolunteer = (from volunteer in _context.Volunteer where volunteer.UserName.ToLower() == Input.Email.ToLower() select volunteer).ToList()[0];
+                        Volunteer ourVolunteer = (await (from volunteer in _context.Volunteer where volunteer.UserName.ToLower() == Input.Email.ToLower() select volunteer).ToListAsync())[0];
                         if (ourVolunteer.Admin)
                         {
                             return LocalRedirect("~/AdminIndex");

@@ -95,7 +95,7 @@ namespace CoHO.Pages
             VolunteerActivity.EndTime = VolunteerActivity.StartTime.AddHours(12.0);
             VolunteerActivity.ClockedIn = true;
             VolunteerActivity.Volunteer = ourVolunteer;
-            VolunteerActivity.Initiative = (from activity in _context.Initiative where activity.InitiativeID == Initiative.InitiativeID select activity).ToList()[0];
+            VolunteerActivity.Initiative = (await (from activity in _context.Initiative where activity.InitiativeID == Initiative.InitiativeID select activity).ToListAsync())[0];
 
             _context.VolunteerActivity.Add(VolunteerActivity);
             await _context.SaveChangesAsync();
@@ -111,7 +111,7 @@ namespace CoHO.Pages
             VolunteerActivity LastActivity = null;
             try
             {
-                ourVolunteer = (from volunteer in _context.Volunteer where volunteer.Email.ToLower().Trim() == Volunteers.Email.ToLower().Trim() select volunteer).ToList()[0];
+                ourVolunteer = (await (from volunteer in _context.Volunteer where volunteer.Email.ToLower().Trim() == Volunteers.Email.ToLower().Trim() select volunteer).ToListAsync())[0];
                 LastActivity = await GetLastActivity(ourVolunteer);
 
 
