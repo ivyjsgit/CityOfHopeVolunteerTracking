@@ -200,6 +200,7 @@ namespace CoHO.Pages
             var valuesOfHours = _context.ValueOfHour;
             var initiatives = _context.Initiative;
             var volunteerTypes = _context.VolunteerType;
+
             int numTypes = volunteerTypes.Count();
             int year = Int32.Parse(Request.Form["report-year"]);
 
@@ -220,13 +221,13 @@ namespace CoHO.Pages
 
             int rows = 0;
             //looping through initiatives
-            for (int l = 0; l < numInitiatives + 1; l++)
+            for (int currentInitiative = 0; currentInitiative < numInitiatives + 1; currentInitiative++)
             {
-                rows = 2 * (l + 1) + 1;
-                if (l > 0)
+                rows = 2 * (currentInitiative + 1) + 1;
+                if (currentInitiative > 0)
                 {
                     // non-staff values and hours. 
-                    GenerateStaffNonStaffHours(worksheet1data, l, initiatives);
+                    GenerateStaffNonStaffHours(worksheet1data, currentInitiative, initiatives);
                 }
                 else
                 {
@@ -247,14 +248,14 @@ namespace CoHO.Pages
                     System.Linq.IQueryable<CoHO.Models.VolunteerActivity> activities;
 
                     // If l == 0 then we are in the first two rows that correspond to the staff hours/values.
-                    if (l == 0)
+                    if (currentInitiative == 0)
                     {
                         activities = volunteerActivities.Where(m => m.StartTime.Month == j);
                     }
                     // If we are looking at hours for initiatives and non-staff.
                     else
                     {
-                        activities = volunteerActivities.Where(m => m.StartTime.Month == j && m.InitiativeId == l);
+                        activities = volunteerActivities.Where(m => m.StartTime.Month == j && m.InitiativeId == currentInitiative);
 
                     }
 
@@ -265,12 +266,12 @@ namespace CoHO.Pages
 
                         //adding the current activities hours and values to their respective variables
                         // First check if they're staff.
-                        if (volunteers.Single(m => m.VolunteerID == activity.VolunteerId).VolunteerTypeID != 2 && l != 0)
+                        if (volunteers.Single(m => m.VolunteerID == activity.VolunteerId).VolunteerTypeID != 2 && currentInitiative != 0)
                         {
                             hours += time;
                             value += time * valuesOfHours.OrderBy(m => m.EffectiveDate).Last(m => m.EffectiveDate <= activity.StartTime).Value;
                         }
-                        else if (volunteers.Single(m => m.VolunteerID == activity.VolunteerId).VolunteerTypeID == 2 && l == 0)
+                        else if (volunteers.Single(m => m.VolunteerID == activity.VolunteerId).VolunteerTypeID == 2 && currentInitiative == 0)
                         {
                             hours += time;
                             value += time * valuesOfHours.OrderBy(m => m.EffectiveDate).Last(m => m.EffectiveDate <= activity.StartTime).Value;
@@ -279,12 +280,12 @@ namespace CoHO.Pages
                     }
 
                     //adding the hours and values to the table.
-                    worksheet1data[2 * (l + 1), j + 1] = Math.Round(hours, 2).ToString();
-                    worksheet1data[2 * (l + 1) + 1, j + 1] = Math.Round(value, 2).ToString();
+                    worksheet1data[2 * (currentInitiative + 1), j + 1] = Math.Round(hours, 2).ToString();
+                    worksheet1data[2 * (currentInitiative + 1) + 1, j + 1] = Math.Round(value, 2).ToString();
                 }
 
                 // Formulas for summing the data from the rows.
-                int row = 2 * (l + 1);
+                int row = 2 * (currentInitiative + 1);
 
                 float total = 0;
                 float totalValue = 0;
@@ -344,7 +345,7 @@ namespace CoHO.Pages
             worksheet1data[1, 14] = year + " Totals";
 
             // Call function to generate second table on first worksheet.
-            SecondMainGraph(worksheet1data, rows + 5, months);
+            SecondMainGraph(worksheet1data, rows + 5, months, numInitiatives);
 
             List<String[,]> worksSheets = new List<string[,]>();
 
@@ -411,32 +412,33 @@ namespace CoHO.Pages
             return fileResult;
         }
 
-        private static void GenerateStaffNonStaffHours(string[,] worksheet1data, int l, DbSet<Initiative> initiatives)
+        private static void GenerateStaffNonStaffHours(string[,] worksheet1data, int currentInitiative, DbSet<Initiative> initiatives)
         {
-            worksheet1data[2 * (l + 1), 1]=
-                initiatives.Single(m => m.InitiativeID == l).Description + " (non-staff) hours";
-            worksheet1data[2 * (l + 1) + 1, 1]=
-                initiatives.Single(m => m.InitiativeID == l).Description + " (non-staff) value";
+            worksheet1data[2 * (currentInitiative + 1), 1]=
+                initiatives.SingleOrDefault(m => m.InitiativeID == currentInitiative).Description + " (non-staff) hours";
+
+            worksheet1data[2 * (currentInitiative + 1) + 1, 1]=
+                initiatives.SingleOrDefault(m => m.InitiativeID == currentInitiative).Description + " (non-staff) value";
         }
 
 
-        public void SecondMainGraph(string[,] worksheet1data, int startRow, String[] months)
+        public void SecondMainGraph(string[,] worksheet1data, int startRow, String[] months, int numInitiatives)
         {
             // Column Labels.
             AddColumnTitlesOverall(worksheet1data, startRow);
 
-            for (int i = 0; i < 12; i++)
+            for (int month = 0; month < 12; month++)
             {
                 // This table is Made up of functions that rely on info from the main table.
-                SumMainTable(worksheet1data, startRow, months, i);
+                SumMainTable(worksheet1data, startRow, months, month, numInitiatives);
             }
         }
 
-        private static void SumMainTable(string[,] worksheet1data, int startRow, string[] months, int i)
+        private static void SumMainTable(string[,] worksheet1data, int startRow, string[] months, int curMonth, int numInitiatives)
         {
-            worksheet1data[startRow + i, 1] = months[i];
-            worksheet1data[startRow + i, 2] = "" + worksheet1data[2, i + 2];
-            worksheet1data[startRow + i, 3] = "" + worksheet1data[3, i + 2];
+            worksheet1data[startRow + curMonth, 1] = months[curMonth];
+            worksheet1data[startRow + curMonth, 2] = "" + worksheet1data[2, curMonth + 2];
+            worksheet1data[startRow + curMonth, 3] = "" + worksheet1data[3, curMonth + 2];
 
             String volunteerHours = "=SUM(";
             String volunteerValue = "=SUM(";
@@ -444,11 +446,11 @@ namespace CoHO.Pages
             {
                 if (j % 2 == 0)
                 {
-                    volunteerHours += "," + (char) (66 + i) + j;
+                    volunteerHours += "," + (char) (66 + curMonth) + j;
                 }
                 else
                 {
-                    volunteerValue += "," + (char) (66 + i) + j;
+                    volunteerValue += "," + (char) (66 + curMonth) + j;
                 }
             }
 
@@ -457,24 +459,24 @@ namespace CoHO.Pages
             float totalhourPerCell = 0;
             float totalValuePerCell = 0;
 
-            for (int r = 4; r < 16; r++) {
-                if (r % 2 == 0)
+            for (int row = 5; row < numInitiatives*2; row++) {
+                if (row % 2 == 0)
                 {
-                    volhourPerCell += float.Parse(worksheet1data[r, i + 2]);
+                    volhourPerCell += float.Parse(worksheet1data[row, curMonth + 2]);
                 }
                 else
                 {
-                    volvaluePerCell += float.Parse(worksheet1data[r, i + 2]);
+                    volvaluePerCell += float.Parse(worksheet1data[row, curMonth + 2]);
                 }
             }
             
-            totalhourPerCell += volhourPerCell + float.Parse(worksheet1data[2, i + 2]);
-            totalValuePerCell += volhourPerCell + float.Parse(worksheet1data[3, i + 2]);
+            totalhourPerCell += volhourPerCell + float.Parse(worksheet1data[2, curMonth + 2]);
+            totalValuePerCell += volhourPerCell + float.Parse(worksheet1data[3, curMonth + 2]);
 
-            worksheet1data[startRow + i, 4] = "" + volhourPerCell;
-            worksheet1data[startRow + i, 5] = "" + volvaluePerCell;
-            worksheet1data[startRow + i, 6] = "" + totalhourPerCell;
-            worksheet1data[startRow + i, 7] = "" + totalValuePerCell;
+            worksheet1data[startRow + curMonth, 4] = "" + volhourPerCell;
+            worksheet1data[startRow + curMonth, 5] = "" + volvaluePerCell;
+            worksheet1data[startRow + curMonth, 6] = "" + totalhourPerCell;
+            worksheet1data[startRow + curMonth, 7] = "" + totalValuePerCell;
         }
 
       
