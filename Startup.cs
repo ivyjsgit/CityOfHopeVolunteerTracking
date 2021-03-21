@@ -27,12 +27,12 @@ namespace CoHO
 
             //The first section is for SQLite. The second section is for Azure SQL.
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlite(
+            //        Configuration.GetConnectionString("DefaultConnection")));
 
-        //    services.AddDbContext<ApplicationDbContext>(options =>
-        //options.UseSqlServer(Configuration.GetConnectionString("MyDbConnection")));
+            services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(Configuration.GetConnectionString("MyDbConnection")));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
