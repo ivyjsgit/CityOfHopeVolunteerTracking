@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Syncfusion.DocIO.DLS;
 using Syncfusion.DocIO;
+using System.Text;
 
 namespace CoHO.Pages
 {
@@ -119,72 +120,71 @@ namespace CoHO.Pages
             var valuesOfHours = _context.ValueOfHour;
             var initiatives = _context.Initiative;
             var volunteerTypes = _context.VolunteerType;
-
-            using ExcelEngine excelEngine = new ExcelEngine();
-            //Initialize Application.
-            IApplication application = excelEngine.Excel;
-
-            //Set default version for application.
-            application.DefaultVersion = ExcelVersion.Excel2013;
-
-            //Create a new workbook.
-            IWorkbook workbook = application.Workbooks.Create(1);
+            StringBuilder sb = new StringBuilder();
 
             //Accessing first worksheet in the workbook.
-            IWorksheet worksheet = workbook.Worksheets[0];
-            worksheet.EnableSheetCalculations();
-
-            worksheet.SetColumnWidth(1, 20);
+            String[,] worksheeArray = new String[20, 2];
 
             // Here we separately check through each of the three volunteer types.
             int i = 1;
 
             foreach (var volunteerType in volunteerTypes)
             {
-                worksheet.Range[i, 1].Text = volunteerType.Description;
+                worksheeArray[i, 0] = volunteerType.Description;
+
                 var volunteersOfType = volunteers.Where(m => m.VolunteerType.Description == volunteerType.Description);
                 i++;
                 foreach (var volunteer in volunteersOfType)
                 {
                     double hours = 0.0;
-                    worksheet.Range[i, 1].Text = volunteer.FullName;
+                    worksheeArray[i, 0] = volunteer.FullName;
+
                     var activitiesRange = volunteerActivities.Where(m => m.Volunteer == volunteer && m.StartTime >= start && m.StartTime <= end);
                     foreach (var activity in activitiesRange)
                     {
                         hours += activity.ElapsedTime.Hours;
                         hours += (activity.ElapsedTime.Minutes / 60.0);
                     }
-                    worksheet.Range[i, 2].Number = Math.Round(hours, 2);
+                    worksheeArray[i, 1] = Math.Round(hours, 2) + "";
+
                     i++;
                 }
 
                 // Setting totals of current volunteer type
-                worksheet.Range[i, 1].Text = volunteerType.Description + " Hours Total";
-                worksheet.Range[i, 2].Formula = "=SUM(B" + (i - volunteersOfType.Count() + ":B" + (i - 1) + ")");
+                worksheeArray[i, 0] = volunteerType.Description + " Hours Total";
+                float total = 0;
+                for (int j = i - volunteersOfType.Count(); j <= i - 1; j++) 
+                {
+                    total += float.Parse(worksheeArray[j, 1]);
+                }
+                worksheeArray[i, 1] = total.ToString();
                 i += 2;
+            }
+
+            StringBuilder currentSb = new StringBuilder();
+
+            for (int k = 0; k < worksheeArray.GetLength(0); k++)
+            {
+                String row = "";
+                for (int t = 0; t < worksheeArray.GetLength(1); t++)
+                {
+                    row += worksheeArray[k, t] + ",";
+                }
+                row += Environment.NewLine;
+                currentSb.Append(row);
             }
 
 
 
+            byte[] bytes = Encoding.ASCII.GetBytes(currentSb.ToString());
 
-
-
-            //Saving the Excel to the MemoryStream 
-            MemoryStream stream = new MemoryStream();
-
-            workbook.SaveAs(stream);
-
-            //Set the position as '0'.
-            stream.Position = 0;
-
-            //Download the Excel file in the browser
-            FileStreamResult fileStreamResult = new FileStreamResult(stream, "application/excel")
+            FileContentResult fileResult = new FileContentResult(bytes, "text/csv")
             {
-                FileDownloadName = "Hours.xlsx"
+                FileDownloadName = "Hours.csv"
             };
 
             RedirectToPage("./adminindex");
-            return fileStreamResult;
+            return fileResult;
         }
 
 
@@ -192,7 +192,7 @@ namespace CoHO.Pages
 
 
 
-        public FileStreamResult OnPostYearReport()
+        public IActionResult OnPostYearReport()
         {
             //Initialize database variables.
             var volunteers = _context.Volunteer;
@@ -207,31 +207,16 @@ namespace CoHO.Pages
             //Number of initiatives currently.
             int numInitiatives = initiatives.Count();
 
-            using ExcelEngine excelEngine = new ExcelEngine();
-            //Initialize Application.
-            IApplication application = excelEngine.Excel;
-
-            //Set default version for application.
-            application.DefaultVersion = ExcelVersion.Excel2013;
-
-            //Create a new workbook.
-            IWorkbook workbook = application.Workbooks.Create(numTypes + 1);
-
-            //Accessing first worksheet in the workbook.
-            IWorksheet worksheet = workbook.Worksheets[0];
-            worksheet.Name = "Totals";
-
-            // Enable use of Excel Formulas.
-            worksheet.EnableSheetCalculations();
-
-            //Setting first column width to 35.
-            worksheet.SetColumnWidth(1, 35);
-
-            //Setting all other column widths to 15.
-            for (int j = 2; j < 20; j++)
-            {
-                worksheet.SetColumnWidth(j, 15);
+            List<StringBuilder> sblist = new List<StringBuilder>();
+            for (int i = 0; i < numTypes + 1; i++){
+                sblist.Add(new StringBuilder());
             }
+
+            StringBuilder sb1 = sblist[0];
+            string title = "Totals" + Environment.NewLine;
+            sb1.Append(title);
+
+            String[,] worksheet1data = new String[35,15];
 
             int rows = 0;
             //looping through initiatives
@@ -241,13 +226,13 @@ namespace CoHO.Pages
                 if (l > 0)
                 {
                     // non-staff values and hours. 
-                    GenerateStaffNonStaffHours(worksheet, l, initiatives);
+                    GenerateStaffNonStaffHours(worksheet1data, l, initiatives);
                 }
                 else
                 {
                     // staff values and hours.
-                    worksheet.Range[2, 1].Text = "Staff Hours";
-                    worksheet.Range[3, 1].Text = "Staff Value";
+                    worksheet1data[2,1] = "Staff Hours";
+                    worksheet1data[3,1] = "Staff Value";
 
                 }
 
@@ -294,22 +279,43 @@ namespace CoHO.Pages
                     }
 
                     //adding the hours and values to the table.
-                    worksheet.Range[2 * (l + 1), j + 1].Number = Math.Round(hours, 2);
-                    worksheet.Range[2 * (l + 1) + 1, j + 1].Number = Math.Round(value, 2);
+                    worksheet1data[2 * (l + 1), j + 1] = Math.Round(hours, 2).ToString();
+                    worksheet1data[2 * (l + 1) + 1, j + 1] = Math.Round(value, 2).ToString();
                 }
 
                 // Formulas for summing the data from the rows.
                 int row = 2 * (l + 1);
-                worksheet.Range[row, 14].Formula = "=SUM(A" + row + ":M" + row + ")";
-                worksheet.Range[row + 1, 14].Formula = "=SUM(A" + (row + 1) + ":M" + (row + 1) + ")";
 
+                float total = 0;
+                float totalValue = 0;
+                for (int i = 2; i < 14; i++) {
+                    total += float.Parse(worksheet1data[row, i]);
+                    totalValue += float.Parse(worksheet1data[row + 1, i]);
+                }
+                worksheet1data[row, 14]  = "" + total;
+                worksheet1data[row + 1, 14] = "" + totalValue; //check this place for potental bug
 
 
             }
 
             // Formulas for summing the totals of all hours/values.
-            worksheet.Range[rows + 1, 1].Text = "Total Hours";
-            worksheet.Range[rows + 2, 1].Text = "Total Value";
+            worksheet1data[rows + 1, 1] = "Total Hours";
+            worksheet1data[rows + 2, 1] = "Total Value";
+
+            float totalHours = 0;
+            float totalValues = 0;
+            for (int i = 2; i < rows; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    totalHours += float.Parse(worksheet1data[i, 14]);
+                }
+                else
+                {
+                    totalValues += float.Parse(worksheet1data[i, 14]);
+                }
+            }
+
             String hoursFormula = "=SUM(N2";
             String valueFormula = "=SUM(N3";
             for (int m = 4; m <= rows; m++)
@@ -323,8 +329,9 @@ namespace CoHO.Pages
                     valueFormula += ",N" + m;
                 }
             }
-            worksheet.Range[rows + 1, 14].Formula = hoursFormula + ")";
-            worksheet.Range[rows + 2, 14].Formula = valueFormula + ")";
+
+            worksheet1data[rows + 1, 14] = "" + totalHours;
+            worksheet1data[rows + 2, 14] = "" + totalValues;
 
 
             String[] months = { "January", "February", "March", "April", "May",
@@ -332,70 +339,105 @@ namespace CoHO.Pages
                 "December" };
             for (int i = 1; i < 13; i++)
             {
-                worksheet.Range[1, i + 1].Text = months[i - 1];
+                worksheet1data[1, i + 1] = months[i - 1];
             }
-            worksheet.Range[1, 14].Text = year + " Totals";
+            worksheet1data[1, 14] = year + " Totals";
 
             // Call function to generate second table on first worksheet.
-            SecondMainGraph(worksheet, rows + 5, months);
+            SecondMainGraph(worksheet1data, rows + 5, months);
 
+            List<String[,]> worksSheets = new List<string[,]>();
+
+            worksSheets.Add(worksheet1data);
             // Creating distinct worksheets for each volunteer type.
             int o = 1;
             foreach (var type in volunteerTypes)
             {
-                VolunteerTypeWorksheet(workbook.Worksheets[o], type.Description, year, months);
-                workbook.Worksheets[o].Name = type.Description;
+                String[,] currentWorkSheetData = new string[20, 25];
+                VolunteerTypeWorksheet(currentWorkSheetData, type.Description, year, months);
+                worksSheets.Add(currentWorkSheetData);
                 o++;
             }
 
-
-
-            //Saving the Excel to the MemoryStream 
-            MemoryStream stream = new MemoryStream();
-
-            workbook.SaveAs(stream);
-
-            //Set the position as '0'.
-            stream.Position = 0;
-
-            //Download the Excel file in the browser
-            FileStreamResult fileStreamResult = new FileStreamResult(stream, "application/excel")
+            for (int i = 0; i < sblist.Count(); i++) 
             {
-                FileDownloadName = "Hours/Values.xlsx"
+                StringBuilder curreSb = sblist[i];
+                String tableTitle = "";
+                if (i == 1) {
+                    tableTitle = "Volunteers" + Environment.NewLine;
+                    curreSb.Append(tableTitle);
+                }
+
+                if (i == 2)
+                {
+                    tableTitle = "Staff" + Environment.NewLine;
+                    curreSb.Append(tableTitle);
+                }
+
+                if (i == 3)
+                {
+                    tableTitle = "Board" + Environment.NewLine;
+                    curreSb.Append(tableTitle);
+                }
+
+                String[,] currentWorkSheetArray = worksSheets[i];
+                for (int k = 0; k < currentWorkSheetArray.GetLength(0); k++) 
+                {
+                    String row = "";
+                    for (int t = 0; t < currentWorkSheetArray.GetLength(1); t++) 
+                    {
+                        row += currentWorkSheetArray[k, t] + ",";
+                    }
+                    row += Environment.NewLine;
+                    curreSb.Append(row);
+                }
+            }
+
+            StringBuilder totalsb = new StringBuilder();
+
+            foreach (StringBuilder sb in sblist) 
+            {
+                totalsb.Append(sb.ToString());
+                totalsb.Append(Environment.NewLine);
+            }
+
+            byte[] bytes = Encoding.ASCII.GetBytes(totalsb.ToString());
+
+            FileContentResult fileResult = new FileContentResult(bytes, "text/csv")
+            {
+                FileDownloadName = "Hours/Values.csv"
             };
 
-            return fileStreamResult;
-
-
-
+            return fileResult;
         }
 
-        private static void GenerateStaffNonStaffHours(IWorksheet worksheet, int l, DbSet<Initiative> initiatives)
+        private static void GenerateStaffNonStaffHours(string[,] worksheet1data, int l, DbSet<Initiative> initiatives)
         {
-            worksheet.Range[2 * (l + 1), 1].Text =
+            worksheet1data[2 * (l + 1), 1]=
                 initiatives.Single(m => m.InitiativeID == l).Description + " (non-staff) hours";
-            worksheet.Range[2 * (l + 1) + 1, 1].Text =
+            worksheet1data[2 * (l + 1) + 1, 1]=
                 initiatives.Single(m => m.InitiativeID == l).Description + " (non-staff) value";
         }
 
 
-        public void SecondMainGraph(IWorksheet worksheet, int startRow, String[] months)
+        public void SecondMainGraph(string[,] worksheet1data, int startRow, String[] months)
         {
             // Column Labels.
-            AddColumnTitlesOverall(worksheet, startRow);
+            AddColumnTitlesOverall(worksheet1data, startRow);
 
             for (int i = 0; i < 12; i++)
             {
                 // This table is Made up of functions that rely on info from the main table.
-                SumMainTable(worksheet, startRow, months, i);
+                SumMainTable(worksheet1data, startRow, months, i);
             }
         }
 
-        private static void SumMainTable(IWorksheet worksheet, int startRow, string[] months, int i)
+        private static void SumMainTable(string[,] worksheet1data, int startRow, string[] months, int i)
         {
-            worksheet.Range[startRow + i, 1].Text = months[i];
-            worksheet.Range[startRow + i, 2].Formula = "=SUM(" + (char) (66 + i) + "2)";
-            worksheet.Range[startRow + i, 3].Formula = "=SUM(" + (char) (66 + i) + "3)";
+            worksheet1data[startRow + i, 1] = months[i];
+            worksheet1data[startRow + i, 2] = "" + worksheet1data[2, i + 2];
+            worksheet1data[startRow + i, 3] = "" + worksheet1data[3, i + 2];
+
             String volunteerHours = "=SUM(";
             String volunteerValue = "=SUM(";
             for (int j = 4; j < startRow - 5; j++)
@@ -410,59 +452,75 @@ namespace CoHO.Pages
                 }
             }
 
-            worksheet.Range[startRow + i, 4].Formula = volunteerHours + ")";
-            worksheet.Range[startRow + i, 5].Formula = volunteerValue + ")";
-            worksheet.Range[startRow + i, 6].Formula = "=SUM(B" + (startRow + i) + "+D" + (startRow + i) + ")";
-            worksheet.Range[startRow + i, 7].Formula = "=SUM(C" + (startRow + i) + "+E" + (startRow + i) + ")";
+            float volhourPerCell = 0;
+            float volvaluePerCell = 0;
+            float totalhourPerCell = 0;
+            float totalValuePerCell = 0;
+
+            for (int r = 4; r < 16; r++) {
+                if (r % 2 == 0)
+                {
+                    volhourPerCell += float.Parse(worksheet1data[r, i + 2]);
+                }
+                else
+                {
+                    volvaluePerCell += float.Parse(worksheet1data[r, i + 2]);
+                }
+            }
+            
+            totalhourPerCell += volhourPerCell + float.Parse(worksheet1data[2, i + 2]);
+            totalValuePerCell += volhourPerCell + float.Parse(worksheet1data[3, i + 2]);
+
+            worksheet1data[startRow + i, 4] = "" + volhourPerCell;
+            worksheet1data[startRow + i, 5] = "" + volvaluePerCell;
+            worksheet1data[startRow + i, 6] = "" + totalhourPerCell;
+            worksheet1data[startRow + i, 7] = "" + totalValuePerCell;
         }
 
-        private static void AddColumnTitlesOverall(IWorksheet worksheet, int startRow)
+      
+
+        private static void AddColumnTitlesOverall(string[,] worksheet1data, int startRow)
         {
-            worksheet.Range[startRow - 1, 2].Text = "Staff Hours";
-            worksheet.Range[startRow - 1, 3].Text = "Staff Value";
-            worksheet.Range[startRow - 1, 4].Text = "Volunteer Hours";
-            worksheet.Range[startRow - 1, 5].Text = "Volunteer Value";
-            worksheet.Range[startRow - 1, 6].Text = "Total Hours";
-            worksheet.Range[startRow - 1, 7].Text = "Total Value";
+            worksheet1data[startRow - 1, 2] = "Staff Hours";
+            worksheet1data[startRow - 1, 3] = "Staff Value";
+            worksheet1data[startRow - 1, 4] = "Volunteer Hours";
+            worksheet1data[startRow - 1, 5] = "Volunteer Value";
+            worksheet1data[startRow - 1, 6] = "Total Hours";
+            worksheet1data[startRow - 1, 7] = "Total Value";
         }
 
-        public void VolunteerTypeWorksheet(IWorksheet worksheet, String volunteerType, int year, String[] months)
+        public void VolunteerTypeWorksheet(String[,] currentWorkSheetData, String volunteerType, int year, String[] months)
         {
-            worksheet.SetColumnWidth(1, 25);
-            worksheet.SetColumnWidth(6, 20);
-            worksheet.SetColumnWidth(11, 20);
-            worksheet.SetColumnWidth(16, 20);
-            worksheet.SetColumnWidth(17, 20);
-
-
             var volunteersOfType = _context.Volunteer.Where(m => m.VolunteerType.Description == volunteerType);
             var volunteerActivities = _context.VolunteerActivity;
-            worksheet.Range[1, 1].Text = "Name";
+            currentWorkSheetData[1, 1] = "Name";
+
             for (int j = 0; j < 12; j++)
             {
                 if (j >= 0 && j <= 3)
                 {
-                    worksheet.Range[1, j + 2].Text = months[j];
+                    currentWorkSheetData[1, j + 2] = months[j];
                 }
                 else if (j <= 7)
                 {
-                    worksheet.Range[1, j + 3].Text = months[j];
+                    currentWorkSheetData[1, j + 3] = months[j];
                 } else
                 {
-                    worksheet.Range[1, j + 4].Text = months[j];
+                    currentWorkSheetData[1, j + 4] = months[j];
                 }
 
             }
-            worksheet.Range[1, 6].Text = "Total Spring Hours";
-            worksheet.Range[1, 11].Text = "Total Summer Hours";
-            worksheet.Range[1, 16].Text = "Total Fall Hours";
-            worksheet.Range[1, 17].Text = "Total for year";
+
+            currentWorkSheetData[1, 6] = "Total Spring Hours";
+            currentWorkSheetData[1, 11] = "Total Summer Hours";
+            currentWorkSheetData[1, 16] = "Total Fall Hours";
+            currentWorkSheetData[1, 17] = "Total for year";
 
             int i = 2;
             foreach (var volunteer in volunteersOfType)
             {
                 var hoursForYear = volunteerActivities.Where(m => m.Volunteer == volunteer && m.StartTime.Year == year);
-                worksheet.Range[i, 1].Text = volunteer.FullName;
+                currentWorkSheetData[i, 1] = volunteer.FullName;
 
                 for (int j = 1; j < 13; j++)
                 {
@@ -475,21 +533,36 @@ namespace CoHO.Pages
                     }
                     if (j >= 1 && j <= 4)
                     {
-                        worksheet.Range[i, j + 1].Number = Math.Round(hours, 2);
+                        currentWorkSheetData[i, j + 1] = Math.Round(hours, 2).ToString();
                     }
                     else if (j <= 8)
                     {
-                        worksheet.Range[i, j + 2].Number = Math.Round(hours, 2);
+                        currentWorkSheetData[i, j + 2] = Math.Round(hours, 2).ToString();
                     } else
                     {
-                        worksheet.Range[i, j + 3].Number = Math.Round(hours, 2);
+                        currentWorkSheetData[i, j + 3] = Math.Round(hours, 2).ToString();
                     }
                 }
 
-                worksheet.Range[i, 6].Formula = "=SUM(B" + i + ":E" + i + ")";
-                worksheet.Range[i, 11].Formula = "=SUM(G" + i + ":J" + i + ")";
-                worksheet.Range[i, 16].Formula = "=SUM(L" + i + ":O" + i + ")";
-                worksheet.Range[i, 17].Formula = "=SUM(F" + i + ",K" + i + ",P" + i + ")";
+                float summerTotal = 0;
+                float springTotal = 0;
+                float fallTotal = 0;
+                float overallTotal = 0;
+
+                summerTotal = float.Parse(currentWorkSheetData[i, 2]) + float.Parse(currentWorkSheetData[i, 3])
+                    + float.Parse(currentWorkSheetData[i, 4]) + float.Parse(currentWorkSheetData[i, 5]);
+
+                springTotal = float.Parse(currentWorkSheetData[i, 7]) + float.Parse(currentWorkSheetData[i, 8])
+                    + float.Parse(currentWorkSheetData[i, 9]) + float.Parse(currentWorkSheetData[i, 10]);
+
+                fallTotal = float.Parse(currentWorkSheetData[i, 12]) + float.Parse(currentWorkSheetData[i, 13])
+                    + float.Parse(currentWorkSheetData[i, 14]) + float.Parse(currentWorkSheetData[i, 15]);
+
+                overallTotal = summerTotal + springTotal + fallTotal;
+                currentWorkSheetData[i, 6] = "" + summerTotal;
+                currentWorkSheetData[i, 11] = "" + springTotal;
+                currentWorkSheetData[i, 16] = "" + fallTotal;
+                currentWorkSheetData[i, 17] = "" + overallTotal;
                 i++;
             }
         }
