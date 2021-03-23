@@ -459,7 +459,7 @@ namespace CoHO.Pages
             float totalhourPerCell = 0;
             float totalValuePerCell = 0;
 
-            for (int row = 5; row < numInitiatives*2; row++) {
+            for (int row = 5; row < 4+numInitiatives*2; row++) {
                 if (row % 2 == 0)
                 {
                     volhourPerCell += float.Parse(worksheet1data[row, curMonth + 2]);
