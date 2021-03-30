@@ -305,7 +305,7 @@ namespace CoHO.Pages
 
             float totalHours = 0;
             float totalValues = 0;
-            for (int i = 2; i < rows; i++)
+            for (int i = 2; i <= rows; i++)
             {
                 if (i % 2 == 0)
                 {
