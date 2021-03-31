@@ -471,7 +471,7 @@ namespace CoHO.Pages
             }
             
             totalhourPerCell += volhourPerCell + float.Parse(worksheet1data[2, curMonth + 2]);
-            totalValuePerCell += volhourPerCell + float.Parse(worksheet1data[3, curMonth + 2]);
+            totalValuePerCell += volvaluePerCell + float.Parse(worksheet1data[3, curMonth + 2]);
 
             worksheet1data[startRow + curMonth, 4] = "" + volhourPerCell;
             worksheet1data[startRow + curMonth, 5] = "" + volvaluePerCell;
