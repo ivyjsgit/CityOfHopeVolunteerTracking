@@ -41,12 +41,15 @@ namespace CoHO.Pages
             String[] months = { "January", "February", "March", "April", "May",
                 "June", "July", "August", "September", "October", "November",
                 "December" };
+            //Create a list of the years between 2019 and current year
             int[] years = new int[DateTime.Now.Year - 2019 + 1];
             for (int i = 2019; i <= DateTime.Now.Year; i++)
             {
                 years[i - 2019] = i;
             }
-
+            //Start with most recent year
+            Array.Reverse(years);
+            
             int[] days = new int[31];
 
             for (int i = 1; i <= 31; i++)
